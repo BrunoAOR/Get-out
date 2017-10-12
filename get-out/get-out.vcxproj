@@ -116,6 +116,19 @@
   <ItemGroup>
     <Text Include="Design ideas.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="InputReader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="InputReader.h" />
+    <ClInclude Include="World.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

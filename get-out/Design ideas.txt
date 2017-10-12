@@ -8,7 +8,7 @@ enum class EntityType { Player, Item, Interactable, Room, Exit};
 
 enum class Direction {N, S, E, W};
 
-enum class ActionType {LOOK, GO, OPEN, TAKE, DROP, INSPECT, USE, PUT, HELP, ERROR};
+enum class ActionType {ERROR, QUIT, HELP, LOOK, GO, TAKE, DROP, INSPECT, OPEN, USE, PUT};
 
 enum class Preposition {IN, ON};
 
@@ -54,7 +54,7 @@ class InputParser
 	bool populateInstruction (const std::string& validatedInput, Instruction* instruction);
 }
 
-enum class ActionType {ERROR, HELP, LOOK, GO, TAKE, DROP, INSPECT, OPEN, USE, PUT};
+
 struct Instruction
 {	
 	actionType actionType;
