@@ -3,7 +3,6 @@
 
 #include "globals.h"
 
-class World;
 class InputReader;
 
 
@@ -18,7 +17,6 @@ public:
 	LoopStatus close();
 
 private:
-	World* world = nullptr;
 	InputReader* inputReader = nullptr;
 };
 

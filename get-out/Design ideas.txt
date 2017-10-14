@@ -9,8 +9,8 @@ enum class EntityType { Player, Item, Interactable, Room, Exit};
 enum class Direction {N, S, E, W};
 
 enum class ActionType {ERROR, QUIT, HELP, LOOK, GO, TAKE, DROP, INSPECT, OPEN, USE, PUT};
+std::string getActionPreposition(ActionType actionType);
 
-enum class Preposition {IN, ON};
 
 void log(const std::string& text); // Or something similar to push the output responsability to (use cout).
 
@@ -31,14 +31,14 @@ class World
 {
 	std::vector<Entity*> entities;	// This list will be used in the destructor to release all resources
 	std::vector<ItemUse*> itemUses;	// This list must also be cleaned up in the destructor
-	std::vector<ItemWrap*> itemWraps;	// This list must also be cleaned up in the destructor
+	std::vector<ItemPut*> ItemPuts;	// This list must also be cleaned up in the destructor
 	std::vector<InteractableOpen*> interactableOpens; // Clean up again!
 	std::vector<ActionEffect*> actionEffects;	// This list must also be cleaned up in the destructor
 
 	// These search methods will return nullptr if search was unsuccessful
 	Entity* getEntity(const std::string& name);
 	ItemUse* getItemUse(const std::string& item, const std:string& interactable);
-	ItemWrap* getItemWrap(const std::string& item, const std:string& containerItem);
+	ItemPut* getItemPut(const std::string& item, const std:string& containerItem);
 	InteractableOpen* getInteractableOpen(const std::string& interactable)
 }
 
@@ -65,7 +65,7 @@ struct Instruction
 		Entity* entity;
 		InteractableOpen* interactableOpen;
 		ItemUse* itemUse;
-		ItemWrap* target;
+		ItemPut* target;
 		};
 	} data;
 	
@@ -76,7 +76,7 @@ struct InteractableOpen
 {
 	Interactable* interactable;
 	std::string description;
-	ActionEffect effect;
+	ActionEffect* effect;
 }
 
 
@@ -85,11 +85,11 @@ struct ItemUse
 	Item* item;
 	Interactable* interactable;
 	std::string description;
-	ActionEffect effect;
+	ActionEffect* effect;
 }
 
 
-struct ItemWrap
+struct ItemPut
 {
 	Item* item;
 	Item* container;
@@ -104,11 +104,10 @@ class Effect {
 
 
 struct NamesInfo {
-	std::vector<std::string>> actionTypes;
-	std::vector<std::string>> items;
-	std::vector<std::string>> interactables;
-	std::vector<std::string>> directions;
-	std::vector<std::string>> prepositions;
+	std::vector<std::string> actionTypes;
+	std::vector<std::string> directions;
+	std::vector<std::string> items;
+	std::vector<std::string> interactables;
 }
 
 class Entity
@@ -133,7 +132,7 @@ class Player : Entity
 	bool drop (Item* target); // Must check that target is in children
 	bool inspect (Entity* target);	// Item or interactable
 	bool use (ItemUse* itemUse); // Must verify that item can be used in target (done by item internally)
-	bool put (ItemWrap* itemWrap); // 
+	bool put (ItemPut* itemPut); // 
 
 }
 

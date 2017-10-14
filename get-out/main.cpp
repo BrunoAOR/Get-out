@@ -3,7 +3,7 @@
 
 int main()
 {
-	LoopStatus loopStatus = LoopStatus::Continue;
+	LoopStatus loopStatus = LoopStatus::CONTINUE;
 
 	// Start-up Application
 	OutputLog("INFO: App will initiate.");
@@ -11,13 +11,13 @@ int main()
 	loopStatus = app.init();
 
 	OutputLog("INFO: App will update.");
-	while (loopStatus == LoopStatus::Continue)
+	while (loopStatus == LoopStatus::CONTINUE)
 	{
 		loopStatus = app.update();
 	}
 
 	// Close-up Application
-	if (loopStatus == LoopStatus::Exit)
+	if (loopStatus == LoopStatus::EXIT)
 	{
 		OutputLog("INFO: User requested App closure.");
 		OutputLog("INFO: App will close.");
@@ -26,20 +26,20 @@ int main()
 
 	switch (loopStatus)
 	{
-	case LoopStatus::InitError:
+	case LoopStatus::INIT_ERROR:
 		OutputLog("ERROR: App failed at initiation!");
 		break;
-	case LoopStatus::UpdateError:
+	case LoopStatus::UPDATE_ERROR:
 		OutputLog("ERROR: App failed during update!");
 		break;
-	case LoopStatus::CloseError:
+	case LoopStatus::CLOSE_ERROR:
 		OutputLog("ERROR: App failed at closure!");
 		break;
-	case LoopStatus::Continue:
+	case LoopStatus::CONTINUE:
 		// We shouldn't hit this point if loopStatus is Continue
 		OutputLog("ERROR: Main looped aborted!");
 		break;
-	case LoopStatus::Exit:
+	case LoopStatus::EXIT:
 		OutputLog("INFO: App exited successfully!");
 		break;
 	default:

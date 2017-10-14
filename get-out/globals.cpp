@@ -6,7 +6,7 @@
 
 void consoleLog(const std::string& message)
 {
-	std::cout << message;
+	std::cout << ">> " << message << '\n';
 }
 
 
@@ -34,7 +34,7 @@ void outputLog(const char file[], int line, const char* format, ...)
 }
 
 
-bool caseLessEquals(const std::string & s1, const std::string & s2)
+bool caselessEquals(const std::string & s1, const std::string & s2)
 {
 	return _stricmp(s1.c_str(), s2.c_str()) == 0;
 }
