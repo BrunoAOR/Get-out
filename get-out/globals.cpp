@@ -6,7 +6,11 @@
 
 void consoleLog(const std::string& message)
 {
-	std::cout << ">> " << message << '\n';
+	if (message.length() == 0)
+	{
+		return;
+	}
+	std::cout << "\n>>>>>\n" << message << ">>>>>\n\n";
 }
 
 
@@ -21,10 +25,6 @@ void outputLog(const char file[], int line, const char* format, ...)
 	static char tmp_string[4096];
 	static char tmp_string2[4096];
 	static va_list  ap;
-	if (SetConsoleCtrlHandler(NULL, true) == 0)
-	{
-		std::cout << "tried and failed\n";
-	}
 	// Construct the string from variable arguments
 	va_start(ap, format);
 	vsprintf_s(tmp_string, 4096, format, ap);

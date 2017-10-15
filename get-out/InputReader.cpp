@@ -18,10 +18,10 @@ std::string InputReader::getInput()
 {
 	char key;
 	
-	if (shouldClear)
+	if (m_shouldClear)
 	{
-		shouldClear = false;
-		input.clear();
+		m_shouldClear = false;
+		m_input.clear();
 	}
 
 	if (_kbhit())
@@ -62,27 +62,27 @@ std::string InputReader::getInput()
 		// Handle backspace
 		else if (key == '\b')
 		{
-			if (input.length() > 0) {
-				input.pop_back();
+			if (m_input.length() > 0) {
+				m_input.pop_back();
 				consoleLog('\b');
-				consoleLog(" ");
+				consoleLog(' ');
 				consoleLog('\b');
 			}
 		}
 		// Handle any key other than Enter
 		else if (key != '\r')
 		{
-			input.push_back(key);
+			m_input.push_back(key);
 			consoleLog(key);
 		}
 		// Handle Enter key
 		else
 		{
-			shouldClear = true;
-			if (input.length() > 0)
+			m_shouldClear = true;
+			if (m_input.length() > 0)
 			{
 				consoleLog('\n');
-				return input;
+				return m_input;
 			}
 		}
 	}

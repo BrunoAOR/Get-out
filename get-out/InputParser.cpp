@@ -18,13 +18,13 @@ InputParser::~InputParser()
 }
 
 
-Instruction * InputParser::parse(const std::string & userInput, const NamesInfo & namesInfo) const
+Instruction * InputParser::parse(const std::string & userInput, const NamesInfo & m_namesInfo) const
 {
 	Instruction* instruction = new Instruction();
 
 	std::vector<std::string> inputVector = parseToVector(userInput);
 
-	if (checkInputValidity(inputVector, namesInfo, instruction))
+	if (checkInputValidity(inputVector, m_namesInfo, instruction))
 	{
 		populateInstructionUnion(inputVector, instruction);
 	}
@@ -61,12 +61,12 @@ std::vector<std::string> InputParser::parseToVector(const std::string & userInpu
 }
 
 
-bool InputParser::checkInputValidity(const std::vector<std::string>& input, const NamesInfo & namesInfo, Instruction * instruction) const
+bool InputParser::checkInputValidity(const std::vector<std::string>& m_input, const NamesInfo & m_namesInfo, Instruction * instruction) const
 {
 	// We'll assume an error unless proven otherwise
 	instruction->actionType = ActionType::ERROR;
 
-	int inputSize = input.size();
+	int inputSize = m_input.size();
 	// Step 1: Determine if we actually got some input (the used could have just written spaces)
 	if (inputSize == 0)
 	{	
@@ -75,12 +75,12 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, cons
 	}
 
 	// Step 2: Determine if we have a valid action and if we have the right amount of words for that action
-	ActionType action = getActionFromString(input[0]);
+	ActionType action = getActionFromString(m_input[0]);
 	const std::string actionString = getStringFromAction(action);
 	const int actionExpectedLength = getActionExpectedLength(action);
 	if (action == ActionType::_UNDEFINED || action == ActionType::ERROR)
 	{
-		instruction->errorDescription = "Input rejected: I can't understand the word " + input[0] + ".";
+		instruction->errorDescription = "Input rejected: I can't understand the word " + m_input[0] + ".";
 		return false;
 	}
 	else if (actionExpectedLength != inputSize)
@@ -97,14 +97,14 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, cons
 	}
 
 	// Step 4: Determine if we have the right preposition (index 2) for the action (if applicable -> inputSize == 4)
-	if (inputSize == 4 && !caselessEquals(getActionPreposition(action), input[2]))
+	if (inputSize == 4 && !caselessEquals(getActionPreposition(action), m_input[2]))
 	{
-		instruction->errorDescription = "Input rejected: The right preposition for the " + actionString + " action is not " + input[2] + ".";
+		instruction->errorDescription = "Input rejected: The right preposition for the " + actionString + " action is not " + m_input[2] + ".";
 		return false;
 	}
 
 	// Step 5: Determine if we have the right parameter at index 1 for the action
-	if (!verifyActionParameterType(getActionParameterType(action, 1), input[1], namesInfo, instruction))
+	if (!verifyActionParameterType(getActionParameterType(action, 1), m_input[1], m_namesInfo, instruction))
 	{
 		return false;
 	}
@@ -117,7 +117,7 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, cons
 	}
 
 	// Step 7: Determine if we have the right parameter at index 3
-	if (!verifyActionParameterType(getActionParameterType(action, 3), input[3], namesInfo, instruction))
+	if (!verifyActionParameterType(getActionParameterType(action, 3), m_input[3], m_namesInfo, instruction))
 	{
 		return false;
 	}
@@ -163,7 +163,7 @@ bool InputParser::populateInstructionUnion(const std::vector<std::string>& valid
 }
 
 
-bool InputParser::verifyActionParameterType(ActionParameterType actionParameterType, const std::string & parameter, const NamesInfo& namesInfo, Instruction* instruction) const
+bool InputParser::verifyActionParameterType(ActionParameterType actionParameterType, const std::string & parameter, const NamesInfo& m_namesInfo, Instruction* instruction) const
 {
 	switch (actionParameterType)
 	{
@@ -175,21 +175,21 @@ bool InputParser::verifyActionParameterType(ActionParameterType actionParameterT
 		}
 		break;
 	case ActionParameterType::ITEM:
-		if (!isCaselessStringInVector(namesInfo.items, parameter))
+		if (!isCaselessStringInVector(m_namesInfo.items, parameter))
 		{
 			instruction->errorDescription = "Input rejected: " + parameter + " does not quite fit in your instruction.";
 			return false;
 		}
 		break;
 	case ActionParameterType::INTERACTABLE:
-		if (!isCaselessStringInVector(namesInfo.interactables, parameter))
+		if (!isCaselessStringInVector(m_namesInfo.interactables, parameter))
 		{
 			instruction->errorDescription = "Input rejected: " + parameter + " does not quite fit in your instruction.";
 			return false;
 		}
 		break;
 	case ActionParameterType::ITEM_OR_INTERACTABLE:
-		if (!isCaselessStringInVector(namesInfo.items, parameter) && !isCaselessStringInVector(namesInfo.interactables, parameter))
+		if (!isCaselessStringInVector(m_namesInfo.items, parameter) && !isCaselessStringInVector(m_namesInfo.interactables, parameter))
 		{
 			instruction->errorDescription = "Input rejected: " + parameter + " does not quite fit in your instruction.";
 			return false;

@@ -12,8 +12,8 @@ public:
 	std::string getInput();
 
 private:
-	std::string input;
-	bool shouldClear = false;
+	std::string m_input;
+	bool m_shouldClear = false;
 
 	bool isAllowed(char c) const;
 };

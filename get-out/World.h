@@ -5,6 +5,7 @@
 #include <string>
 
 enum class LoopStatus;
+class Player;
 class InputParser;
 struct NamesInfo;
 class Entity;
@@ -23,18 +24,22 @@ public:
 	LoopStatus update(const std::string& userInput);
 	LoopStatus close();
 
-	Entity* getEntity(const std::string& name);
+	Entity* getEntity(const std::string& m_name);
 	InteractableOpen* getInteractableOpen(const std::string& interactableName);
 	ItemUse* getItemUse(const std::string& itemName, const std::string& interactableName);
 	ItemPut* getItemPut(const std::string& itemName, const std::string& containerItemName);
 
 private:
-	InputParser* inputParser = nullptr;
-	NamesInfo* namesInfo = nullptr;
-	std::vector<Entity*> entities;
-	std::vector<InteractableOpen*> interactableOpenCollection;
-	std::vector<ItemUse*> itemUseCollection;
-	std::vector<ItemPut*> itemPutCollection;
+	Player* player = nullptr;
+	InputParser* m_inputParser = nullptr;
+	NamesInfo* m_namesInfo = nullptr;
+	std::vector<Entity*> m_entities;
+	std::vector<InteractableOpen*> m_interactableOpenCollection;
+	std::vector<ItemUse*> m_itemUseCollection;
+	std::vector<ItemPut*> m_itemPutCollection;
+
+	void logWelcomeMessage();
+	void logHelpMessage();
 
 	template <typename T>
 	void deleteCollection(std::vector<T>& collection);

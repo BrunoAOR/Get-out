@@ -13,69 +13,132 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Input-related">
+      <UniqueIdentifier>{90bc8612-0d94-4f97-b202-ad09f195e667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instructions">
+      <UniqueIdentifier>{9a64c523-fc65-45a3-8b6b-a96a4e8b7403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{9ad54e0a-89c4-4392-9240-57ef7a2bf32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{2edb009b-4095-4ae3-b5aa-eb1022dd544d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ActionEffects">
+      <UniqueIdentifier>{846f8fb3-1933-4be6-a1e6-5af58ccba7f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Design ideas.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InputReader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Input-related</Filter>
     </ClCompile>
     <ClCompile Include="InputParser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Input-related</Filter>
     </ClCompile>
     <ClCompile Include="ActionType.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="globals.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Exit.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionEffect.cpp">
+      <Filter>ActionEffects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputReader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Input-related</Filter>
     </ClInclude>
     <ClInclude Include="InputParser.h">
-      <Filter>Header Files</Filter>
+      <Filter>Input-related</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemUse.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPut.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableOpen.h">
+      <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="Instruction.h">
-      <Filter>Header Files</Filter>
+      <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="ActionType.h">
-      <Filter>Header Files</Filter>
+      <Filter>Instructions</Filter>
     </ClInclude>
-    <ClInclude Include="NamesInfo.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="World.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="Direction.h">
-      <Filter>Header Files</Filter>
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="NamesInfo.h">
+      <Filter>Input-related</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityType.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEffect.h">
+      <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

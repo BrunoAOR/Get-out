@@ -17,7 +17,7 @@ public:
 	LoopStatus close();
 
 private:
-	InputReader* inputReader = nullptr;
+	InputReader* m_inputReader = nullptr;
 };
 
 

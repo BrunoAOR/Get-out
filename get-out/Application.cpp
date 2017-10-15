@@ -7,7 +7,7 @@
 Application::Application()
 {
 	world = new World();
-	inputReader = new InputReader();
+	m_inputReader = new InputReader();
 }
 
 
@@ -15,8 +15,8 @@ Application::~Application()
 {
 	delete world;
 	world = nullptr;
-	delete inputReader;
-	inputReader = nullptr;
+	delete m_inputReader;
+	m_inputReader = nullptr;
 }
 
 LoopStatus Application::init()
@@ -28,7 +28,7 @@ LoopStatus Application::init()
 LoopStatus Application::update()
 {
 	// Adquire input and pass to World
-	return world->update(inputReader->getInput());
+	return world->update(m_inputReader->getInput());
 }
 
 
