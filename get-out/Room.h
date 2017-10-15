@@ -22,8 +22,11 @@ public:
 
 private:
 	bool m_isDark;
+	std::vector<Exit*> m_exits;
 
 	virtual bool canAddChild(Entity* child) override;
+	virtual void addChild(Entity* child) override;
+	virtual void removeChild(Entity* entity) override;
 };
 
 

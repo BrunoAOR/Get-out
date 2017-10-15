@@ -13,7 +13,7 @@ public:
 
 private:
 	std::string m_input;
-	bool m_shouldClear = false;
+	bool m_shouldClear = true;
 
 	bool isAllowed(char c) const;
 };

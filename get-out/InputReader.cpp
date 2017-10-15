@@ -22,6 +22,8 @@ std::string InputReader::getInput()
 	{
 		m_shouldClear = false;
 		m_input.clear();
+		consoleLog('>');
+		consoleLog(' ');
 	}
 
 	if (_kbhit())

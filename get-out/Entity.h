@@ -30,8 +30,8 @@ protected:
 
 private:
 	virtual bool canAddChild(Entity* child);
-	void addChild(Entity* child);
-	void removeChild(Entity* entity);
+	virtual void addChild(Entity* child);
+	virtual void removeChild(Entity* entity);
 };
 
 

@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 struct Instruction;
+class Room;
 class Item;
 class Interactable;
 struct ItemUse;
@@ -11,17 +12,17 @@ struct InteractableOpen;
 enum class Direction;
 
 
-
 class Player :
 	public Entity
 {
 public:
-	Player(EntityType type, std::string name, std::string description, unsigned int maxItems);
+	Player(EntityType type, std::string name, std::string description, unsigned int maxItems, Room* startingRoom);
 	~Player();
 
 	void executeInstruction(const Instruction* instruction);
 
 private:
+	Room* m_location;
 	unsigned int m_maxItems = -1;
 
 	virtual bool canAddChild(Entity* child) override;

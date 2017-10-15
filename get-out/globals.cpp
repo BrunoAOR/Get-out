@@ -10,7 +10,7 @@ void consoleLog(const std::string& message)
 	{
 		return;
 	}
-	std::cout << "\n>>>>>\n" << message << ">>>>>\n\n";
+	std::cout << "\n*****\n" << message << "\n*****\n\n";
 }
 
 

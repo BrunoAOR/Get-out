@@ -1,12 +1,18 @@
 #include "Player.h"
+#include <assert.h>
 #include "globals.h"
 #include "EntityType.h" 
 #include "Instruction.h"
 #include "ActionType.h"
+#include "Room.h"
+#include "Direction.h"
+#include "Exit.h"
 
-Player::Player(EntityType type, std::string name, std::string description, unsigned int maxItems)
-	: Entity(type, name, description), m_maxItems(maxItems)
+
+Player::Player(EntityType type, std::string name, std::string description, unsigned int maxItems, Room* startingRoom)
+	: Entity(type, name, description), m_maxItems(maxItems), m_location(startingRoom)
 {
+	assert(m_location);
 }
 
 
@@ -22,10 +28,10 @@ void Player::executeInstruction(const Instruction * instruction)
 	case ActionType::LOOK:
 		look();
 		break;
-		/*
 	case ActionType::GO:
 		go(instruction->direction);
 		break;
+		/*
 	case ActionType::TAKE:
 		take(instruction->entity);
 		break;
@@ -46,6 +52,7 @@ void Player::executeInstruction(const Instruction * instruction)
 		break;
 	*/
 	default:
+		consoleLog("Missing implementation for player instruction of type " + getStringFromAction(instruction->actionType));
 		break;
 	}
 	
@@ -58,9 +65,31 @@ bool Player::canAddChild(Entity * child)
 
 void Player::look()
 {
-	if (m_parent == nullptr)
+	consoleLog(m_location->getDescription());
+}
+
+bool Player::go(Direction direction)
+{
+	bool success = false;
+	Exit* exit = m_location->getExit(direction);
+	if (exit)
 	{
-		return;
+		if (exit->isLocked())
+		{
+			consoleLog(exit->getLockedDescription());
+			return false;
+		}
+		else
+		{
+			// So there is an exit and it's unlocked...
+			m_location = exit->getTargetRoom();
+			consoleLog("You are now in the " + m_location->getName() + ".");
+			return true;
+		}
 	}
-	consoleLog(m_parent->getDescription());
+	else
+	{
+		consoleLog("There's nowhere to go in the " + getStringFromDirection(direction) + ".");
+		return false;
+	}
 }
