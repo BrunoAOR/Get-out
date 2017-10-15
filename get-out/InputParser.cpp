@@ -136,6 +136,7 @@ bool InputParser::populateInstructionUnion(const std::vector<std::string>& valid
 	case ActionType::QUIT:
 	case ActionType::HELP:
 	case ActionType::LOOK:
+	case ActionType::INVENTORY:
 		// In this cases, nothing should be added to the instruction
 		break;
 	case ActionType::GO:

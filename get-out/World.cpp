@@ -40,6 +40,7 @@ LoopStatus World::init()
 	// Create Player, Rooms, Exits, Items, Interactables, ItemUses, ItemWraps, InteractableOpens, Effects (children thereof)
 	// Ensure Items' and interactables' names are added to the namesInfo list
 
+	// TODO: Create factory methods (or potentially a new class with said methods) to ensure setup is done properly.
 	Room* room = new Room(EntityType::ROOM, "Big Hall", "A big hall", false);
 	m_entities.push_back(room);
 
@@ -49,10 +50,12 @@ LoopStatus World::init()
 	Item* item = new Item(EntityType::ITEM, "Key", "A small KEY", "The key has an engraving of a heart", false);
 	m_entities.push_back(item);
 	item->setParent(room);
+	m_namesInfo->items.push_back("KEY");
 
 	Interactable* interactable = new Interactable(EntityType::INTERACTABLE, "Lock", "A LOCK on the wall", "The lock has an engraving of a heart", false, false);
 	m_entities.push_back(interactable);
 	interactable->setParent(room);
+	m_namesInfo->interactables.push_back("LOCK");
 
 	// Second test room
 	Room* room2 = new Room(EntityType::ROOM, "Test room", "A room for testing purposes", false);
@@ -73,13 +76,12 @@ LoopStatus World::init()
 	Item* item2 = new Item(EntityType::ITEM, "Potato", "A beautiful POTATO", "The potato looks like it has a soul of its own", false);
 	m_entities.push_back(item2);
 	item2->setParent(room2);
-
-	// TODO: Replace these lines with actual object creation
-	m_namesInfo->items.push_back("KEY");
 	m_namesInfo->items.push_back("POTATO");
 
-	m_namesInfo->interactables.push_back("KEYHOLE");
-	m_namesInfo->interactables.push_back("POT");
+	Item* item3 = new Item(EntityType::ITEM, "Carrot", "A small CARROT", "Nothing special about this item", false);
+	m_entities.push_back(item3);
+	item3->setParent(room2);
+	m_namesInfo->items.push_back("CARROT");
 
 	// After all the initialization, log the welcome message
 	logWelcomeMessage();
@@ -111,6 +113,7 @@ LoopStatus World::update(const std::string& userInput)
 			break;
 		case ActionType::LOOK:
 		case ActionType::GO:
+		case ActionType::INVENTORY:
 		case ActionType::TAKE:
 		case ActionType::DROP:
 		case ActionType::INSPECT:
@@ -149,7 +152,7 @@ Entity * World::getEntity(const std::string & m_name)
 {
 	for (Entity* entity : m_entities)
 	{
-		if (m_name == entity->getName())
+		if (caselessEquals(m_name, entity->getName()))
 		{
 			return entity;
 		}

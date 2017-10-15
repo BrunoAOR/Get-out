@@ -28,6 +28,19 @@ Exit * Room::getExit(Direction direction)
 }
 
 
+bool Room::hasItem(Entity * item)
+{
+	for (Entity* child : m_children)
+	{
+		if (child == item)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
 std::string Room::getDescription() const
 {
 	std::string description = m_name + "\n" + m_description;

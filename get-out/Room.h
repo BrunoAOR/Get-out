@@ -16,8 +16,8 @@ public:
 	~Room();
 
 	Exit* getExit(Direction direction);
-	bool hasItem(Item* item);
-	bool hasInteractable(Interactable* Interactable);
+	bool hasItem(Entity* item);
+	bool hasInteractable(Entity* Interactable);
 	virtual std::string getDescription() const override;
 
 private:

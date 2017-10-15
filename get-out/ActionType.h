@@ -12,6 +12,7 @@ enum class ActionType
 	QUIT,
 	HELP,
 	LOOK,
+	INVENTORY,
 	GO,
 	TAKE,
 	DROP,

@@ -28,6 +28,7 @@ private:
 	virtual bool canAddChild(Entity* child) override;
 	
 	void look();
+	void inventory();
 	bool go(Direction direction); // Ask room if there's an exit in that direkol,ction -> Room::getExit
 	bool take(Entity* target); // Must check that type == Item && there’s room in children (inheritted from Entity)
 	bool drop(Entity* target); // Must check that target is in children

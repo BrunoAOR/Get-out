@@ -80,9 +80,9 @@ std::string InputReader::getInput()
 		// Handle Enter key
 		else
 		{
-			m_shouldClear = true;
 			if (m_input.length() > 0)
 			{
+				m_shouldClear = true;
 				consoleLog('\n');
 				return m_input;
 			}

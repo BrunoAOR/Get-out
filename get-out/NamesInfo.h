@@ -5,6 +5,12 @@
 
 
 struct NamesInfo {
+public:
+	~NamesInfo() {
+		items.clear();
+		interactables.clear();
+	}
+
 	std::vector<std::string> items;
 	std::vector<std::string> interactables;
 };

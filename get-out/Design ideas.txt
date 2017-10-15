@@ -8,7 +8,7 @@ enum class EntityType { Player, Item, Interactable, Room, Exit};
 
 enum class Direction {N, S, E, W};
 
-enum class ActionType {ERROR, QUIT, HELP, LOOK, GO, TAKE, DROP, INSPECT, OPEN, USE, PUT};
+enum class ActionType {ERROR, QUIT, HELP, LOOK, GO, INVENTORY, TAKE, DROP, INSPECT, OPEN, USE, PUT};
 std::string getActionPreposition(ActionType actionType);
 
 

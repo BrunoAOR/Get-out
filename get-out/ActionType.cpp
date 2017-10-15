@@ -5,7 +5,7 @@
 
 std::vector<std::string> getActionTypeNames()
 {
-	static std::vector<std::string> namesList{ "ERROR", "QUIT", "HELP", "LOOK", "GO", "TAKE", "DROP", "INSPECT", "OPEN", "USE", "PUT" };
+	static std::vector<std::string> namesList{ "ERROR", "QUIT", "HELP", "LOOK", "INVENTORY", "GO", "TAKE", "DROP", "INSPECT", "OPEN", "USE", "PUT" };
 	return namesList;
 }
 
@@ -16,6 +16,7 @@ ActionType getActionFromString(const std::string & s)
 	if (caselessEquals(s, "QUIT"))		return ActionType::QUIT;
 	if (caselessEquals(s, "HELP"))		return ActionType::HELP;
 	if (caselessEquals(s, "LOOK"))		return ActionType::LOOK;
+	if (caselessEquals(s, "INVENTORY"))	return ActionType::INVENTORY;
 	if (caselessEquals(s, "GO"))		return ActionType::GO;
 	if (caselessEquals(s, "TAKE"))		return ActionType::TAKE;
 	if (caselessEquals(s, "DROP"))		return ActionType::DROP;
@@ -35,6 +36,7 @@ std::string getStringFromAction(ActionType actionType)
 	case ActionType::QUIT:		return "QUIT";
 	case ActionType::HELP:		return "HELP";
 	case ActionType::LOOK:		return "LOOK";
+	case ActionType::INVENTORY:	return "INVENTORY";
 	case ActionType::GO:		return "GO";
 	case ActionType::TAKE:		return "TAKE";
 	case ActionType::DROP:		return "DROP";
@@ -56,6 +58,7 @@ std::string getActionPreposition(ActionType actionType)
 	case ActionType::QUIT:		return "";
 	case ActionType::HELP:		return "";
 	case ActionType::LOOK:		return "";
+	case ActionType::INVENTORY:	return "";
 	case ActionType::GO:		return "";
 	case ActionType::TAKE:		return "";
 	case ActionType::DROP:		return "";
@@ -76,6 +79,7 @@ unsigned int getActionExpectedLength(ActionType actionType)
 	case ActionType::QUIT:		return 1;
 	case ActionType::HELP:		return 1;
 	case ActionType::LOOK:		return 1;
+	case ActionType::INVENTORY:	return 1;
 	case ActionType::GO:		return 2;
 	case ActionType::TAKE:		return 2;
 	case ActionType::DROP:		return 2;
@@ -97,6 +101,7 @@ ActionParameterType getActionParameterType(ActionType actionType, unsigned int p
 	case ActionType::QUIT:
 	case ActionType::HELP:
 	case ActionType::LOOK:
+	case ActionType::INVENTORY:
 		return ActionParameterType::NONE;
 	case ActionType::GO:
 		if (position == 1)
