@@ -40,10 +40,10 @@ void Player::executeInstruction(const Instruction * instruction)
 	case ActionType::DROP:
 		drop(instruction->entity);
 		break;
-	/*
 	case ActionType::INSPECT:
 		inspect(instruction->entity);
 		break;
+	/*
 	case ActionType::OPEN:
 		open(instruction->interactableOpen);
 		break;
@@ -123,7 +123,7 @@ bool Player::take(Entity * target)
 		return false;
 	}
 	// Check if item is in our current room
-	if (m_location->hasItem(target))
+	if (m_location->hasChild(target))
 	{
 		if (m_children.size() < m_maxItems)
 		{
@@ -157,5 +157,33 @@ bool Player::drop(Entity * target)
 		}
 	}
 	consoleLog("You don't have the " + target->getName() + " that you intend to drop.");
+	return false;
+}
+
+bool Player::inspect(Entity * target)
+{
+	// Check if the target is an item or interactable
+	if (target->getType() != EntityType::ITEM && target->getType() != EntityType::INTERACTABLE)
+	{
+		consoleLog("You can't inspect the " + target->getName() + ".");
+		return false;
+	}
+	
+	// Check if target is in our current room or if it is in the inventory
+	if (m_location->hasChild(target) || hasChild(target))
+	{
+		std::string detailedDescription = target->getDetailedDescription();
+		if (detailedDescription == "")
+		{
+			consoleLog("There is nothing special about the " + target->getName());
+		}
+		else
+		{
+			consoleLog(detailedDescription);
+		}
+		return true;
+	}
+
+	consoleLog("There is no " + target->getName() + " to inspect here.");
 	return false;
 }

@@ -73,12 +73,12 @@ LoopStatus World::init()
 	m_entities.push_back(lockedExit);
 	lockedExit->setParent(room2);
 
-	Item* item2 = new Item(EntityType::ITEM, "Potato", "A beautiful POTATO", "The potato looks like it has a soul of its own", false);
+	Item* item2 = new Item(EntityType::ITEM, "Potato", "A beautiful POTATO", "", false);
 	m_entities.push_back(item2);
 	item2->setParent(room2);
 	m_namesInfo->items.push_back("POTATO");
 
-	Item* item3 = new Item(EntityType::ITEM, "Carrot", "A small CARROT", "Nothing special about this item", false);
+	Item* item3 = new Item(EntityType::ITEM, "Carrot", "A small CARROT", "", false);
 	m_entities.push_back(item3);
 	item3->setParent(room2);
 	m_namesInfo->items.push_back("CARROT");

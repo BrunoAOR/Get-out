@@ -12,6 +12,11 @@ Interactable::~Interactable()
 {
 }
 
+std::string Interactable::getDetailedDescription() const
+{
+	return m_inspectDescription;
+}
+
 bool Interactable::canAddChild(Entity * child)
 {
 	return child->getType() == EntityType::ITEM;

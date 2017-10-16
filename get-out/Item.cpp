@@ -12,6 +12,11 @@ Item::~Item()
 {
 }
 
+std::string Item::getDetailedDescription() const
+{
+	return m_inspectDescription;
+}
+
 bool Item::canAddChild(Entity * child)
 {
 	return child->getType() == EntityType::ITEM;

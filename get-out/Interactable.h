@@ -11,6 +11,8 @@ public:
 	Interactable(EntityType type, std::string name, std::string description, std::string inspectDescription, bool isLocked, bool isVisibleInDark);
 	~Interactable();
 
+	virtual std::string getDetailedDescription() const override;
+
 private:
 	std::string m_inspectDescription;
 	bool m_isLocked;

@@ -32,6 +32,25 @@ std::string Entity::getDescription() const
 }
 
 
+std::string Entity::getDetailedDescription() const
+{
+	return "";
+}
+
+
+bool Entity::hasChild(Entity * entity) const
+{
+	for (Entity* child : m_children)
+	{
+		if (child == entity)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
 Entity * Entity::getParent() const
 {
 	return m_parent;

@@ -17,6 +17,8 @@ public:
 	EntityType getType() const;
 	std::string getName() const;
 	virtual std::string getDescription() const;
+	virtual std::string getDetailedDescription() const;
+	bool hasChild(Entity* entity) const;
 	
 	Entity* getParent() const;
 	bool setParent(Entity* parent); // Set parent MUST call removeChild on the former parent and addChild on the new parent (provided that they are different)
