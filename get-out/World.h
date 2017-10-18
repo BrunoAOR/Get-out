@@ -7,7 +7,6 @@
 enum class LoopStatus;
 class Player;
 class InputParser;
-struct NamesInfo;
 class Entity;
 struct InteractableOpen;
 struct ItemUse;
@@ -32,7 +31,6 @@ public:
 private:
 	Player* player = nullptr;
 	InputParser* m_inputParser = nullptr;
-	NamesInfo* m_namesInfo = nullptr;
 	std::vector<Entity*> m_entities;
 	std::vector<InteractableOpen*> m_interactableOpenCollection;
 	std::vector<ItemUse*> m_itemUseCollection;

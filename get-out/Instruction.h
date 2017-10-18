@@ -15,14 +15,8 @@ struct Instruction
 public:
 	ActionType actionType;
 	std::string errorDescription;
-	union
-	{
-		Direction direction;
-		Entity* entity;
-		InteractableOpen* interactableOpen;
-		ItemUse* itemUse;
-		ItemPut* itemPut;
-	};
+	std::string param1;
+	std::string param2;
 };
 
 

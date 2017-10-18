@@ -29,13 +29,13 @@ private:
 	
 	void look();
 	void inventory();
-	bool go(Direction direction); // Ask room if there's an exit in that direkol,ction -> Room::getExit
-	bool take(Entity* target); // Must check that type == Item && there’s room in children (inheritted from Entity)
-	bool drop(Entity* target); // Must check that target is in children
-	bool inspect(Entity* target);	// Item or interactable
-	bool open(InteractableOpen* interactableOpen); //Must check type & presence in room
-	bool use(ItemUse* itemUse); // Must verify that item can be used in target (done by item internally)
-	bool put(ItemPut* itemPut); // Place an item inside another item (if allowed)
+	bool go(const Instruction* instruction); // Ask room if there's an exit in that direkol,ction -> Room::getExit
+	bool take(const Instruction* instruction); // Must check that type == Item && there’s room in children (inheritted from Entity)
+	bool drop(const Instruction* instruction); // Must check that target is in children
+	bool inspect(const Instruction* instruction);	// Item or interactable
+	bool open(const Instruction* instruction); //Must check type & presence in room
+	bool use(const Instruction* instruction); // Must verify that item can be used in target (done by item internally)
+	bool put(const Instruction* instruction); // Place an item inside another item (if allowed)
 };
 
 

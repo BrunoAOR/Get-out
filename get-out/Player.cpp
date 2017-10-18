@@ -32,26 +32,26 @@ void Player::executeInstruction(const Instruction * instruction)
 		inventory();
 		break;
 	case ActionType::GO:
-		go(instruction->direction);
+		go(instruction);
 		break;
 	case ActionType::TAKE:
-		take(instruction->entity);
+		take(instruction);
 		break;
 	case ActionType::DROP:
-		drop(instruction->entity);
+		drop(instruction);
 		break;
 	case ActionType::INSPECT:
-		inspect(instruction->entity);
+		inspect(instruction);
 		break;
 	/*
 	case ActionType::OPEN:
-		open(instruction->interactableOpen);
+		open(instruction);
 		break;
 	case ActionType::USE:
-		use(instruction->itemUse);
+		use(instruction);
 		break;
 	case ActionType::PUT:
-		put(instruction->itemPut);
+		put(instruction);
 		break;
 	*/
 	default:
@@ -61,15 +61,18 @@ void Player::executeInstruction(const Instruction * instruction)
 	
 }
 
+
 bool Player::canAddChild(Entity * child)
 {
 	return child->getType() == EntityType::ITEM;
 }
 
+
 void Player::look()
 {
 	consoleLog(m_location->getDescription());
 }
+
 
 void Player::inventory()
 {
@@ -88,9 +91,16 @@ void Player::inventory()
 	}
 }
 
-bool Player::go(Direction direction)
+
+bool Player::go(const Instruction* instruction)
 {
-	bool success = false;
+	Direction direction = getDirectionFromString(instruction->param1);
+	if (direction == Direction::_UNDEFINED)
+	{
+		consoleLog(instruction->param1 + " doesn't seem to be a valid direction to GO to.");
+		return false;
+	}
+
 	Exit* exit = m_location->getExit(direction);
 	if (exit)
 	{
@@ -114,64 +124,69 @@ bool Player::go(Direction direction)
 	}
 }
 
-bool Player::take(Entity * target)
+
+bool Player::take(const Instruction* instruction)
 {
-	// Only items can be taken
-	if (target->getType() != EntityType::ITEM)
+	// Try to get an Entity with the requested name from the room.
+	Entity* target = m_location->getChild(instruction->param1);
+	if (target)
 	{
-		consoleLog("You can't take that " + target->getName() + ".");
-		return false;
-	}
-	// Check if item is in our current room
-	if (m_location->hasChild(target))
-	{
+		// Only items can be taken
+		if (target->getType() != EntityType::ITEM)
+		{
+			consoleLog("You can't take the " + target->getName() + ".");
+			return false;
+		}
 		if (m_children.size() < m_maxItems)
 		{
 			target->setParent(this);
 			consoleLog("You have taken the " + target->getName() + ".");
 			return true;
 		}
-		else
-		{
-			consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + target->getName() + ".");
-			return false;
-		}
+		consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + target->getName() + ".");
+		return false;
 	}
 	else
 	{
-		consoleLog("There is no such thing as " + target->getName() + " in here.");
+		consoleLog("There is nothing called " + instruction->param1 + " in here.");
 		return false;
 	}
+
 }
 
-bool Player::drop(Entity * target)
+
+bool Player::drop(const Instruction* instruction)
 {
-	// Check if the player is holding said Entity (should be an item)
-	for (Entity* child : m_children)
+	// Try to get an Entity with the requested name from the player's inventory (it will be an ITEM).
+	Entity* target = getChild(instruction->param1);
+	if (target)
 	{
-		if (child == target)
-		{
-			target->setParent(m_location);
-			consoleLog("You have dropped the " + target->getName() + ".");
-			return true;
-		}
+		target->setParent(m_location);
+		consoleLog("You have dropped the " + target->getName() + ".");
+		return true;
 	}
-	consoleLog("You don't have the " + target->getName() + " that you intend to drop.");
+	consoleLog("You don't have the " + instruction->param1 + " that you intend to drop.");
 	return false;
 }
 
-bool Player::inspect(Entity * target)
+
+bool Player::inspect(const Instruction* instruction)
 {
-	// Check if the target is an item or interactable
-	if (target->getType() != EntityType::ITEM && target->getType() != EntityType::INTERACTABLE)
+	// Try to get an Entity* with the requested name from the palyer's inventory or the room.
+	Entity* target = getChild(instruction->param1);
+	if (!target)
 	{
-		consoleLog("You can't inspect the " + target->getName() + ".");
-		return false;
+		target = m_location->getChild(instruction->param1);
 	}
-	
-	// Check if target is in our current room or if it is in the inventory
-	if (m_location->hasChild(target) || hasChild(target))
+	if (target)
 	{
+		// Check if the target is an item or interactable
+		if (target->getType() != EntityType::ITEM && target->getType() != EntityType::INTERACTABLE)
+		{
+			consoleLog("You can't inspect the " + target->getName() + ".");
+			return false;
+		}
+
 		std::string detailedDescription = target->getDetailedDescription();
 		if (detailedDescription == "")
 		{
@@ -183,7 +198,6 @@ bool Player::inspect(Entity * target)
 		}
 		return true;
 	}
-
-	consoleLog("There is no " + target->getName() + " to inspect here.");
+	consoleLog("There is no " + instruction->param1 + " to inspect here.");
 	return false;
 }

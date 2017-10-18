@@ -116,9 +116,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="NamesInfo.h">
-      <Filter>Input-related</Filter>
-    </ClInclude>
     <ClInclude Include="EntityType.h">
       <Filter>Entities</Filter>
     </ClInclude>

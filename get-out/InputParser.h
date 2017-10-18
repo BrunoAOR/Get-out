@@ -4,9 +4,6 @@
 #include <vector>
 #include <string>
 struct Instruction;
-struct NamesInfo;
-enum class ActionParameterType;
-
 
 class InputParser
 {
@@ -14,14 +11,11 @@ public:
 	InputParser();
 	~InputParser();
 
-	Instruction* parse(const std::string& userInput, const NamesInfo& m_namesInfo) const;
+	Instruction* parse(const std::string& userInput) const;
 
 private:
 	std::vector<std::string> parseToVector(const std::string& userInput) const;
-	bool checkInputValidity(const std::vector<std::string>& m_input, const NamesInfo& m_namesInfo, Instruction* instruction) const;
-	bool populateInstructionUnion(const std::vector<std::string>& validatedInput, Instruction* instruction) const;
-	bool verifyActionParameterType(ActionParameterType actionParameterType, const std::string& parameter, const NamesInfo& m_namesInfo, Instruction* instruction) const;
-	bool isCaselessStringInVector(const std::vector<std::string>& vector, const std::string string) const;
+	bool checkInputValidity(const std::vector<std::string>& input, Instruction* instruction) const;
 };
 
 

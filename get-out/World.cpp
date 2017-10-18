@@ -2,7 +2,6 @@
 
 #include "globals.h"
 #include "InputParser.h"
-#include "NamesInfo.h"
 #include "ActionType.h"
 #include "Direction.h"
 #include "Instruction.h"
@@ -25,13 +24,13 @@ World* world = nullptr;
 World::World()
 {
 	m_inputParser = new InputParser();
-	m_namesInfo = new NamesInfo();
 }
 
 
 World::~World()
 {
-	
+	delete m_inputParser;
+	m_inputParser = nullptr;
 }
 
 
@@ -47,15 +46,13 @@ LoopStatus World::init()
 	player = new Player(EntityType::PLAYER, "Jim", "A random human", 2, room);
 	m_entities.push_back(player);
 
-	Item* item = new Item(EntityType::ITEM, "Key", "A small KEY", "The key has an engraving of a heart", false);
+	Item* item = new Item(EntityType::ITEM, "KEY", "A small KEY", "The key has an engraving of a heart", false);
 	m_entities.push_back(item);
 	item->setParent(room);
-	m_namesInfo->items.push_back("KEY");
 
-	Interactable* interactable = new Interactable(EntityType::INTERACTABLE, "Lock", "A LOCK on the wall", "The lock has an engraving of a heart", false, false);
+	Interactable* interactable = new Interactable(EntityType::INTERACTABLE, "LOCK", "A LOCK on the wall", "The lock has an engraving of a heart", false, false);
 	m_entities.push_back(interactable);
 	interactable->setParent(room);
-	m_namesInfo->interactables.push_back("LOCK");
 
 	// Second test room
 	Room* room2 = new Room(EntityType::ROOM, "Test room", "A room for testing purposes", false);
@@ -73,15 +70,13 @@ LoopStatus World::init()
 	m_entities.push_back(lockedExit);
 	lockedExit->setParent(room2);
 
-	Item* item2 = new Item(EntityType::ITEM, "Potato", "A beautiful POTATO", "", false);
+	Item* item2 = new Item(EntityType::ITEM, "POTATO", "A beautiful POTATO", "", false);
 	m_entities.push_back(item2);
 	item2->setParent(room2);
-	m_namesInfo->items.push_back("POTATO");
 
-	Item* item3 = new Item(EntityType::ITEM, "Carrot", "A small CARROT", "", false);
+	Item* item3 = new Item(EntityType::ITEM, "CARROT", "A small CARROT", "", false);
 	m_entities.push_back(item3);
 	item3->setParent(room2);
-	m_namesInfo->items.push_back("CARROT");
 
 	// After all the initialization, log the welcome message
 	logWelcomeMessage();
@@ -94,7 +89,7 @@ LoopStatus World::update(const std::string& userInput)
 {
 	if (userInput != "")
 	{
-		Instruction* instruction = m_inputParser->parse(userInput, *m_namesInfo);
+		Instruction* instruction = m_inputParser->parse(userInput);
 		// TODO: Fully process the Instruction
 		switch (instruction->actionType)
 		{
@@ -136,10 +131,6 @@ LoopStatus World::update(const std::string& userInput)
 
 LoopStatus World::close()
 {
-	delete m_namesInfo;
-	m_namesInfo = nullptr;
-	delete m_inputParser;
-	m_inputParser = nullptr;
 	deleteCollection(m_entities);
 	deleteCollection(m_interactableOpenCollection);
 	deleteCollection(m_itemUseCollection);

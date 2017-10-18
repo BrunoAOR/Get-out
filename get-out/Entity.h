@@ -19,6 +19,7 @@ public:
 	virtual std::string getDescription() const;
 	virtual std::string getDetailedDescription() const;
 	bool hasChild(Entity* entity) const;
+	Entity* getChild(const std::string& entityName);
 	
 	Entity* getParent() const;
 	bool setParent(Entity* parent); // Set parent MUST call removeChild on the former parent and addChild on the new parent (provided that they are different)

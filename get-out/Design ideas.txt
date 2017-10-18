@@ -45,12 +45,12 @@ class World
 
 class InputParser
 {
-	Instruction* parse(const std::string& userInput, const NamesInfo& namesInfo);
+	Instruction* parse(const std::string& userInput);
 	// Calls checkInputValidity first to verify that the words used are contained in the namesInfo object
 	// Then calls populateInstruction to obtain Entities from the World
 
 	private:
-	bool checkInputValidity (const std::string& userInput, const NamesInfo& namesInfo, Instruction* instruction);
+	bool checkInputValidity (const std::string& userInput, Instruction* instruction);
 	bool populateInstruction (const std::string& validatedInput, Instruction* instruction);
 }
 
@@ -102,13 +102,6 @@ class Effect {
 	virtual doEffect() = 0;
 }
 
-
-struct NamesInfo {
-	std::vector<std::string> actionTypes;
-	std::vector<std::string> directions;
-	std::vector<std::string> items;
-	std::vector<std::string> interactables;
-}
 
 class Entity
 {

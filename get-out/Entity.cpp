@@ -1,6 +1,6 @@
 #include "Entity.h"
 #include "EntityType.h"
-
+#include "globals.h"
 
 Entity::Entity(EntityType type, std::string name, std::string description)
 	: m_type(type), m_name(name), m_description(description)
@@ -45,6 +45,19 @@ bool Entity::hasChild(Entity * entity) const
 		if (child == entity)
 		{
 			return true;
+		}
+	}
+	return false;
+}
+
+
+Entity * Entity::getChild(const std::string & entityName)
+{
+	for (Entity* child : m_children)
+	{
+		if (caselessEquals(child->m_name, entityName))
+		{
+			return child;
 		}
 	}
 	return false;

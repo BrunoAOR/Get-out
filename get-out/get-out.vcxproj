@@ -150,7 +150,6 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemPut.h" />
     <ClInclude Include="ItemUse.h" />
-    <ClInclude Include="NamesInfo.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="World.h" />
