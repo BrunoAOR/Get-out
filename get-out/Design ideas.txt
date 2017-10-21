@@ -72,7 +72,7 @@ struct Instruction
 }
 
 
-struct InteractableOpen
+class InteractableOpen
 {
 	Interactable* interactable;
 	std::string description;

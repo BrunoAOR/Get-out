@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "EntityType.h"
 #include "globals.h"
+#include <assert.h>
 
 Entity::Entity(EntityType type, std::string name, std::string description)
 	: m_type(type), m_name(name), m_description(description)
@@ -76,10 +77,6 @@ bool Entity::setParent(Entity * parent)
 	{
 		return true;
 	}
-	if (parent == nullptr || !parent->canAddChild(this))
-	{
-		return false;
-	}
 	if (m_parent != nullptr)
 	{
 		m_parent->removeChild(this);
@@ -87,6 +84,7 @@ bool Entity::setParent(Entity * parent)
 	}
 	if (parent != nullptr)
 	{
+		assert(parent->canAddChild(this));
 		parent->addChild(this);
 		m_parent = parent;
 	}

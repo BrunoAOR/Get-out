@@ -121,12 +121,15 @@
     <ClCompile Include="ActionType.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="EffectAddEntitiesToRoom.cpp" />
+    <ClCompile Include="EffectReplaceEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Exit.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="InputParser.cpp" />
     <ClCompile Include="InputReader.cpp" />
     <ClCompile Include="Interactable.cpp" />
+    <ClCompile Include="InteractableOpen.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -138,6 +141,8 @@
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="EffectAddEntitiesToRoom.h" />
+    <ClInclude Include="EffectReplaceEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityType.h" />
     <ClInclude Include="Exit.h" />

@@ -78,6 +78,15 @@
     <ClCompile Include="ActionEffect.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
+    <ClCompile Include="EffectAddEntitiesToRoom.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectReplaceEntity.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractableOpen.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -135,6 +144,12 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="ActionEffect.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectReplaceEntity.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectAddEntitiesToRoom.h">
       <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>

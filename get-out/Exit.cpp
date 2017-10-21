@@ -1,9 +1,10 @@
 #include "Exit.h"
+#include "EntityType.h"
 #include <assert.h>
 
 
-Exit::Exit(EntityType type, std::string name, std::string description, Direction direction, bool isLocked, std::string lockedDescription, Room * targetRoom)
-	: Entity(type, name, description), m_direction(direction), m_isLocked(isLocked), m_lockedDescription(lockedDescription), m_targetRoom(targetRoom)
+Exit::Exit(std::string name, std::string m_description, Direction direction, bool isLocked, std::string lockedDescription, Room * targetRoom)
+	: Entity(EntityType::EXIT, name, m_description), m_direction(direction), m_isLocked(isLocked), m_lockedDescription(lockedDescription), m_targetRoom(targetRoom)
 {
 	assert(m_targetRoom);
 }

@@ -4,8 +4,8 @@
 #include "Direction.h"
 #include "Exit.h"
 
-Room::Room(EntityType type, std::string name, std::string description, bool isDark)
-	: Entity(type, name, description), m_isDark(isDark)
+Room::Room(std::string name, std::string description, bool isDark)
+	: Entity(EntityType::ROOM, name, description), m_isDark(isDark)
 {
 }
 

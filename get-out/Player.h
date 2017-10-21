@@ -8,7 +8,7 @@ class Item;
 class Interactable;
 struct ItemUse;
 struct ItemPut;
-struct InteractableOpen;
+class InteractableOpen;
 enum class Direction;
 
 
@@ -16,7 +16,7 @@ class Player :
 	public Entity
 {
 public:
-	Player(EntityType type, std::string name, std::string description, unsigned int maxItems, Room* startingRoom);
+	Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom);
 	~Player();
 
 	void executeInstruction(const Instruction* instruction);

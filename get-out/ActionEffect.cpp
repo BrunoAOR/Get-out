@@ -3,11 +3,17 @@
 
 
 ActionEffect::ActionEffect(std::string effectDescription)
-	:description(effectDescription)
+	:m_description(effectDescription)
 {
 }
 
 
 ActionEffect::~ActionEffect()
 {
+}
+
+
+std::string ActionEffect::getEffectDescription()
+{
+	return m_description;
 }

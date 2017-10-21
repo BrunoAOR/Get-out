@@ -3,14 +3,16 @@
 
 #include <vector>
 #include <string>
+#include <assert.h>
 
 enum class LoopStatus;
 class Player;
 class InputParser;
 class Entity;
-struct InteractableOpen;
+class InteractableOpen;
 struct ItemUse;
 struct ItemPut;
+class ActionEffect;
 
 
 class World
@@ -27,6 +29,7 @@ public:
 	InteractableOpen* getInteractableOpen(const std::string& interactableName);
 	ItemUse* getItemUse(const std::string& itemName, const std::string& interactableName);
 	ItemPut* getItemPut(const std::string& itemName, const std::string& containerItemName);
+	void removeInteractableOpen(InteractableOpen* interactableOpen);
 
 private:
 	Player* player = nullptr;
@@ -48,6 +51,7 @@ extern World* world;
 template<typename T>
 void World::deleteCollection(std::vector<T>& collection)
 {
+	assert(std::is_pointer<T>::value);
 	for (T element : collection)
 	{
 		delete element;

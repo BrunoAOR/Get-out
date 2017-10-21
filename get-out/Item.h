@@ -8,7 +8,7 @@ class Item :
 	public Entity
 {
 public:
-	Item(EntityType type, std::string name, std::string description, std::string inspectDescription, bool hasLight);
+	Item(std::string name, std::string m_description, std::string inspectDescription, bool hasLight);
 	~Item();
 
 	virtual std::string getDetailedDescription() const override;

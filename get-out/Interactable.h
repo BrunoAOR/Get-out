@@ -8,14 +8,13 @@ class Interactable :
 	public Entity
 {
 public:
-	Interactable(EntityType type, std::string name, std::string description, std::string inspectDescription, bool isLocked, bool isVisibleInDark);
+	Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark);
 	~Interactable();
 
 	virtual std::string getDetailedDescription() const override;
 
 private:
 	std::string m_inspectDescription;
-	bool m_isLocked;
 	bool m_isVisibleInDark;
 
 	virtual bool canAddChild(Entity* child) override;

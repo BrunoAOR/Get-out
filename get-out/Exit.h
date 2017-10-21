@@ -9,7 +9,7 @@ class Exit :
 	public Entity
 {
 public:
-	Exit(EntityType type, std::string name, std::string description, Direction direction, bool isLocked, std::string lockedDescription, Room* targetRoom);
+	Exit(std::string name, std::string m_description, Direction direction, bool isLocked, std::string lockedDescription, Room* targetRoom);
 	~Exit();
 
 	Direction getDirection() const;

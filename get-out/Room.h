@@ -12,7 +12,7 @@ class Room :
 	public Entity
 {
 public:
-	Room(EntityType type, std::string name, std::string description, bool isDark);
+	Room(std::string name, std::string description, bool isDark);
 	~Room();
 
 	Exit* getExit(Direction direction);

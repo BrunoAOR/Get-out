@@ -2,8 +2,8 @@
 #include "EntityType.h"
 
 
-Item::Item(EntityType type, std::string name, std::string description, std::string inspectDescription, bool hasLight)
-	: Entity(type, name, description), m_inspectDescription(inspectDescription), m_hasLight(hasLight)
+Item::Item(std::string name, std::string m_description, std::string inspectDescription, bool hasLight)
+	: Entity(EntityType::ITEM, name, m_description), m_inspectDescription(inspectDescription), m_hasLight(hasLight)
 {
 }
 

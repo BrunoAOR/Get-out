@@ -2,16 +2,26 @@
 #define H_INTERACTABLE_OPEN
 
 #include<string>
+#include<vector>
 class Interactable;
 class ActionEffect;
 
 
-struct InteractableOpen
+class InteractableOpen
 {
 public:
-	Interactable* interactable;
+	InteractableOpen(std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Interactable* interactable);
+	~InteractableOpen();
+
+	const Interactable* getInteractable() const;
+	std::string getDescription() const;
+	void performEffects();
+
+private:
 	std::string m_description;
-	ActionEffect* effect;
+	std::vector<ActionEffect*> m_effects;
+	bool m_shouldDestroy;
+	Interactable* m_interactable;
 };
 
 

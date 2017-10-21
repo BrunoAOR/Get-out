@@ -95,5 +95,5 @@ std::string InputReader::getInput()
 // Allowed characters are alphanumeric, space, backspace and enter
 bool InputReader::isAllowed(char c) const
 {
-	return c > 0 && c <= 255 &&  isalnum(c) || c == '\b' || c == '\r' || c == 32;
+	return c > 0 && c <= 255 &&  isalnum(c) || c == '\b' || c == '\r' || c == ' ' || c == '_';
 }

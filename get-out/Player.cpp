@@ -8,9 +8,12 @@
 #include "Direction.h"
 #include "Exit.h"
 
+#include "World.h"
+#include "InteractableOpen.h"
 
-Player::Player(EntityType type, std::string name, std::string description, unsigned int maxItems, Room* startingRoom)
-	: Entity(type, name, description), m_maxItems(maxItems), m_location(startingRoom)
+
+Player::Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom)
+	: Entity(EntityType::PLAYER, name, m_description), m_maxItems(maxItems), m_location(startingRoom)
 {
 	assert(m_location);
 }
@@ -23,6 +26,7 @@ Player::~Player()
 
 void Player::executeInstruction(const Instruction * instruction)
 {
+	// TODO: Implement the darkness behaviour
 	switch (instruction->actionType)
 	{
 	case ActionType::LOOK:
@@ -43,10 +47,10 @@ void Player::executeInstruction(const Instruction * instruction)
 	case ActionType::INSPECT:
 		inspect(instruction);
 		break;
-	/*
 	case ActionType::OPEN:
 		open(instruction);
 		break;
+	/*
 	case ActionType::USE:
 		use(instruction);
 		break;
@@ -199,5 +203,26 @@ bool Player::inspect(const Instruction* instruction)
 		return true;
 	}
 	consoleLog("There is no " + instruction->param1 + " to inspect here.");
+	return false;
+}
+
+
+bool Player::open(const Instruction * instruction)
+{
+	// Try to get an Entity* with the requested name form the Room.
+	Entity* target = m_location->getChild(instruction->param1);
+	if (target)
+	{
+		// Try to get an InteractableOpen* with the requested Entity name from the World.
+		InteractableOpen* iOpen = world->getInteractableOpen(instruction->param1);
+		if (iOpen)
+		{
+			iOpen->performEffects();
+			return true;
+		}
+		consoleLog("You can't open the " + target->getName() + ".");
+		return false;
+	}
+	consoleLog("The is no " + instruction->param1 + " to open here.");
 	return false;
 }
