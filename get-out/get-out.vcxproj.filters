@@ -93,6 +93,12 @@
     <ClCompile Include="InteractableOpen.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="EffectUnlockExit.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemUse.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -163,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="ActionType.h">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectUnlockExit.h">
+      <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,7 @@
 #include "Exit.h"
 #include "EffectAddEntitiesToRoom.h"
 #include "EffectReplaceEntity.h"
+#include "EffectUnlockExit.h"
 
 
 World* world = nullptr;
@@ -79,6 +80,18 @@ LoopStatus World::init()
 	Item* item3 = new Item("CARROT", "A small CARROT", "", false);
 	m_entities.push_back(item3);
 	item3->setParent(room2);
+
+	Interactable* ant = new Interactable("ANT", "A giant angry ANT stands in front of the north door", "The ant seems to be really, really angry.", true);
+	m_entities.push_back(ant);
+	ant->setParent(room2);
+
+	Interactable* happyAnt = new Interactable("ANT", "A giant happy ANT stands next to the north door", "The ant seems to be really, really happy.", true);
+	m_entities.push_back(happyAnt);
+
+	EffectReplaceEntity* antReplace = new EffectReplaceEntity("", ant, happyAnt);
+	EffectUnlockExit* unlockEffect = new EffectUnlockExit("The any stepped aside.", lockedExit);
+	ItemUse* antItemUse = new ItemUse("You feed the potato to the ant.", std::vector<ActionEffect*>{antReplace, unlockEffect}, true, item2, ant);
+	m_actions.push_back(antItemUse);
 
 	Interactable* panelInteractable = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The cabinet doors are closed.", false);
 	m_entities.push_back(panelInteractable);

@@ -99,6 +99,7 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, Inst
 	}
 	if (inputSize == 4)
 	{
+		instruction->param1 = input[1];
 		instruction->param2 = input[3];
 	}
 	return true;

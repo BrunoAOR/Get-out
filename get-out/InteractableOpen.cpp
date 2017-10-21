@@ -1,9 +1,6 @@
 #include "InteractableOpen.h"
-#include "Interactable.h"
-#include "ActionEffect.h"
 #include "ActionType.h"
-#include "globals.h"
-#include "World.h"
+#include "Interactable.h"
 #include <assert.h>
 
 

@@ -52,10 +52,10 @@ void Player::executeInstruction(const Instruction * instruction)
 	case InstructionType::OPEN:
 		open(instruction);
 		break;
-	/*
 	case InstructionType::USE:
 		use(instruction);
 		break;
+	/*
 	case InstructionType::PUT:
 		put(instruction);
 		break;
@@ -226,5 +226,35 @@ bool Player::open(const Instruction * instruction)
 		return false;
 	}
 	consoleLog("The is no " + instruction->param1 + " to open here.");
+	return false;
+}
+
+
+bool Player::use(const Instruction * instruction)
+{
+	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
+	Entity* item = getChild(instruction->param1);
+	if (item)
+	{
+		// Try to get an Entity* with the requested name form the Room.
+		Entity* interactable = m_location->getChild(instruction->param2);
+		if (interactable)
+		{
+			if (interactable->getType() == EntityType::INTERACTABLE)
+			{
+				Action* itemUse = world->getAction(ActionType::ItemUse, item->getName(), interactable->getName());
+				if (itemUse)
+				{
+					itemUse->performAction();
+					return true;
+				}
+			}
+			consoleLog("You can't use the " + item->getName() + " on the " + interactable->getName() + ".");
+			return false;
+		}
+		consoleLog("There is no " + instruction->param2 + " in the room to use your " + item->getName() + " on.");
+		return false;
+	}
+	consoleLog("You don't have the " + instruction->param1 + " that you intend to use.");
 	return false;
 }

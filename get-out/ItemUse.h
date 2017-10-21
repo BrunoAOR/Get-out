@@ -1,19 +1,20 @@
 #ifndef H_ITEM_USE
 #define H_ITEM_USE
 
-#include<string>
+#include "Action.h"
+#include <string>
+#include <vector>
 class Item;
 class Interactable;
 class ActionEffect;
 
 
-struct ItemUse
+class ItemUse :
+	public Action
 {
 public:
-	Item* item;
-	Interactable* interactable;
-	std::string m_description;
-	ActionEffect* effect;
+	ItemUse(std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Item* item, Interactable* interactable);
+	~ItemUse();
 };
 
 

@@ -4,12 +4,6 @@
 #include "Entity.h"
 struct Instruction;
 class Room;
-class Item;
-class Interactable;
-struct ItemUse;
-struct ItemPut;
-class InteractableOpen;
-enum class Direction;
 
 
 class Player :
