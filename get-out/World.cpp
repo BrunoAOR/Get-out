@@ -2,7 +2,7 @@
 
 #include "globals.h"
 #include "InputParser.h"
-#include "ActionType.h"
+#include "InstructionType.h"
 #include "Direction.h"
 #include "Instruction.h"
 #include "Entity.h"
@@ -97,12 +97,12 @@ LoopStatus World::init()
 	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a minicabinet inside the cabinet.", std::vector<Entity*>{smallerPanel}, room2);
 	EffectReplaceEntity* replaceEffect = new EffectReplaceEntity("", panelInteractable, openedPanel);
 	InteractableOpen* cabinetInteractableOpen = new InteractableOpen("With a bit of force, you open the cabinet doors.", std::vector<ActionEffect*>{addEffect, replaceEffect}, true, panelInteractable);;
-	m_interactableOpenCollection.push_back(cabinetInteractableOpen);
+	m_actions.push_back(cabinetInteractableOpen);
 
 	EffectAddEntitiesToRoom* add2Effect = new EffectAddEntitiesToRoom("You see a metal rod inside the minicabinet.", std::vector<Entity*>{rodItem}, room2);
 	EffectReplaceEntity* replace2Effect = new EffectReplaceEntity("", smallerPanel, smallerOpenedPanel);
 	InteractableOpen* interactableOpen = new InteractableOpen("With a bit less force, you open the minicabinet doors.", std::vector<ActionEffect*>{add2Effect, replace2Effect}, true, smallerPanel);
-	m_interactableOpenCollection.push_back(interactableOpen);
+	m_actions.push_back(interactableOpen);
 
 	// After all the initialization, log the welcome message
 	logWelcomeMessage();
@@ -113,34 +113,35 @@ LoopStatus World::init()
 
 LoopStatus World::update(const std::string& userInput)
 {
+	LoopStatus loopStatus = LoopStatus::CONTINUE;
 	if (userInput != "")
 	{
 		Instruction* instruction = m_inputParser->parse(userInput);
 		// TODO: Fully process the Instruction
-		switch (instruction->actionType)
+		switch (instruction->instructionType)
 		{
-		case ActionType::_UNDEFINED:
+		case InstructionType::_UNDEFINED:
 			OutputLog("ERROR: Resulting Instruction undefined!\n");
-			return LoopStatus::UPDATE_ERROR;
+			loopStatus = LoopStatus::UPDATE_ERROR;
 			break;
-		case ActionType::ERROR:
+		case InstructionType::ERROR:
 			consoleLog(instruction->errorDescription);
 			break;
-		case ActionType::QUIT:
-			return LoopStatus::EXIT;
-		case ActionType::HELP:
-			consoleLog("Instruction for world as " + getStringFromAction(instruction->actionType));
+		case InstructionType::QUIT:
+			loopStatus = LoopStatus::EXIT;
+			break;
+		case InstructionType::HELP:
 			logHelpMessage();
 			break;
-		case ActionType::LOOK:
-		case ActionType::GO:
-		case ActionType::INVENTORY:
-		case ActionType::TAKE:
-		case ActionType::DROP:
-		case ActionType::INSPECT:
-		case ActionType::OPEN:
-		case ActionType::USE:
-		case ActionType::PUT:
+		case InstructionType::LOOK:
+		case InstructionType::GO:
+		case InstructionType::INVENTORY:
+		case InstructionType::TAKE:
+		case InstructionType::DROP:
+		case InstructionType::INSPECT:
+		case InstructionType::OPEN:
+		case InstructionType::USE:
+		case InstructionType::PUT:
 			player->executeInstruction(instruction);
 			break;
 		default:
@@ -151,16 +152,14 @@ LoopStatus World::update(const std::string& userInput)
 		delete instruction;
 		instruction = nullptr;
 	}
-	return LoopStatus::CONTINUE;
+	return loopStatus;
 }
 
 
 LoopStatus World::close()
 {
 	deleteCollection(m_entities);
-	deleteCollection(m_interactableOpenCollection);
-	deleteCollection(m_itemUseCollection);
-	deleteCollection(m_itemPutCollection);
+	deleteCollection(m_actions);
 	return LoopStatus::EXIT;
 }
 
@@ -178,52 +177,36 @@ Entity * World::getEntity(const std::string & m_name)
 	return nullptr;
 }
 
-
-InteractableOpen * World::getInteractableOpen(const std::string & interactableName)
+Action * World::getAction(ActionType actionType, const std::string & firstEntityName, const std::string & secondEntityName)
 {
-	for (auto iOpen : m_interactableOpenCollection)
+	if (firstEntityName == "")
 	{
-		if (caselessEquals(iOpen->getInteractable()->getName(), interactableName))
+		return nullptr;
+	}
+
+	for (auto action : m_actions)
+	{
+		if (action->getActionType() == actionType)
 		{
-			return iOpen;
+			const Entity* firstEntity = action->getFirstEntity();
+			const Entity* secondEntity = action->getSecondEntity();
+			if (caselessEquals(firstEntity->getName(), firstEntityName)
+				&& (secondEntityName == "" || secondEntity != nullptr && caselessEquals(secondEntity->getName(), secondEntityName)))
+			{
+				return action;
+			}
 		}
 	}
 	return nullptr;
 }
 
 
-ItemUse * World::getItemUse(const std::string & itemName, const std::string & interactableName)
+void World::removeAction(Action * action)
 {
-	for (auto iUse : m_itemUseCollection)
-	{
-		if (caselessEquals(iUse->item->getName(), itemName) && caselessEquals(iUse->interactable->getName(), interactableName))
-		{
-			return iUse;
-		}
-	}
-	return nullptr;
-}
-
-
-ItemPut * World::getItemPut(const std::string & itemName, const std::string & containerItemName)
-{
-	for (auto iPut : m_itemPutCollection)
-	{
-		if (caselessEquals(iPut->item->getName(), itemName) && caselessEquals(iPut->container->getName(), containerItemName))
-		{
-			return iPut;
-		}
-	}
-	return nullptr;
-}
-
-
-void World::removeInteractableOpen(InteractableOpen * interactableOpen)
-{
-		auto it = std::find(m_interactableOpenCollection.begin(), m_interactableOpenCollection.end(), interactableOpen);
-		assert(it != m_interactableOpenCollection.end());
-		m_interactableOpenCollection.erase(it);
-		delete interactableOpen;
+	auto it = std::find(m_actions.begin(), m_actions.end(), action);
+	assert(it != m_actions.end());
+	m_actions.erase(it);
+	delete action;
 }
 
 

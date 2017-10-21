@@ -6,12 +6,11 @@
 #include <assert.h>
 
 enum class LoopStatus;
+enum class ActionType;
 class Player;
 class InputParser;
 class Entity;
-class InteractableOpen;
-struct ItemUse;
-struct ItemPut;
+class Action;
 class ActionEffect;
 
 
@@ -26,19 +25,15 @@ public:
 	LoopStatus close();
 
 	Entity* getEntity(const std::string& m_name);
-	InteractableOpen* getInteractableOpen(const std::string& interactableName);
-	ItemUse* getItemUse(const std::string& itemName, const std::string& interactableName);
-	ItemPut* getItemPut(const std::string& itemName, const std::string& containerItemName);
-	void removeInteractableOpen(InteractableOpen* interactableOpen);
+	Action* getAction(ActionType actionType, const std::string& firstEntityName, const std::string& secondEntityName = "");
+	void removeAction(Action* action);
 
 private:
 	Player* player = nullptr;
 	InputParser* m_inputParser = nullptr;
 	std::vector<Entity*> m_entities;
-	std::vector<InteractableOpen*> m_interactableOpenCollection;
-	std::vector<ItemUse*> m_itemUseCollection;
-	std::vector<ItemPut*> m_itemPutCollection;
-
+	std::vector<Action*> m_actions;
+	
 	void logWelcomeMessage();
 	void logHelpMessage();
 

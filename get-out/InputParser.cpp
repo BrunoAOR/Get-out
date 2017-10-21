@@ -2,7 +2,7 @@
 
 #include "Instruction.h"
 #include "globals.h"
-#include "ActionType.h"
+#include "InstructionType.h"
 
 
 InputParser::InputParser()
@@ -59,7 +59,7 @@ std::vector<std::string> InputParser::parseToVector(const std::string & userInpu
 bool InputParser::checkInputValidity(const std::vector<std::string>& input, Instruction * instruction) const
 {
 	// We'll assume an error unless proven otherwise
-	instruction->actionType = ActionType::ERROR;
+	instruction->instructionType = InstructionType::ERROR;
 
 	int inputSize = input.size();
 	// Step 1: Determine if we actually got some input (the used could have just written spaces)
@@ -70,10 +70,10 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, Inst
 	}
 
 	// Step 2: Determine if we have a valid action and if we have the right amount of words for that action
-	ActionType action = getActionFromString(input[0]);
-	const std::string actionString = getStringFromAction(action);
-	const int actionExpectedLength = getActionExpectedLength(action);
-	if (action == ActionType::_UNDEFINED || action == ActionType::ERROR)
+	InstructionType action = getInstructionFromString(input[0]);
+	const std::string actionString = getStringFromInstruction(action);
+	const int actionExpectedLength = getInstructionExpectedLength(action);
+	if (action == InstructionType::_UNDEFINED || action == InstructionType::ERROR)
 	{
 		instruction->errorDescription = "Input rejected: I can't understand the word " + input[0] + ".";
 		return false;
@@ -85,14 +85,14 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, Inst
 	}
 
 	// Step 3: Determine if we have the right preposition (index 2) for the action (if applicable -> inputSize == 4)
-	if (inputSize == 4 && !caselessEquals(getActionPreposition(action), input[2]))
+	if (inputSize == 4 && !caselessEquals(getInstructionPreposition(action), input[2]))
 	{
 		instruction->errorDescription = "Input rejected: The right preposition for the " + actionString + " action is not " + input[2] + ".";
 		return false;
 	}
 	
 	// Step 4: If we got this far, the input's format is valid, so we populate the instruction
-	instruction->actionType = action;
+	instruction->instructionType = action;
 	if (inputSize == 2)
 	{
 		instruction->param1 = input[1];

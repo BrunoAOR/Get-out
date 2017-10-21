@@ -2,13 +2,13 @@
 #define H_INSTRUCTION
 
 #include <string>
-enum class ActionType;
+enum class InstructionType;
 
 
 struct Instruction
 {
 public:
-	ActionType actionType;
+	InstructionType instructionType;
 	std::string errorDescription;
 	std::string param1;
 	std::string param2;

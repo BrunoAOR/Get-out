@@ -8,8 +8,8 @@ enum class EntityType { Player, Item, Interactable, Room, Exit};
 
 enum class Direction {N, S, E, W};
 
-enum class ActionType {ERROR, QUIT, HELP, LOOK, GO, INVENTORY, TAKE, DROP, INSPECT, OPEN, USE, PUT};
-std::string getActionPreposition(ActionType actionType);
+enum class InstructionType {ERROR, QUIT, HELP, LOOK, GO, INVENTORY, TAKE, DROP, INSPECT, OPEN, USE, PUT};
+std::string getInstructionPreposition(InstructionType instructionType);
 
 
 void log(const std::string& text); // Or something similar to push the output responsability to (use cout).
@@ -57,7 +57,7 @@ class InputParser
 
 struct Instruction
 {	
-	actionType actionType;
+	InstructionType instructionType;
 	union 
 	{
 		std::string errorDescription

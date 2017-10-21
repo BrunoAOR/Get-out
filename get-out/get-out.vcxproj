@@ -117,8 +117,9 @@
     <Text Include="Design ideas.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
-    <ClCompile Include="ActionType.cpp" />
+    <ClCompile Include="InstructionType.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="EffectAddEntitiesToRoom.cpp" />
@@ -137,8 +138,10 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
     <ClInclude Include="ActionType.h" />
+    <ClInclude Include="InstructionType.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="EffectAddEntitiesToRoom.h" />

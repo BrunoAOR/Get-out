@@ -28,6 +28,9 @@
     <Filter Include="ActionEffects">
       <UniqueIdentifier>{846f8fb3-1933-4be6-a1e6-5af58ccba7f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{5de34bb4-f9ea-4b1d-8759-86955d2ee728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Design ideas.txt" />
@@ -38,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="InputParser.cpp">
       <Filter>Input-related</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionType.cpp">
-      <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Main</Filter>
@@ -84,8 +84,14 @@
     <ClCompile Include="EffectReplaceEntity.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
-    <ClCompile Include="InteractableOpen.cpp">
+    <ClCompile Include="InstructionType.cpp">
       <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractableOpen.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,19 +101,7 @@
     <ClInclude Include="InputParser.h">
       <Filter>Input-related</Filter>
     </ClInclude>
-    <ClInclude Include="ItemUse.h">
-      <Filter>Instructions</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemPut.h">
-      <Filter>Instructions</Filter>
-    </ClInclude>
-    <ClInclude Include="InteractableOpen.h">
-      <Filter>Instructions</Filter>
-    </ClInclude>
     <ClInclude Include="Instruction.h">
-      <Filter>Instructions</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionType.h">
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
@@ -151,6 +145,24 @@
     </ClInclude>
     <ClInclude Include="EffectAddEntitiesToRoom.h">
       <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructionType.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemUse.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableOpen.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPut.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionType.h">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

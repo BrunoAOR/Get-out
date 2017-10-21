@@ -3,10 +3,12 @@
 #include "globals.h"
 #include "EntityType.h" 
 #include "Instruction.h"
-#include "ActionType.h"
+#include "InstructionType.h"
 #include "Room.h"
 #include "Direction.h"
 #include "Exit.h"
+#include "Action.h"
+#include "ActionType.h"
 
 #include "World.h"
 #include "InteractableOpen.h"
@@ -27,39 +29,39 @@ Player::~Player()
 void Player::executeInstruction(const Instruction * instruction)
 {
 	// TODO: Implement the darkness behaviour
-	switch (instruction->actionType)
+	switch (instruction->instructionType)
 	{
-	case ActionType::LOOK:
+	case InstructionType::LOOK:
 		look();
 		break;
-	case ActionType::INVENTORY:
+	case InstructionType::INVENTORY:
 		inventory();
 		break;
-	case ActionType::GO:
+	case InstructionType::GO:
 		go(instruction);
 		break;
-	case ActionType::TAKE:
+	case InstructionType::TAKE:
 		take(instruction);
 		break;
-	case ActionType::DROP:
+	case InstructionType::DROP:
 		drop(instruction);
 		break;
-	case ActionType::INSPECT:
+	case InstructionType::INSPECT:
 		inspect(instruction);
 		break;
-	case ActionType::OPEN:
+	case InstructionType::OPEN:
 		open(instruction);
 		break;
 	/*
-	case ActionType::USE:
+	case InstructionType::USE:
 		use(instruction);
 		break;
-	case ActionType::PUT:
+	case InstructionType::PUT:
 		put(instruction);
 		break;
 	*/
 	default:
-		consoleLog("Missing implementation for player instruction of type " + getStringFromAction(instruction->actionType));
+		consoleLog("Missing implementation for player instruction of type " + getStringFromInstruction(instruction->instructionType));
 		break;
 	}
 	
@@ -214,10 +216,10 @@ bool Player::open(const Instruction * instruction)
 	if (target)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
-		InteractableOpen* iOpen = world->getInteractableOpen(instruction->param1);
-		if (iOpen)
+		Action* interactableOpen = world->getAction(ActionType::InteractableOpen, instruction->param1);
+		if (interactableOpen)
 		{
-			iOpen->performEffects();
+			interactableOpen->performAction();
 			return true;
 		}
 		consoleLog("You can't open the " + target->getName() + ".");
