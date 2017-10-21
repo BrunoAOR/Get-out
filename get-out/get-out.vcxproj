@@ -119,6 +119,8 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
+    <ClCompile Include="EffectConsumeItem.cpp" />
+    <ClCompile Include="EffectPlaceItemInItem.cpp" />
     <ClCompile Include="EffectUnlockExit.cpp" />
     <ClCompile Include="InstructionType.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -133,6 +135,7 @@
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="InteractableOpen.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemPut.cpp" />
     <ClCompile Include="ItemUse.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -143,6 +146,8 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
     <ClInclude Include="ActionType.h" />
+    <ClInclude Include="EffectConsumeItem.h" />
+    <ClInclude Include="EffectPlaceItemInItem.h" />
     <ClInclude Include="EffectUnlockExit.h" />
     <ClInclude Include="InstructionType.h" />
     <ClInclude Include="Application.h" />

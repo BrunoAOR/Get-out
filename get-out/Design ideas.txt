@@ -80,7 +80,7 @@ class InteractableOpen
 }
 
 
-struct ItemUse
+class ItemUse
 {
 	Item* item;
 	Interactable* interactable;
@@ -89,7 +89,7 @@ struct ItemUse
 }
 
 
-struct ItemPut
+class ItemPut
 {
 	Item* item;
 	Item* container;

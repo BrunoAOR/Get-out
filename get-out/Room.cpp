@@ -35,10 +35,6 @@ std::string Room::getDescription() const
 	for (Entity* child : m_children)
 	{
 		description += "\n  " + child->getDescription();
-		if (child->getType() == EntityType::EXIT)
-		{
-			description += " to the " + getStringFromDirection(static_cast<Exit*>(child)->getDirection()) + ".";
-		}
 	}
 	for (Exit* exit : m_exits)
 	{

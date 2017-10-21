@@ -52,7 +52,7 @@ bool Entity::hasChild(Entity * entity) const
 }
 
 
-Entity * Entity::getChild(const std::string & entityName)
+Entity * Entity::getChild(const std::string & entityName, bool searchInChildren)
 {
 	for (Entity* child : m_children)
 	{
@@ -60,8 +60,16 @@ Entity * Entity::getChild(const std::string & entityName)
 		{
 			return child;
 		}
+		if (searchInChildren)
+		{
+			Entity* childFound = child->getChild(entityName, true);
+			if (childFound)
+			{
+				return childFound;
+			}
+		}
 	}
-	return false;
+	return nullptr;
 }
 
 

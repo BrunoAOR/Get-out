@@ -19,6 +19,8 @@
 #include "EffectAddEntitiesToRoom.h"
 #include "EffectReplaceEntity.h"
 #include "EffectUnlockExit.h"
+#include "EffectConsumeItem.h"
+#include "EffectPlaceItemInItem.h"
 
 
 World* world = nullptr;
@@ -49,11 +51,19 @@ LoopStatus World::init()
 	player = new Player("Jim", "A random human", 2, room);
 	m_entities.push_back(player);
 
-	Item* item = new Item("KEY", "A small KEY", "The key has an engraving of a heart", false);
-	m_entities.push_back(item);
-	item->setParent(room);
+	Item* key = new Item("KEY", "A small KEY", "The KEY has an engraving of a heart", false);
+	m_entities.push_back(key);
+	key->setParent(room);
 
-	Interactable* interactable = new Interactable("LOCK", "A LOCK on the wall", "The lock has an engraving of a heart", false);
+	Item* keychain = new Item("KEYCHAIN", "A shiny KEYCHAIN", "", false);
+	m_entities.push_back(keychain);
+	keychain->setParent(room);
+
+	EffectPlaceItemInItem* keyInKeychain = new EffectPlaceItemInItem("", key, keychain);
+	ItemPut* keyInKeychainPut = new ItemPut("You placed the KEY in the KEYCHAIN", std::vector<ActionEffect*>{keyInKeychain}, true, key, keychain);
+	m_actions.push_back(keyInKeychainPut);
+
+	Interactable* interactable = new Interactable("LOCK", "A LOCK on the wall", "The LOCK has an engraving of a heart", false);
 	m_entities.push_back(interactable);
 	interactable->setParent(room);
 
@@ -73,48 +83,49 @@ LoopStatus World::init()
 	m_entities.push_back(lockedExit);
 	lockedExit->setParent(room2);
 
-	Item* item2 = new Item("POTATO", "A beautiful POTATO", "", false);
-	m_entities.push_back(item2);
-	item2->setParent(room2);
+	Item* potatoItem = new Item("POTATO", "A beautiful POTATO", "", false);
+	m_entities.push_back(potatoItem);
+	potatoItem->setParent(room2);
 
 	Item* item3 = new Item("CARROT", "A small CARROT", "", false);
 	m_entities.push_back(item3);
 	item3->setParent(room2);
 
-	Interactable* ant = new Interactable("ANT", "A giant angry ANT stands in front of the north door", "The ant seems to be really, really angry.", true);
+	Interactable* ant = new Interactable("ANT", "A giant angry ANT stands in front of the north door", "The ANT seems to be really, really angry.", true);
 	m_entities.push_back(ant);
 	ant->setParent(room2);
 
-	Interactable* happyAnt = new Interactable("ANT", "A giant happy ANT stands next to the north door", "The ant seems to be really, really happy.", true);
+	Interactable* happyAnt = new Interactable("ANT", "A giant happy ANT stands next to the north door", "The ANT seems to be really, really happy.", true);
 	m_entities.push_back(happyAnt);
 
 	EffectReplaceEntity* antReplace = new EffectReplaceEntity("", ant, happyAnt);
-	EffectUnlockExit* unlockEffect = new EffectUnlockExit("The any stepped aside.", lockedExit);
-	ItemUse* antItemUse = new ItemUse("You feed the potato to the ant.", std::vector<ActionEffect*>{antReplace, unlockEffect}, true, item2, ant);
+	EffectUnlockExit* unlockEffect = new EffectUnlockExit("The ANT stepped aside.", lockedExit);
+	EffectConsumeItem* consumeEffect = new EffectConsumeItem("", potatoItem);
+	ItemUse* antItemUse = new ItemUse("You feed the POTATO to the ANT.", std::vector<ActionEffect*>{antReplace, unlockEffect, consumeEffect}, true, potatoItem, ant);
 	m_actions.push_back(antItemUse);
 
-	Interactable* panelInteractable = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The cabinet doors are closed.", false);
+	Interactable* panelInteractable = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are closed.", false);
 	m_entities.push_back(panelInteractable);
 	panelInteractable->setParent(room2);
 
-	Interactable* openedPanel = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The cabinet doors are opened.", false);
+	Interactable* openedPanel = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are opened.", false);
 	m_entities.push_back(openedPanel);
-	Interactable* smallerPanel = new Interactable("MINICABINET", "A MINICABINET stuck to the back wall of the cabinet", "The doors are closed.", false);
+	Interactable* smallerPanel = new Interactable("MINICABINET", "A MINICABINET stuck to the back wall of the cabinet", "The doors on the MINICABINET are closed.", false);
 	m_entities.push_back(smallerPanel);
-	Interactable* smallerOpenedPanel = new Interactable("MINICABINET", "A MINICABINET stuck to the back wall of the cabinet", "The doors are opened.", false);
+	Interactable* smallerOpenedPanel = new Interactable("MINICABINET", "A MINICABINET stuck to the back wall of the cabinet", "The doors on the MINICABINET are opened.", false);
 	m_entities.push_back(smallerOpenedPanel);
 
-	Item* rodItem = new Item("ROD", "A metal ROD", "There are some unreadable markings on the rod.", false);
+	Item* rodItem = new Item("ROD", "A metal ROD", "There are some unreadable markings on the ROD.", false);
 	m_entities.push_back(rodItem);
 
-	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a minicabinet inside the cabinet.", std::vector<Entity*>{smallerPanel}, room2);
+	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a MINICABINET inside the CABINET.", std::vector<Entity*>{smallerPanel}, room2);
 	EffectReplaceEntity* replaceEffect = new EffectReplaceEntity("", panelInteractable, openedPanel);
-	InteractableOpen* cabinetInteractableOpen = new InteractableOpen("With a bit of force, you open the cabinet doors.", std::vector<ActionEffect*>{addEffect, replaceEffect}, true, panelInteractable);;
+	InteractableOpen* cabinetInteractableOpen = new InteractableOpen("With a bit of force, you open the CABINET doors.", std::vector<ActionEffect*>{addEffect, replaceEffect}, true, panelInteractable);;
 	m_actions.push_back(cabinetInteractableOpen);
 
-	EffectAddEntitiesToRoom* add2Effect = new EffectAddEntitiesToRoom("You see a metal rod inside the minicabinet.", std::vector<Entity*>{rodItem}, room2);
+	EffectAddEntitiesToRoom* add2Effect = new EffectAddEntitiesToRoom("You see a metal ROD inside the MINICABINET.", std::vector<Entity*>{rodItem}, room2);
 	EffectReplaceEntity* replace2Effect = new EffectReplaceEntity("", smallerPanel, smallerOpenedPanel);
-	InteractableOpen* interactableOpen = new InteractableOpen("With a bit less force, you open the minicabinet doors.", std::vector<ActionEffect*>{add2Effect, replace2Effect}, true, smallerPanel);
+	InteractableOpen* interactableOpen = new InteractableOpen("With a bit less force, you open the MINICABINET doors.", std::vector<ActionEffect*>{add2Effect, replace2Effect}, true, smallerPanel);
 	m_actions.push_back(interactableOpen);
 
 	// After all the initialization, log the welcome message
@@ -130,7 +141,6 @@ LoopStatus World::update(const std::string& userInput)
 	if (userInput != "")
 	{
 		Instruction* instruction = m_inputParser->parse(userInput);
-		// TODO: Fully process the Instruction
 		switch (instruction->instructionType)
 		{
 		case InstructionType::_UNDEFINED:
@@ -161,7 +171,6 @@ LoopStatus World::update(const std::string& userInput)
 			break;
 		}
 
-		// EVENTUALLY:
 		delete instruction;
 		instruction = nullptr;
 	}

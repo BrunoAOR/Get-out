@@ -99,6 +99,15 @@
     <ClCompile Include="ItemUse.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="ItemPut.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectConsumeItem.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectPlaceItemInItem.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -171,6 +180,12 @@
       <Filter>Actions</Filter>
     </ClInclude>
     <ClInclude Include="EffectUnlockExit.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectConsumeItem.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectPlaceItemInItem.h">
       <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,10 +12,27 @@ Item::~Item()
 {
 }
 
+
+std::string Item::getDescription() const
+{
+	std::string description = m_description;
+	if (m_children.size() > 0)
+	{
+		description += " which contains:";
+		for (auto child : m_children)
+		{
+			description += "\n    - " + child->getDescription();
+		}
+	}
+	return description;
+}
+
+
 std::string Item::getDetailedDescription() const
 {
 	return m_inspectDescription;
 }
+
 
 bool Item::canAddChild(Entity * child)
 {

@@ -55,11 +55,9 @@ void Player::executeInstruction(const Instruction * instruction)
 	case InstructionType::USE:
 		use(instruction);
 		break;
-	/*
 	case InstructionType::PUT:
 		put(instruction);
 		break;
-	*/
 	default:
 		consoleLog("Missing implementation for player instruction of type " + getStringFromInstruction(instruction->instructionType));
 		break;
@@ -152,12 +150,15 @@ bool Player::take(const Instruction* instruction)
 		consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + target->getName() + ".");
 		return false;
 	}
-	else
+	// Try to get an Entity within the children of the room's children to customize the message.
+	target = m_location->getChild(instruction->param1, true);
+	if (target)
 	{
-		consoleLog("There is nothing called " + instruction->param1 + " in here.");
+		consoleLog("You can't take the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
 		return false;
 	}
-
+	consoleLog("There is nothing called " + instruction->param1 + " in here.");
+	return false;
 }
 
 
@@ -171,6 +172,13 @@ bool Player::drop(const Instruction* instruction)
 		consoleLog("You have dropped the " + target->getName() + ".");
 		return true;
 	}
+	// Try to get an Entity within the children of the player's inventory to customize the message.
+	target = getChild(instruction->param1, true);
+	if (target)
+	{
+		consoleLog("You can't drop the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
+		return false;
+	}
 	consoleLog("You don't have the " + instruction->param1 + " that you intend to drop.");
 	return false;
 }
@@ -179,10 +187,10 @@ bool Player::drop(const Instruction* instruction)
 bool Player::inspect(const Instruction* instruction)
 {
 	// Try to get an Entity* with the requested name from the palyer's inventory or the room.
-	Entity* target = getChild(instruction->param1);
+	Entity* target = getChild(instruction->param1, true);
 	if (!target)
 	{
-		target = m_location->getChild(instruction->param1);
+		target = m_location->getChild(instruction->param1, true);
 	}
 	if (target)
 	{
@@ -256,5 +264,32 @@ bool Player::use(const Instruction * instruction)
 		return false;
 	}
 	consoleLog("You don't have the " + instruction->param1 + " that you intend to use.");
+	return false;
+}
+
+
+bool Player::put(const Instruction * instruction)
+{
+	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
+	Entity* item = getChild(instruction->param1);
+	if (item)
+	{
+		// Try to get a second Entity* with the requested name form the Inventory (will also be an item).
+		Entity* containerItem = getChild(instruction->param2);
+		if (containerItem)
+		{
+			Action* itemPut = world->getAction(ActionType::ItemPut, item->getName(), containerItem->getName());
+			if (itemPut)
+			{
+				itemPut->performAction();
+				return true;
+			}
+			consoleLog("You can't put the " + item->getName() + " in the " + containerItem->getName() + ".");
+			return false;
+		}
+		consoleLog("There is no " + instruction->param2 + " in your inventory to put the " + item->getName() + " into.");
+		return false;
+	}
+	consoleLog("You don't have the " + instruction->param1 + " that you intend to put into something else.");
 	return false;
 }

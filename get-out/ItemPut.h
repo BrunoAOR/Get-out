@@ -1,16 +1,21 @@
 #ifndef H_ITEM_PUT
 #define H_ITEM_PUT
 
+#include "Action.h"
 #include<string>
 class Item;
 
 
-struct ItemPut
+class ItemPut :
+	public Action
 {
 public:
-	Item* item;
-	Item* container;
-	std::string m_description;
+	ItemPut(std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Item* item, Item* container);
+	~ItemPut();
+
+private:
+	Item* m_item;
+	Item* m_container;
 };
 
 #endif // !H_ITEM_PUT

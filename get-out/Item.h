@@ -11,6 +11,7 @@ public:
 	Item(std::string name, std::string m_description, std::string inspectDescription, bool hasLight);
 	~Item();
 
+	virtual std::string getDescription() const override;
 	virtual std::string getDetailedDescription() const override;
 
 private:
