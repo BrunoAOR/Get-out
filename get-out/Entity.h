@@ -8,7 +8,7 @@ enum class EntityType;
 class Entity
 {
 public:
-	Entity(EntityType type, std::string name, std::string description);
+	Entity(EntityType type, std::string name, std::string description, bool isVisibleInDark);
 	virtual ~Entity() = 0;
 
 	virtual void update() {}
@@ -17,6 +17,7 @@ public:
 	EntityType getType() const;
 	std::string getName() const;
 	virtual std::string getDescription() const;
+	bool isVisibleInDark() const;
 	virtual std::string getDetailedDescription() const;
 	bool hasChild(Entity* entity) const;
 	Entity* getChild(const std::string& entityName, bool searchInChildren=false);
@@ -28,6 +29,7 @@ protected:
 	EntityType m_type;
 	std::string m_name;
 	std::string m_description;
+	bool m_isVisibleInDark;
 	Entity* m_parent = nullptr;
 	std::vector<Entity*> m_children;
 

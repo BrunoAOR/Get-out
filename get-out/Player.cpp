@@ -9,15 +9,16 @@
 #include "Exit.h"
 #include "Action.h"
 #include "ActionType.h"
+#include "Item.h"
 
 #include "World.h"
 #include "InteractableOpen.h"
 
 
 Player::Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom)
-	: Entity(EntityType::PLAYER, name, m_description), m_maxItems(maxItems), m_location(startingRoom)
+	: Entity(EntityType::PLAYER, name, m_description, true), m_maxItems(maxItems), m_location(startingRoom)
 {
-	assert(m_location);
+	assert(m_location && m_maxItems > 0);
 }
 
 
@@ -28,7 +29,6 @@ Player::~Player()
 
 void Player::executeInstruction(const Instruction * instruction)
 {
-	// TODO: Implement the darkness behaviour
 	switch (instruction->instructionType)
 	{
 	case InstructionType::LOOK:
@@ -59,7 +59,8 @@ void Player::executeInstruction(const Instruction * instruction)
 		put(instruction);
 		break;
 	default:
-		consoleLog("Missing implementation for player instruction of type " + getStringFromInstruction(instruction->instructionType));
+		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(instruction->instructionType));
+		assert(false);
 		break;
 	}
 	
@@ -74,7 +75,14 @@ bool Player::canAddChild(Entity * child)
 
 void Player::look()
 {
-	consoleLog(m_location->getDescription());
+	if (m_hasLight)
+	{
+		consoleLog(m_location->getDescription());
+	}
+	else
+	{
+		consoleLog(m_location->getDescriptionInDarkness());
+	}
 }
 
 
@@ -131,8 +139,10 @@ bool Player::go(const Instruction* instruction)
 
 bool Player::take(const Instruction* instruction)
 {
+	Entity* target = nullptr;
 	// Try to get an Entity with the requested name from the room.
-	Entity* target = m_location->getChild(instruction->param1);
+	target = m_hasLight ? m_location->getChild(instruction->param1) : m_location->getChildInDarkness(instruction->param1);
+	
 	if (target)
 	{
 		// Only items can be taken
@@ -144,6 +154,10 @@ bool Player::take(const Instruction* instruction)
 		if (m_children.size() < m_maxItems)
 		{
 			target->setParent(this);
+			if (static_cast<Item*>(target)->hasLight())
+			{
+				m_hasLight = true;
+			}
 			consoleLog("You have taken the " + target->getName() + ".");
 			return true;
 		}
@@ -151,24 +165,27 @@ bool Player::take(const Instruction* instruction)
 		return false;
 	}
 	// Try to get an Entity within the children of the room's children to customize the message.
-	target = m_location->getChild(instruction->param1, true);
+	target = m_hasLight ? m_location->getChild(instruction->param1, true) : m_location->getChildInDarkness(instruction->param1, true);
+
 	if (target)
 	{
 		consoleLog("You can't take the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
 		return false;
 	}
-	consoleLog("There is nothing called " + instruction->param1 + " in here.");
+	consoleLog("There is nothing called " + instruction->param1 + " that you can see here.");
 	return false;
 }
 
 
 bool Player::drop(const Instruction* instruction)
 {
+	Entity* target = nullptr;
 	// Try to get an Entity with the requested name from the player's inventory (it will be an ITEM).
-	Entity* target = getChild(instruction->param1);
+	target = getChild(instruction->param1);
 	if (target)
 	{
 		target->setParent(m_location);
+		updateLightStatus();
 		consoleLog("You have dropped the " + target->getName() + ".");
 		return true;
 	}
@@ -186,11 +203,12 @@ bool Player::drop(const Instruction* instruction)
 
 bool Player::inspect(const Instruction* instruction)
 {
+	Entity* target;
 	// Try to get an Entity* with the requested name from the palyer's inventory or the room.
-	Entity* target = getChild(instruction->param1, true);
+	target = getChild(instruction->param1, true);
 	if (!target)
 	{
-		target = m_location->getChild(instruction->param1, true);
+		target = m_hasLight ? m_location->getChild(instruction->param1, true) : m_location->getChildInDarkness(instruction->param1, true);
 	}
 	if (target)
 	{
@@ -212,7 +230,7 @@ bool Player::inspect(const Instruction* instruction)
 		}
 		return true;
 	}
-	consoleLog("There is no " + instruction->param1 + " to inspect here.");
+	consoleLog("There is no " + instruction->param1 + " to inspect that you can see here.");
 	return false;
 }
 
@@ -220,7 +238,7 @@ bool Player::inspect(const Instruction* instruction)
 bool Player::open(const Instruction * instruction)
 {
 	// Try to get an Entity* with the requested name form the Room.
-	Entity* target = m_location->getChild(instruction->param1);
+	Entity* target = m_hasLight ? m_location->getChild(instruction->param1) : m_location->getChildInDarkness(instruction->param1);
 	if (target)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
@@ -233,7 +251,7 @@ bool Player::open(const Instruction * instruction)
 		consoleLog("You can't open the " + target->getName() + ".");
 		return false;
 	}
-	consoleLog("The is no " + instruction->param1 + " to open here.");
+	consoleLog("The is no " + instruction->param1 + " to open that you can see here.");
 	return false;
 }
 
@@ -245,7 +263,7 @@ bool Player::use(const Instruction * instruction)
 	if (item)
 	{
 		// Try to get an Entity* with the requested name form the Room.
-		Entity* interactable = m_location->getChild(instruction->param2);
+		Entity* interactable = m_hasLight ? m_location->getChild(instruction->param2) : m_location->getChildInDarkness(instruction->param2);
 		if (interactable)
 		{
 			if (interactable->getType() == EntityType::INTERACTABLE)
@@ -260,7 +278,7 @@ bool Player::use(const Instruction * instruction)
 			consoleLog("You can't use the " + item->getName() + " on the " + interactable->getName() + ".");
 			return false;
 		}
-		consoleLog("There is no " + instruction->param2 + " in the room to use your " + item->getName() + " on.");
+		consoleLog("There is no " + instruction->param2 + " that you can see here to use your " + item->getName() + " on.");
 		return false;
 	}
 	consoleLog("You don't have the " + instruction->param1 + " that you intend to use.");
@@ -292,4 +310,18 @@ bool Player::put(const Instruction * instruction)
 	}
 	consoleLog("You don't have the " + instruction->param1 + " that you intend to put into something else.");
 	return false;
+}
+
+
+void Player::updateLightStatus()
+{
+	for (Entity* item : m_children)
+	{
+		if ((static_cast<Item*>(item))->hasLight())
+		{
+			m_hasLight = true;
+			return;
+		}
+	}
+	m_hasLight = false;
 }

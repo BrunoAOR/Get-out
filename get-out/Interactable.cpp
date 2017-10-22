@@ -3,7 +3,7 @@
 
 
 Interactable::Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark)
-	: Entity(EntityType::INTERACTABLE, name, m_description), m_inspectDescription(inspectDescription), m_isVisibleInDark(isVisibleInDark)
+	: Entity(EntityType::INTERACTABLE, name, m_description, isVisibleInDark), m_inspectDescription(inspectDescription), m_isVisibleInDark(isVisibleInDark)
 {
 }
 

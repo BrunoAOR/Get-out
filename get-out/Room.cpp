@@ -3,9 +3,10 @@
 #include "EntityType.h"
 #include "Direction.h"
 #include "Exit.h"
+#include "globals.h"
 
 Room::Room(std::string name, std::string description, bool isDark)
-	: Entity(EntityType::ROOM, name, description), m_isDark(isDark)
+	: Entity(EntityType::ROOM, name, description, true), m_isDark(isDark)
 {
 }
 
@@ -32,16 +33,66 @@ std::string Room::getDescription() const
 {
 	std::string description = m_name + "\n" + m_description;
 	description += "\nIn the room you find the following:";
-	for (Entity* child : m_children)
-	{
-		description += "\n  " + child->getDescription();
-	}
 	for (Exit* exit : m_exits)
 	{
 		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection()) + ".";
 	}
-
+	for (Entity* child : m_children)
+	{
+		description += "\n  " + child->getDescription();
+	}
 	return description;
+}
+
+std::string Room::getDescriptionInDarkness() const
+{
+	if (!m_isDark)
+	{
+		return getDescription();
+	}
+
+	std::string description = m_name + "\n" + m_description;
+	description += "\nThe room is almost in full darkness, but you can identify the following things:";
+	for (Exit* exit : m_exits)
+	{
+		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection()) + ".";
+	}
+	for (Entity* child : m_children)
+	{
+		if (child->isVisibleInDark())
+		{
+			description += "\n  " + child->getDescription();
+		}
+	}
+	return description;
+}
+
+Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInChildren)
+{
+	if (!m_isDark)
+	{
+		return getChild(entityName, searchInChildren);
+	}
+
+	for (Entity* child : m_children)
+	{
+		if (child->isVisibleInDark())
+		{
+			if (caselessEquals(child->getName(), entityName))
+			{
+				return child;
+			}
+			if (searchInChildren)
+			{
+				Entity* childFound = child->getChild(entityName, true);
+				if (childFound)
+				{
+					return childFound;
+				}
+			}
+		}
+	}
+	return nullptr;
 }
 
 

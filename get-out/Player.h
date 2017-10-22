@@ -18,9 +18,12 @@ public:
 private:
 	Room* m_location;
 	unsigned int m_maxItems = -1;
+	bool m_hasLight = false;
 
+	// Entity overrides
 	virtual bool canAddChild(Entity* child) override;
 	
+	// Instructions:
 	void look();
 	void inventory();
 	bool go(const Instruction* instruction); // Ask room if there's an exit in that direkol,ction -> Room::getExit
@@ -30,6 +33,9 @@ private:
 	bool open(const Instruction* instruction); //Must check type & presence in room
 	bool use(const Instruction* instruction); // Must verify that item can be used in target (done by item internally)
 	bool put(const Instruction* instruction); // Place an item inside another item (if allowed)
+
+	// Helper methods
+	void updateLightStatus();
 };
 
 

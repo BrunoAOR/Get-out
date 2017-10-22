@@ -8,7 +8,7 @@ class Interactable :
 	public Entity
 {
 public:
-	Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark);
+	Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark = false);
 	~Interactable();
 
 	virtual std::string getDetailedDescription() const override;

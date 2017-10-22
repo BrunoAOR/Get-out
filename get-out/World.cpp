@@ -55,7 +55,7 @@ LoopStatus World::init()
 	m_entities.push_back(key);
 	key->setParent(room);
 
-	Item* keychain = new Item("KEYCHAIN", "A shiny KEYCHAIN", "", false);
+	Item* keychain = new Item("KEYCHAIN", "A shiny KEYCHAIN", "", true);
 	m_entities.push_back(keychain);
 	keychain->setParent(room);
 
@@ -67,8 +67,12 @@ LoopStatus World::init()
 	m_entities.push_back(interactable);
 	interactable->setParent(room);
 
+	Item* flashlight = new Item("FLASHLIGHT", "A small but powerful led FLASHLIGHT", "The FLASHLIGHT looks brand new.", true, true);
+	m_entities.push_back(flashlight);
+	flashlight->setParent(room);
+
 	// Second test room
-	Room* room2 = new Room("Test room", "A room for testing purposes", false);
+	Room* room2 = new Room("Test room", "A room for testing purposes", true);
 	m_entities.push_back(room2);
 
 	Exit* exit = new Exit("Big Hall north exit", "A metal door", Direction::N, false, "", room2);
@@ -91,7 +95,7 @@ LoopStatus World::init()
 	m_entities.push_back(item3);
 	item3->setParent(room2);
 
-	Interactable* ant = new Interactable("ANT", "A giant angry ANT stands in front of the north door", "The ANT seems to be really, really angry.", true);
+	Interactable* ant = new Interactable("ANT", "A giant angry ANT stands in front of the north door", "The ANT seems to be really, really angry.", false);
 	m_entities.push_back(ant);
 	ant->setParent(room2);
 
