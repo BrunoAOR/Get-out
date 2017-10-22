@@ -90,17 +90,8 @@
     <ClCompile Include="Action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="InteractableOpen.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="EffectUnlockExit.cpp">
       <Filter>ActionEffects</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemUse.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemPut.cpp">
-      <Filter>Actions</Filter>
     </ClCompile>
     <ClCompile Include="EffectConsumeItem.cpp">
       <Filter>ActionEffects</Filter>
@@ -165,15 +156,6 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="Action.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemUse.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="InteractableOpen.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemPut.h">
       <Filter>Actions</Filter>
     </ClInclude>
     <ClInclude Include="ActionType.h">

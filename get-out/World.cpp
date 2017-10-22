@@ -6,9 +6,8 @@
 #include "Direction.h"
 #include "Instruction.h"
 #include "Entity.h"
-#include "InteractableOpen.h"
-#include "ItemUse.h"
-#include "ItemPut.h"
+#include "Action.h"
+#include "ActionType.h"
 #include "Item.h"
 #include "Interactable.h"
 
@@ -60,7 +59,7 @@ LoopStatus World::init()
 	keychain->setParent(room);
 
 	EffectPlaceItemInItem* keyInKeychain = new EffectPlaceItemInItem("", key, keychain);
-	ItemPut* keyInKeychainPut = new ItemPut("You placed the KEY in the KEYCHAIN", std::vector<ActionEffect*>{keyInKeychain}, true, key, keychain);
+	Action* keyInKeychainPut = new Action(ActionType::ItemPut ,"You placed the KEY in the KEYCHAIN", std::vector<ActionEffect*>{keyInKeychain}, true, key, keychain);
 	m_actions.push_back(keyInKeychainPut);
 
 	Interactable* interactable = new Interactable("LOCK", "A LOCK on the wall", "The LOCK has an engraving of a heart", false);
@@ -105,13 +104,12 @@ LoopStatus World::init()
 	EffectReplaceEntity* antReplace = new EffectReplaceEntity("", ant, happyAnt);
 	EffectUnlockExit* unlockEffect = new EffectUnlockExit("The ANT stepped aside.", lockedExit);
 	EffectConsumeItem* consumeEffect = new EffectConsumeItem("", potatoItem);
-	ItemUse* antItemUse = new ItemUse("You feed the POTATO to the ANT.", std::vector<ActionEffect*>{antReplace, unlockEffect, consumeEffect}, true, potatoItem, ant);
+	Action* antItemUse = new Action(ActionType::ItemUse, "You feed the POTATO to the ANT.", std::vector<ActionEffect*>{antReplace, unlockEffect, consumeEffect}, true, potatoItem, ant);
 	m_actions.push_back(antItemUse);
 
 	Interactable* panelInteractable = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are closed.", false);
 	m_entities.push_back(panelInteractable);
 	panelInteractable->setParent(room2);
-
 	Interactable* openedPanel = new Interactable("CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are opened.", false);
 	m_entities.push_back(openedPanel);
 	Interactable* smallerPanel = new Interactable("MINICABINET", "A MINICABINET stuck to the back wall of the cabinet", "The doors on the MINICABINET are closed.", false);
@@ -122,14 +120,14 @@ LoopStatus World::init()
 	Item* rodItem = new Item("ROD", "A metal ROD", "There are some unreadable markings on the ROD.", false);
 	m_entities.push_back(rodItem);
 
-	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a MINICABINET inside the CABINET.", std::vector<Entity*>{smallerPanel}, room2);
 	EffectReplaceEntity* replaceEffect = new EffectReplaceEntity("", panelInteractable, openedPanel);
-	InteractableOpen* cabinetInteractableOpen = new InteractableOpen("With a bit of force, you open the CABINET doors.", std::vector<ActionEffect*>{addEffect, replaceEffect}, true, panelInteractable);;
+	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a MINICABINET inside the CABINET.", std::vector<Entity*>{smallerPanel}, room2);
+	Action* cabinetInteractableOpen = new Action(ActionType::InteractableOpen, "With a bit of force, you open the CABINET doors.", std::vector<ActionEffect*>{replaceEffect, addEffect}, true, panelInteractable);;
 	m_actions.push_back(cabinetInteractableOpen);
 
-	EffectAddEntitiesToRoom* add2Effect = new EffectAddEntitiesToRoom("You see a metal ROD inside the MINICABINET.", std::vector<Entity*>{rodItem}, room2);
 	EffectReplaceEntity* replace2Effect = new EffectReplaceEntity("", smallerPanel, smallerOpenedPanel);
-	InteractableOpen* interactableOpen = new InteractableOpen("With a bit less force, you open the MINICABINET doors.", std::vector<ActionEffect*>{add2Effect, replace2Effect}, true, smallerPanel);
+	EffectAddEntitiesToRoom* add2Effect = new EffectAddEntitiesToRoom("You see a metal ROD inside the MINICABINET.", std::vector<Entity*>{rodItem}, room2);
+	Action* interactableOpen = new Action(ActionType::InteractableOpen, "With a bit less force, you open the MINICABINET doors.", std::vector<ActionEffect*>{replace2Effect, add2Effect}, true, smallerPanel);
 	m_actions.push_back(interactableOpen);
 
 	// After all the initialization, log the welcome message

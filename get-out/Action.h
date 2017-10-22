@@ -11,9 +11,8 @@ class ActionEffect;
 class Action
 {
 public:
-	Action(ActionType type, std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity);
-	// TODO: Consider not having this as an abstract base class, but as the direct-use class if not of the three children have anything special
-	virtual ~Action() = 0;
+	Action(ActionType type, std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
+	~Action();
 
 	ActionType getActionType() const;
 	std::string getDescription() const;

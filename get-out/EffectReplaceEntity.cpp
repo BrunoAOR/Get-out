@@ -1,4 +1,5 @@
 #include "EffectReplaceEntity.h"
+#include "Entity.h"
 #include <assert.h>
 
 

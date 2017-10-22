@@ -2,7 +2,6 @@
 #define H_EFFECT_PLACE_ITEM_IN_ITEM
 
 #include "ActionEffect.h"
-#include <string>
 class Item;
 
 

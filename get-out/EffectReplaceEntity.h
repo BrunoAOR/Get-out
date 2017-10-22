@@ -2,7 +2,7 @@
 #define H_EFFECT_REPLACE_ENTITY
 
 #include "ActionEffect.h"
-#include "Entity.h"
+class Entity;
 
 
 class EffectReplaceEntity :

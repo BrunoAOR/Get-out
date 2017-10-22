@@ -1,14 +1,28 @@
 #include "Action.h"
 #include "World.h"
 #include "ActionEffect.h"
+#include "ActionType.h"
 #include "globals.h"
 #include <assert.h>
 
 
+#include "Item.h"
+#include "Interactable.h"
 Action::Action(ActionType type, std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
 	: m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
 {
-	assert(m_firstEntity);
+	switch (type)
+	{
+	case ActionType::InteractableOpen:
+		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Interactable));
+		break;
+	case ActionType::ItemPut:
+		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Item));
+		break;
+	case ActionType::ItemUse:
+		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Interactable));
+		break;
+	}
 }
 
 

@@ -12,7 +12,6 @@
 #include "Item.h"
 
 #include "World.h"
-#include "InteractableOpen.h"
 
 
 Player::Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom)
