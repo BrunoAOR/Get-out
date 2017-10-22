@@ -217,16 +217,7 @@ bool Player::inspect(const Instruction* instruction)
 			consoleLog("You can't inspect the " + target->getName() + ".");
 			return false;
 		}
-
-		std::string detailedDescription = target->getDetailedDescription();
-		if (detailedDescription == "")
-		{
-			consoleLog("There is nothing special about the " + target->getName());
-		}
-		else
-		{
-			consoleLog(detailedDescription);
-		}
+		consoleLog(target->getDetailedDescription());
 		return true;
 	}
 	consoleLog("There is no " + instruction->param1 + " to inspect that you can see here.");

@@ -14,7 +14,20 @@ Interactable::~Interactable()
 
 std::string Interactable::getDetailedDescription() const
 {
-	return m_inspectDescription;
+	std::string description = m_inspectDescription;
+	if (description == "")
+	{
+		description = "There is nothing special about the " + m_name + ".";
+	}
+	if (m_children.size() > 0)
+	{
+		description += "\nThe " + m_name + " contains:";
+		for (auto child : m_children)
+		{
+			description += "\n    - " + child->getDescription();
+		}
+	}
+	return description;
 }
 
 bool Interactable::canAddChild(Entity * child)

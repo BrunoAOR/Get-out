@@ -40,7 +40,7 @@ bool Entity::isVisibleInDark() const
 
 std::string Entity::getDetailedDescription() const
 {
-	return "";
+	return "There is nothing special about the " + m_name + ".";
 }
 
 

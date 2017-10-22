@@ -50,7 +50,7 @@ LoopStatus World::init()
 	player = new Player("Jim", "A random human", 2, room);
 	m_entities.push_back(player);
 
-	Item* key = new Item("KEY", "A small KEY", "The KEY has an engraving of a heart", false);
+	Item* key = new Item("KEY", "A small KEY", "The KEY has an engraving of a heart.", false);
 	m_entities.push_back(key);
 	key->setParent(room);
 
@@ -62,7 +62,7 @@ LoopStatus World::init()
 	Action* keyInKeychainPut = new Action(ActionType::ItemPut ,"You placed the KEY in the KEYCHAIN", std::vector<ActionEffect*>{keyInKeychain}, true, key, keychain);
 	m_actions.push_back(keyInKeychainPut);
 
-	Interactable* interactable = new Interactable("LOCK", "A LOCK on the wall", "The LOCK has an engraving of a heart", false);
+	Interactable* interactable = new Interactable("LOCK", "A LOCK on the wall", "The LOCK has an engraving of a heart.", false);
 	m_entities.push_back(interactable);
 	interactable->setParent(room);
 
