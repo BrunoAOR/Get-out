@@ -2,14 +2,19 @@
 #define H_INTERACTABLE
 
 #include "Entity.h"
-
+#include "EntityFactory.h"
 
 class Interactable :
 	public Entity
 {
+	friend Entity * EntityFactory::createEntity(EntityInfo);
+private:
+	Interactable(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false);
+	virtual ~Interactable();
+
 public:
-	Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark = false);
-	~Interactable();
+	Interactable(const Interactable& source) = delete;
+	Interactable& operator=(const Interactable& source) = delete;
 
 	virtual std::string getDetailedDescription() const override;
 

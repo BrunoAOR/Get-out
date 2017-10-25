@@ -2,6 +2,8 @@
 #define H_ROOM
 
 #include "Entity.h"
+#include "EntityFactory.h"
+struct EntityInfo;
 class Exit;
 class Item;
 class Interactable;
@@ -10,10 +12,14 @@ enum class Direction;
 
 class Room :
 	public Entity
-{
+{	
+	friend Entity * EntityFactory::createEntity(EntityInfo);
+private:
+	Room(int id, const std::string& name, const std::string& description, bool isDark);
+	virtual ~Room();
 public:
-	Room(std::string name, std::string description, bool isDark);
-	~Room();
+	Room(const Room& source) = delete;
+	Room& operator=(const Room& source) = delete;
 
 	Exit* getExit(Direction direction);
 	virtual std::string getDescription() const override;

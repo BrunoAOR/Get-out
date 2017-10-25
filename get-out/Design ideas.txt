@@ -37,8 +37,8 @@ class World
 
 	// These search methods will return nullptr if search was unsuccessful
 	Entity* getEntity(const std::string& name);
-	ItemUse* getItemUse(const std::string& item, const std:string& interactable);
-	ItemPut* getItemPut(const std::string& item, const std:string& containerItem);
+	ItemUse* getItemUse(const std::string& item, const std::string& interactable);
+	ItemPut* getItemPut(const std::string& item, const std::string& containerItem);
 	InteractableOpen* getInteractableOpen(const std::string& interactable)
 }
 
@@ -118,7 +118,7 @@ class Entity
 class Player : Entity
 {
 	Room* location; --> The parent entity
-	unsigned int maxItems;
+	int maxItems;
 
 	void executeInstruction(const Instruction* instruction);
 	

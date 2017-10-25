@@ -2,8 +2,8 @@
 #include "EntityType.h"
 
 
-Interactable::Interactable(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark)
-	: Entity(EntityType::INTERACTABLE, name, m_description, isVisibleInDark), m_inspectDescription(inspectDescription), m_isVisibleInDark(isVisibleInDark)
+Interactable::Interactable(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark)
+	: Entity(id, EntityType::INTERACTABLE, name, description, isVisibleInDark), m_inspectDescription(inspectDescription), m_isVisibleInDark(isVisibleInDark)
 {
 }
 

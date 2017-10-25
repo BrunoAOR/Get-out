@@ -99,6 +99,18 @@
     <ClCompile Include="EffectPlaceItemInItem.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityInfo.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionFactory.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="worldConfig.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -169,6 +181,18 @@
     </ClInclude>
     <ClInclude Include="EffectPlaceItemInItem.h">
       <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFactory.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityInfo.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionFactory.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="worldConfig.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

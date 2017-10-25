@@ -2,6 +2,8 @@
 #define H_PLAYER
 
 #include "Entity.h"
+#include "EntityFactory.h"
+struct EntityInfo;
 struct Instruction;
 class Room;
 
@@ -9,15 +11,20 @@ class Room;
 class Player :
 	public Entity
 {
+	friend Entity * EntityFactory::createEntity(EntityInfo);
+private:
+	Player(int id, const std::string& name, const std::string& description, int maxItems, Room* startingRoom);
+	virtual ~Player();
+
 public:
-	Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom);
-	~Player();
+	Player(const Player& source) = delete;
+	Player& operator=(const Player& source) = delete;
 
 	void executeInstruction(const Instruction* instruction);
 
 private:
 	Room* m_location;
-	unsigned int m_maxItems = -1;
+	int m_maxItems = -1;
 	bool m_hasLight = false;
 
 	// Entity overrides

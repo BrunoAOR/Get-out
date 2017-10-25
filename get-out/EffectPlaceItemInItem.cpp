@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-EffectPlaceItemInItem::EffectPlaceItemInItem(std::string effectDescription, Item * item, Item * container)
+EffectPlaceItemInItem::EffectPlaceItemInItem(const std::string& effectDescription, Item * item, Item * container)
 	: ActionEffect(effectDescription), m_item(item), m_container(container)
 {
 	assert(m_item && m_container);

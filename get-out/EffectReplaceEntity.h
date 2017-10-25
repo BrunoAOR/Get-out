@@ -9,7 +9,7 @@ class EffectReplaceEntity :
 	public ActionEffect
 {
 public:
-	EffectReplaceEntity(std::string effectDescription, Entity* entityToRemove, Entity* entityToAdd);
+	EffectReplaceEntity(const std::string& effectDescription, Entity* entityToRemove, Entity* entityToAdd);
 	~EffectReplaceEntity();
 
 	// Inherited via ActionEffect

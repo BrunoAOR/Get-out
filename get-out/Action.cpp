@@ -8,7 +8,7 @@
 
 #include "Item.h"
 #include "Interactable.h"
-Action::Action(ActionType type, std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
+Action::Action(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
 	: m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
 {
 	switch (type)

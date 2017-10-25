@@ -50,4 +50,3 @@ int main()
 }
 
 // TODO: FIX BUG: Ctrl+C crashes app
-// TODO: Consider removing all copy constructors/assignments and move constructors/assignments

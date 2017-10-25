@@ -2,14 +2,19 @@
 #define H_ITEM
 
 #include "Entity.h"
+#include "EntityFactory.h"
 
 
 class Item :
 	public Entity
 {
+	friend Entity * EntityFactory::createEntity(EntityInfo);
+private:
+	Item(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false, bool hasLight = false);
+	virtual ~Item();
 public:
-	Item(std::string name, std::string m_description, std::string inspectDescription, bool isVisibleInDark = false, bool hasLight = false);
-	~Item();
+	Item(const Item& source) = delete;
+	Item& operator=(const Item& source) = delete;
 
 	virtual std::string getDescription() const override;
 	virtual std::string getDetailedDescription() const override;

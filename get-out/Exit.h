@@ -2,15 +2,21 @@
 #define H_EXIT
 
 #include "Entity.h"
+#include "EntityFactory.h"
 enum class Direction;
 class Room;
 
 class Exit :
 	public Entity
 {
+	friend Entity * EntityFactory::createEntity(EntityInfo);
+private:
+	Exit(int id, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, Room* targetRoom);
+	virtual ~Exit();
+
 public:
-	Exit(std::string name, std::string m_description, Direction direction, bool isLocked, std::string lockedDescription, Room* targetRoom);
-	~Exit();
+	Exit(const Exit& source) = delete;
+	Exit& operator= (const Exit& source) = delete;
 
 	Direction getDirection() const;
 	bool isLocked() const;

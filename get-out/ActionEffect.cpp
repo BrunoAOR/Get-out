@@ -2,7 +2,7 @@
 
 
 
-ActionEffect::ActionEffect(std::string effectDescription)
+ActionEffect::ActionEffect(const std::string& effectDescription)
 	:m_description(effectDescription)
 {
 }

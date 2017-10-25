@@ -6,21 +6,19 @@
 
 Application::Application()
 {
-	world = new World();
 	m_inputReader = new InputReader();
 }
 
 
 Application::~Application()
 {
-	delete world;
-	world = nullptr;
 	delete m_inputReader;
 	m_inputReader = nullptr;
 }
 
 LoopStatus Application::init()
 {
+	world = new World();
 	return world->init();
 }
 
@@ -39,5 +37,8 @@ LoopStatus Application::update()
 
 LoopStatus Application::close()
 {
-	return world->close();
+	LoopStatus loopStatus = world->close();
+	delete world;
+	world = nullptr;
+	return loopStatus;
 }

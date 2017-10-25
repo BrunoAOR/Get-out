@@ -9,7 +9,7 @@ class EffectConsumeItem :
 	public ActionEffect
 {
 public:
-	EffectConsumeItem(std::string effectDescription, Item* itemToConsume);
+	EffectConsumeItem(const std::string& effectDescription, Item* itemToConsume);
 	~EffectConsumeItem();
 
 	// Inherited via ActionEffect

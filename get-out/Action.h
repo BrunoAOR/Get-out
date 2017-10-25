@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "ActionFactory.h"
 enum class ActionType;
 class Entity;
 class ActionEffect;
@@ -10,10 +11,14 @@ class ActionEffect;
 
 class Action
 {
-public:
-	Action(ActionType type, std::string description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
+	friend Action* ActionFactory::createAction(ActionType, const std::string&, std::vector<ActionEffect*>, bool, int, int);
+	friend void ActionFactory::close();
+	friend void ActionFactory::removeAction(Action* action);
+private:
+	Action(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
 	~Action();
 
+public:
 	ActionType getActionType() const;
 	std::string getDescription() const;
 	const Entity* getFirstEntity() const;

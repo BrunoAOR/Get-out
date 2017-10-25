@@ -3,13 +3,19 @@
 
 #include <string>
 #include <vector>
+#include "EntityFactory.h"
 enum class EntityType;
 
 class Entity
 {
-public:
-	Entity(EntityType type, std::string name, std::string description, bool isVisibleInDark);
+	friend void EntityFactory::close();
+protected:
+	Entity(int id, EntityType type, const std::string& name, const std::string& description, bool isVisibleInDark);
 	virtual ~Entity() = 0;
+
+public:
+	Entity(const Entity& source) = delete;
+	Entity& operator=(const Entity& source) = delete;
 
 	virtual void update() {}
 
@@ -26,6 +32,7 @@ public:
 	bool setParent(Entity* parent); // Set parent MUST call removeChild on the former parent and addChild on the new parent (provided that they are different)
 
 protected:
+	int m_id;
 	EntityType m_type;
 	std::string m_name;
 	std::string m_description;

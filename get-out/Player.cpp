@@ -14,8 +14,8 @@
 #include "World.h"
 
 
-Player::Player(std::string name, std::string m_description, unsigned int maxItems, Room* startingRoom)
-	: Entity(EntityType::PLAYER, name, m_description, true), m_maxItems(maxItems), m_location(startingRoom)
+Player::Player(int id, const std::string& name, const std::string& description, int maxItems, Room* startingRoom)
+	: Entity(id, EntityType::PLAYER, name, description, true), m_maxItems(maxItems), m_location(startingRoom)
 {
 	assert(m_location && m_maxItems > 0);
 }
@@ -150,7 +150,7 @@ bool Player::take(const Instruction* instruction)
 			consoleLog("You can't take the " + target->getName() + ".");
 			return false;
 		}
-		if (m_children.size() < m_maxItems)
+		if (static_cast<int>(m_children.size()) < m_maxItems)
 		{
 			target->setParent(this);
 			if (static_cast<Item*>(target)->hasLight())

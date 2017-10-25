@@ -3,7 +3,7 @@
 #include "globals.h"
 #include <assert.h>
 
-EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(std::string effectDescription, std::vector<Entity*> entitiesToAdd, Room * targetRoom)
+EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& effectDescription, std::vector<Entity*> entitiesToAdd, Room * targetRoom)
 	: ActionEffect(effectDescription), m_entitiesToAdd(entitiesToAdd), m_targetRoom(targetRoom)
 {
 	assert(m_targetRoom);

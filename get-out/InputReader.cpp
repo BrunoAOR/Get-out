@@ -26,7 +26,6 @@ std::string InputReader::getInput()
 		consoleLog(' ');
 	}
 
-	// TODO: Implement response for left and right arrow to move the cursor
 	if (_kbhit())
 	{
 		key = _getch();

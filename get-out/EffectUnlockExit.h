@@ -9,7 +9,7 @@ class EffectUnlockExit :
 	public ActionEffect
 {
 public:
-	EffectUnlockExit(std::string effectDescription, Exit* exitToUnlock);
+	EffectUnlockExit(const std::string& effectDescription, Exit* exitToUnlock);
 	~EffectUnlockExit();
 
 	// Inherited via ActionEffect

@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-EffectUnlockExit::EffectUnlockExit(std::string effectDescription, Exit * exitToUnlock)
+EffectUnlockExit::EffectUnlockExit(const std::string& effectDescription, Exit * exitToUnlock)
 	: ActionEffect(effectDescription), m_exit(exitToUnlock)
 {
 	assert(m_exit);

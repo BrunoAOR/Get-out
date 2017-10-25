@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-EffectReplaceEntity::EffectReplaceEntity(std::string effectDescription, Entity* entityToRemove, Entity* entityToAdd)
+EffectReplaceEntity::EffectReplaceEntity(const std::string& effectDescription, Entity* entityToRemove, Entity* entityToAdd)
 	: ActionEffect(effectDescription), m_entityToRemove(entityToRemove), m_entityToAdd(entityToAdd)
 {
 	assert(m_entityToRemove && m_entityToAdd);

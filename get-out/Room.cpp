@@ -5,8 +5,8 @@
 #include "Exit.h"
 #include "globals.h"
 
-Room::Room(std::string name, std::string description, bool isDark)
-	: Entity(EntityType::ROOM, name, description, true), m_isDark(isDark)
+Room::Room(int id, const std::string& name, const std::string& description, bool isDark)
+	: Entity(id, EntityType::ROOM, name, description, true), m_isDark(isDark)
 {
 }
 

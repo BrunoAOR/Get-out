@@ -11,6 +11,8 @@ class Application
 public:
 	Application();
 	~Application();
+	Application(const Application& source) = delete;
+	Application& operator=(const Application& source) = delete;
 
 	LoopStatus init();
 	LoopStatus update();

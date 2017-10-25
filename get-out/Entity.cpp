@@ -3,8 +3,8 @@
 #include "globals.h"
 #include <assert.h>
 
-Entity::Entity(EntityType type, std::string name, std::string description, bool isVisibleInDark)
-	: m_type(type), m_name(name), m_description(description), m_isVisibleInDark(isVisibleInDark)
+Entity::Entity(int id, EntityType type, const std::string& name, const std::string& description, bool isVisibleInDark)
+	: m_id(id), m_type(type), m_name(name), m_description(description), m_isVisibleInDark(isVisibleInDark)
 {
 }
 

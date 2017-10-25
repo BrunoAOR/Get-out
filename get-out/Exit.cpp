@@ -3,8 +3,8 @@
 #include <assert.h>
 
 
-Exit::Exit(std::string name, std::string m_description, Direction direction, bool isLocked, std::string lockedDescription, Room * targetRoom)
-	: Entity(EntityType::EXIT, name, m_description, true), m_direction(direction), m_isLocked(isLocked), m_lockedDescription(lockedDescription), m_targetRoom(targetRoom)
+Exit::Exit(int id, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, Room * targetRoom)
+	: Entity(id, EntityType::EXIT, name, description, true), m_direction(direction), m_isLocked(isLocked), m_lockedDescription(lockedDescription), m_targetRoom(targetRoom)
 {
 	assert(m_targetRoom);
 }

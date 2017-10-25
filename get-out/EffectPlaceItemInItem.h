@@ -9,7 +9,7 @@ class EffectPlaceItemInItem :
 	public ActionEffect
 {
 public:
-	EffectPlaceItemInItem(std::string effectDescription, Item* item, Item* container);
+	EffectPlaceItemInItem(const std::string& effectDescription, Item* item, Item* container);
 	~EffectPlaceItemInItem();
 
 	// Inherited via ActionEffect

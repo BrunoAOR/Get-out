@@ -7,7 +7,7 @@
 class ActionEffect
 {
 public:
-	ActionEffect(std::string effectDescription);
+	ActionEffect(const std::string& effectDescription);
 	virtual ~ActionEffect();
 
 	std::string getEffectDescription();
