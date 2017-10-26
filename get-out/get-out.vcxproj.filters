@@ -111,6 +111,9 @@
     <ClCompile Include="worldConfig.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="EffectGameEnd.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="worldConfig.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectGameEnd.h">
+      <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

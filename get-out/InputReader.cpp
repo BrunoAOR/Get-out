@@ -92,6 +92,15 @@ std::string InputReader::getInput()
 	return "";
 }
 
+bool InputReader::getEnter()
+{
+	if (_kbhit())
+	{
+		return (_getch() == '\r');
+	}
+	return false;
+}
+
 // Allowed characters are alphanumeric, space, backspace and enter
 bool InputReader::isAllowed(char c) const
 {

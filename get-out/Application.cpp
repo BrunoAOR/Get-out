@@ -26,12 +26,23 @@ LoopStatus Application::init()
 LoopStatus Application::update()
 {
 	// Adquire input and pass to World
-	LoopStatus loopStatus = world->update(m_inputReader->getInput());
-	if (loopStatus == LoopStatus::EXIT)
+	if (m_loopStatus != LoopStatus::EXIT)
+	{
+		m_loopStatus = world->update(m_inputReader->getInput());
+		if (m_loopStatus == LoopStatus::EXIT)
+		{
+			consoleLog("Thanks for playing GET OUT!\n(Press Enter to close the window)");
+		}
+	}
+	else
 	{
 		// TODO: Handle the game exit nicely (maybe a press to exit message or something of the sort)
+		if (m_inputReader->getEnter())
+		{
+			return LoopStatus::EXIT;
+		}
 	}
-	return loopStatus;
+	return LoopStatus::CONTINUE;
 }
 
 

@@ -249,7 +249,7 @@ bool Player::open(const Instruction * instruction)
 bool Player::use(const Instruction * instruction)
 {
 	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
-	Entity* item = getChild(instruction->param1);
+	Entity* item = getChild(instruction->param1, true);
 	if (item)
 	{
 		// Try to get an Entity* with the requested name form the Room.

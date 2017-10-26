@@ -16,6 +16,7 @@
 #include "EffectUnlockExit.h"
 #include "EffectConsumeItem.h"
 #include "EffectPlaceItemInItem.h"
+#include "EffectGameEnd.h"
 
 Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 {
@@ -52,6 +53,9 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	EntityInfo playerInfo = EntityInfo::createPlayerInfo(0, EntityType::PLAYER, -1, "Jim", "A random human", 2, 1);
 	Player* player = static_cast<Player*>(entityFactory->createEntity(playerInfo));
 
+	EffectGameEnd* endGameEffect = new EffectGameEnd(getGameEndMessage());
+	Action* keyOnLock = actionFactory->createAction(ActionType::ItemUse, "You use the key on the lock and are finally able to leave the house.", std::vector<ActionEffect*>{endGameEffect}, true, 4, 7);
+
 	EffectPlaceItemInItem* keyInKeychain = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(4)), static_cast<Item*>(entityFactory->getEntity(5)));
 	Action* keyInKeychainPut = actionFactory->createAction(ActionType::ItemPut, "You placed the KEY in the KEYCHAIN", std::vector<ActionEffect*>{keyInKeychain}, true, 4, 5);
 
@@ -60,7 +64,7 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	EffectConsumeItem* consumeEffect = new EffectConsumeItem("", static_cast<Item*>(entityFactory->getEntity(10)));
 	Action* antItemUse = actionFactory->createAction(ActionType::ItemUse, "You feed the POTATO to the ANT.", std::vector<ActionEffect*>{antReplace, unlockEffect, consumeEffect}, true, 10, 12);
 
-	EffectReplaceEntity* replaceEffect = new EffectReplaceEntity("", entityFactory->getEntity(14), entityFactory->getEntity(14));
+	EffectReplaceEntity* replaceEffect = new EffectReplaceEntity("", entityFactory->getEntity(14), entityFactory->getEntity(15));
 	EffectAddEntitiesToRoom* addEffect = new EffectAddEntitiesToRoom("You see a MINICABINET inside the CABINET.", std::vector<Entity*>{entityFactory->getEntity(16)}, static_cast<Room*>(entityFactory->getEntity(2)));
 	Action* cabinetInteractableOpen = actionFactory->createAction(ActionType::InteractableOpen, "With a bit of force, you open the CABINET doors.", std::vector<ActionEffect*>{replaceEffect, addEffect}, true, 14);
 
@@ -69,4 +73,19 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	Action* interactableOpen = actionFactory->createAction(ActionType::InteractableOpen, "With a bit less force, you open the MINICABINET doors.", std::vector<ActionEffect*>{replace2Effect, add2Effect}, true, 16);
 
 	return player;
+}
+
+std::string getWelcomeMessage()
+{
+	// TODO: Polish the welcome message
+	std::string message = "GET OUT\nA game based on the text adventure Zork\nDeveloped by Bruno Ortiz\n";
+	message += "Use the HELP command to learn how to play\n";
+	message += "--------------------------------------------------\n";
+	message += "You find yourself in an unfamiliar hall, uncertain of where you are or how you got there.";
+	return message;
+}
+
+std::string getGameEndMessage()
+{
+	return "Well you won. Good for you!";
 }

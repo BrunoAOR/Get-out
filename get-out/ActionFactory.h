@@ -2,6 +2,7 @@
 #define H_ACTION_FACTORY
 
 #include <vector>
+#include <list>
 #include <string>
 class Action;
 class EntityFactory;
@@ -26,7 +27,7 @@ public:
 	void removeAction(Action* action);
 
 private:
-	std::vector<Action*> m_actions;
+	std::list<Action*> m_actions;
 	EntityFactory* m_entityFactory;
 };
 

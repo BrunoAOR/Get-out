@@ -36,7 +36,7 @@ LoopStatus World::init()
 {
 	player = setUpWorld(m_entityFactory, m_actionFactory);
 	// After all the initialization, log the welcome message
-	logWelcomeMessage();
+	consoleLog(getWelcomeMessage());
 
 	return LoopStatus::CONTINUE;
 }
@@ -44,7 +44,6 @@ LoopStatus World::init()
 
 LoopStatus World::update(const std::string& userInput)
 {
-	LoopStatus loopStatus = LoopStatus::CONTINUE;
 	if (userInput != "")
 	{
 		Instruction* instruction = m_inputParser->parse(userInput);
@@ -52,13 +51,13 @@ LoopStatus World::update(const std::string& userInput)
 		{
 		case InstructionType::_UNDEFINED:
 			OutputLog("ERROR: Resulting Instruction undefined!\n");
-			loopStatus = LoopStatus::UPDATE_ERROR;
+			m_loopStatus = LoopStatus::UPDATE_ERROR;
 			break;
 		case InstructionType::ERROR:
 			consoleLog(instruction->errorDescription);
 			break;
 		case InstructionType::QUIT:
-			loopStatus = LoopStatus::EXIT;
+			m_loopStatus = LoopStatus::EXIT;
 			break;
 		case InstructionType::HELP:
 			logHelpMessage();
@@ -81,7 +80,7 @@ LoopStatus World::update(const std::string& userInput)
 		delete instruction;
 		instruction = nullptr;
 	}
-	return loopStatus;
+	return m_loopStatus;
 }
 
 
@@ -109,15 +108,9 @@ void World::removeAction(Action * action)
 	m_actionFactory->removeAction(action);
 }
 
-
-void World::logWelcomeMessage()
+void World::requestGameEnd()
 {
-	// TODO: Polish the welcome message
-	std::string message = "GET OUT\nA game based on the text adventure Zork\nDeveloped by Bruno Ortiz\n";
-	message += "Use the HELP command to learn how to play\n";
-	message += "--------------------------------------------------\n";
-	message += "You find yourself in an unfamiliar hall, uncertain of where you are or how you got there.";
-	consoleLog(message);
+	m_loopStatus = LoopStatus::EXIT;
 }
 
 

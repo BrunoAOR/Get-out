@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include "globals.h"
 
 enum class LoopStatus;
 enum class ActionType;
@@ -32,32 +33,20 @@ public:
 	Action* getAction(ActionType actionType, const std::string& firstEntityName, const std::string& secondEntityName = "");
 	void removeAction(Action* action);
 
+	void requestGameEnd();
+
 private:
 	Player* player = nullptr;
 	InputParser* m_inputParser = nullptr;
 	EntityFactory* m_entityFactory = nullptr;
 	ActionFactory* m_actionFactory = nullptr;
-	
-	void logWelcomeMessage();
-	void logHelpMessage();
+	LoopStatus m_loopStatus = LoopStatus::CONTINUE;
 
-	template <typename T>
-	void deleteCollection(std::vector<T>& collection);
+	void logHelpMessage();
 };
 
 // TODO: Remove the global world variable and pass a reference to whoever requires it
 extern World* world;
-
-template<typename T>
-void World::deleteCollection(std::vector<T>& collection)
-{
-	assert(std::is_pointer<T>::value);
-	for (T element : collection)
-	{
-		delete element;
-	}
-	collection.clear();
-}
 
 
 #endif // !H_WORLD

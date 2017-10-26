@@ -10,6 +10,7 @@ public:
 	InputReader();
 	~InputReader();
 	std::string getInput();
+	bool getEnter();
 
 private:
 	std::string m_input;

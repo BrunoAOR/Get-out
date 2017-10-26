@@ -20,6 +20,7 @@ public:
 
 private:
 	InputReader* m_inputReader = nullptr;
+	LoopStatus m_loopStatus = LoopStatus::CONTINUE;
 };
 
 
