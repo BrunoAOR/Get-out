@@ -72,6 +72,20 @@ bool Player::canAddChild(const Entity * child) const
 }
 
 
+void Player::addChild(Entity * child)
+{
+	updateLightStatus();
+	Entity::addChild(child);
+}
+
+
+void Player::removeChild(const Entity * entity)
+{
+	updateLightStatus();
+	Entity::removeChild(entity);
+}
+
+
 void Player::look()
 {
 	if (m_hasLight)
@@ -108,7 +122,7 @@ bool Player::go(const Instruction* instruction)
 	Direction direction = getDirectionFromString(instruction->param1);
 	if (direction == Direction::_UNDEFINED)
 	{
-		consoleLog(instruction->param1 + " doesn't seem to be a valid direction to GO to.");
+		consoleLog(instruction->param1 + " doesn't seem to be a valid direction to go to.");
 		return false;
 	}
 
@@ -130,7 +144,7 @@ bool Player::go(const Instruction* instruction)
 	}
 	else
 	{
-		consoleLog("There's nowhere to go in the " + getStringFromDirection(direction) + ".");
+		consoleLog("You can't go " + getStringFromDirection(direction) + " from here.");
 		return false;
 	}
 }
@@ -171,7 +185,7 @@ bool Player::take(const Instruction* instruction)
 		consoleLog("You can't take the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
 		return false;
 	}
-	consoleLog("There is nothing called " + instruction->param1 + " that you can see here.");
+	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
 	return false;
 }
 
@@ -184,7 +198,6 @@ bool Player::drop(const Instruction* instruction)
 	if (target)
 	{
 		target->setParent(m_location);
-		updateLightStatus();
 		consoleLog("You have dropped the " + target->getName() + ".");
 		return true;
 	}
@@ -220,7 +233,7 @@ bool Player::inspect(const Instruction* instruction)
 		consoleLog(target->getDetailedDescription());
 		return true;
 	}
-	consoleLog("There is no " + instruction->param1 + " to inspect that you can see here.");
+	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
 	return false;
 }
 
@@ -241,7 +254,7 @@ bool Player::open(const Instruction * instruction)
 		consoleLog("You can't open the " + target->getName() + ".");
 		return false;
 	}
-	consoleLog("The is no " + instruction->param1 + " to open that you can see here.");
+	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
 	return false;
 }
 
@@ -253,22 +266,31 @@ bool Player::use(const Instruction * instruction)
 	if (item)
 	{
 		// Try to get an Entity* with the requested name form the Room.
-		Entity* interactable = m_hasLight ? m_location->getChild(instruction->param2) : m_location->getChildInDarkness(instruction->param2);
-		if (interactable)
+		Entity* target = m_hasLight ? m_location->getChild(instruction->param2) : m_location->getChildInDarkness(instruction->param2);
+		if (target)
 		{
-			if (interactable->getType() == EntityType::INTERACTABLE)
+			if (target->getType() == EntityType::INTERACTABLE)
 			{
-				Action* itemUse = world->getAction(ActionType::ItemUse, item, interactable);
+				Action* itemUse = world->getAction(ActionType::ItemUse, item, target);
 				if (itemUse)
 				{
 					itemUse->performAction();
 					return true;
 				}
 			}
-			consoleLog("You can't use the " + item->getName() + " on the " + interactable->getName() + ".");
+			consoleLog("You can't use the " + item->getName() + " on the " + target->getName() + ".");
 			return false;
 		}
-		consoleLog("There is no " + instruction->param2 + " that you can see here to use your " + item->getName() + " on.");
+		if (!target)
+		{
+			target = getChild(instruction->param2, true);
+			if (target)
+			{
+				consoleLog("You can't use the " + item->getName() + " on the " + target->getName() + ".");
+				return false;
+			}
+		}
+		consoleLog("There doesn't seem to be anything called " + instruction->param2 + " in here.");
 		return false;
 	}
 	consoleLog("You don't have the " + instruction->param1 + " that you intend to use.");

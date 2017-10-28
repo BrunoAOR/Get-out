@@ -29,6 +29,8 @@ private:
 
 	// Entity overrides
 	virtual bool canAddChild(const Entity* child) const override;
+	virtual void addChild(Entity* child);
+	virtual void removeChild(const Entity* entity);
 	
 	// Instructions:
 	void look();

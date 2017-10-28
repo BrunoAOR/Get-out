@@ -40,10 +40,10 @@ protected:
 	Entity* m_parent = nullptr;
 	std::vector<Entity*> m_children;
 
-private:
 	virtual bool canAddChild(const Entity* child) const;
 	virtual void addChild(Entity* child);
 	virtual void removeChild(const Entity* entity);
+
 };
 
 
