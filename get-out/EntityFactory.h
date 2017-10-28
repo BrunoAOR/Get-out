@@ -19,11 +19,9 @@ public:
 	void close();
 
 	Entity* createEntity(EntityInfo info);
-	Entity* getEntity(const std::string& name);
 	Entity* getEntity(int id);
 
 private:
-	std::vector<Entity*> m_entities;
 	std::map<int, Entity*> m_entitiesById;
 };
 

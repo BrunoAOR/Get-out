@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include <string>
+class Entity;
 class Action;
 class EntityFactory;
 class ActionEffect;
@@ -22,8 +23,9 @@ public:
 	void close();
 
 	Action* createAction(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, int firstEntityId, int secondEntityId = -1);
+	
+	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr);
 
-	Action* getAction(ActionType actionType, const std::string& firstEntityName, const std::string& secondEntityName = "");
 	void removeAction(Action* action);
 
 private:

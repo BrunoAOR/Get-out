@@ -18,20 +18,15 @@ EntityFactory::EntityFactory()
 
 EntityFactory::~EntityFactory()
 {
-	if (m_entities.size() > 0)
-	{
-		close();
-	}
 }
 
 
 void EntityFactory::close()
 {
-	for (Entity* entity : m_entities)
+	for (auto entry : m_entitiesById)
 	{
-		delete entity;
+		delete entry.second;
 	}
-	m_entities.clear();
 	m_entitiesById.clear();
 }
 
@@ -78,23 +73,8 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 			assert(success);
 		}
 		m_entitiesById[info.id] = entity;
-		m_entities.push_back(entity);
 	}
 	return entity;
-}
-
-
-Entity * EntityFactory::getEntity(const std::string & name)
-{
-	for (Entity* entity : m_entities)
-	{
-		if (caselessEquals(name, entity->getName()))
-		{
-			return entity;
-		}
-	}
-
-	return nullptr;
 }
 
 

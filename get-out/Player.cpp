@@ -232,7 +232,7 @@ bool Player::open(const Instruction * instruction)
 	if (target)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
-		Action* interactableOpen = world->getAction(ActionType::InteractableOpen, instruction->param1);
+		Action* interactableOpen = world->getAction(ActionType::InteractableOpen, target);
 		if (interactableOpen)
 		{
 			interactableOpen->performAction();
@@ -258,7 +258,7 @@ bool Player::use(const Instruction * instruction)
 		{
 			if (interactable->getType() == EntityType::INTERACTABLE)
 			{
-				Action* itemUse = world->getAction(ActionType::ItemUse, item->getName(), interactable->getName());
+				Action* itemUse = world->getAction(ActionType::ItemUse, item, interactable);
 				if (itemUse)
 				{
 					itemUse->performAction();
@@ -286,7 +286,7 @@ bool Player::put(const Instruction * instruction)
 		Entity* containerItem = getChild(instruction->param2);
 		if (containerItem)
 		{
-			Action* itemPut = world->getAction(ActionType::ItemPut, item->getName(), containerItem->getName());
+			Action* itemPut = world->getAction(ActionType::ItemPut, item, containerItem);
 			if (itemPut)
 			{
 				itemPut->performAction();

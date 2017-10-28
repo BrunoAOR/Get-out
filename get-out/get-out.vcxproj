@@ -120,9 +120,9 @@
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
     <ClCompile Include="ActionFactory.cpp" />
-    <ClCompile Include="EffectConsumeItem.cpp" />
     <ClCompile Include="EffectGameEnd.cpp" />
     <ClCompile Include="EffectPlaceItemInItem.cpp" />
+    <ClCompile Include="EffectRemoveEntities.cpp" />
     <ClCompile Include="EffectUnlockExit.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
@@ -149,9 +149,9 @@
     <ClInclude Include="ActionEffect.h" />
     <ClInclude Include="ActionFactory.h" />
     <ClInclude Include="ActionType.h" />
-    <ClInclude Include="EffectConsumeItem.h" />
     <ClInclude Include="EffectGameEnd.h" />
     <ClInclude Include="EffectPlaceItemInItem.h" />
+    <ClInclude Include="EffectRemoveEntities.h" />
     <ClInclude Include="EffectUnlockExit.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityInfo.h" />

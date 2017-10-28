@@ -36,7 +36,6 @@ LoopStatus Application::update()
 	}
 	else
 	{
-		// TODO: Handle the game exit nicely (maybe a press to exit message or something of the sort)
 		if (m_inputReader->getEnter())
 		{
 			return LoopStatus::EXIT;

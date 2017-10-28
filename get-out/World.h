@@ -29,8 +29,7 @@ public:
 	LoopStatus update(const std::string& userInput);
 	LoopStatus close();
 
-	Entity* getEntity(const std::string& name);
-	Action* getAction(ActionType actionType, const std::string& firstEntityName, const std::string& secondEntityName = "");
+	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr);
 	void removeAction(Action* action);
 
 	void requestGameEnd();

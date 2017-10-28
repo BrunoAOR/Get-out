@@ -35,7 +35,7 @@ std::string Room::getDescription() const
 	description += "\nIn the room you find the following:";
 	for (Exit* exit : m_exits)
 	{
-		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection()) + ".";
+		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection());
 	}
 	for (Entity* child : m_children)
 	{

@@ -32,6 +32,7 @@ void ActionFactory::close()
 	m_actions.clear();
 }
 
+
 Action * ActionFactory::createAction(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, int firstEntityId, int secondEntityId)
 {
 	Entity* firstEntity = m_entityFactory->getEntity(firstEntityId);
@@ -47,28 +48,24 @@ Action * ActionFactory::createAction(ActionType type, const std::string& descrip
 	return action;
 }
 
-Action * ActionFactory::getAction(ActionType actionType, const std::string & firstEntityName, const std::string & secondEntityName)
+
+Action * ActionFactory::getAction(ActionType actionType, const Entity * firstEntity, const Entity * secondEntity)
 {
-	if (firstEntityName == "")
+	if (firstEntity == nullptr)
 	{
 		return nullptr;
 	}
 
 	for (auto action : m_actions)
 	{
-		if (action->getActionType() == actionType)
+		if (actionType == action->getActionType() && firstEntity == action->getFirstEntity() && secondEntity == action->getSecondEntity())
 		{
-			const Entity* firstEntity = action->getFirstEntity();
-			const Entity* secondEntity = action->getSecondEntity();
-			if (caselessEquals(firstEntity->getName(), firstEntityName)
-				&& (secondEntityName == "" || secondEntity != nullptr && caselessEquals(secondEntity->getName(), secondEntityName)))
-			{
-				return action;
-			}
+			return action;
 		}
 	}
 	return nullptr;
 }
+
 
 void ActionFactory::removeAction(Action * action)
 {

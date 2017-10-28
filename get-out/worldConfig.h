@@ -7,6 +7,7 @@ class EntityFactory;
 class ActionFactory;
 
 
+Player* setUpTestWorld(EntityFactory* entityFactory, ActionFactory* actionFactory);
 Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory);
 std::string getWelcomeMessage();
 std::string getGameEndMessage();
