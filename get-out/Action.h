@@ -6,6 +6,7 @@
 #include "ActionFactory.h"
 class Entity;
 class ActionEffect;
+class ActionFactory;
 enum class ActionType;
 
 
@@ -15,7 +16,7 @@ class Action
 	friend void ActionFactory::close();
 	friend void ActionFactory::removeAction(Action* action);
 private:
-	Action(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
+	Action(ActionFactory* actionFactory, ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
 	~Action();
 
 public:
@@ -32,6 +33,7 @@ private:
 	bool m_shouldDestroy;
 	Entity* m_firstEntity = nullptr;
 	Entity* m_secondEntity = nullptr;
+	ActionFactory* m_actionFactory = nullptr;
 };
 
 

@@ -9,9 +9,10 @@
 #include "Interactable.h"
 
 
-Action::Action(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
-	: m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
+Action::Action(ActionFactory* actionFactory, ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
+	: m_actionFactory(actionFactory), m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
 {
+	assert(m_actionFactory);
 	switch (type)
 	{
 	case ActionType::InteractableOpen:
@@ -75,6 +76,6 @@ void Action::performAction()
 	consoleLog(message);
 	if (m_shouldDestroy)
 	{
-		world->removeAction(this);
+		m_actionFactory->removeAction(this);
 	}
 }

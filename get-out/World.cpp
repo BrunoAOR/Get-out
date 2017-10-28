@@ -10,9 +10,6 @@
 #include "globals.h"
 
 
-World* world = nullptr;
-
-
 World::World()
 {
 	m_inputParser = new InputParser();
@@ -35,6 +32,7 @@ World::~World()
 LoopStatus World::init()
 {
 	player = setUpWorld(m_entityFactory, m_actionFactory);
+	player->setActionFactory(m_actionFactory);
 	// After all the initialization, log the welcome message
 	consoleLog(getWelcomeMessage());
 
@@ -80,6 +78,11 @@ LoopStatus World::update(const std::string& userInput)
 		delete instruction;
 		instruction = nullptr;
 	}
+	// Check whether a GameEnd request has been made
+	if (m_loopStatus == LoopStatus::CONTINUE && isGameEndRequested)
+	{
+		m_loopStatus = LoopStatus::EXIT;
+	}
 	return m_loopStatus;
 }
 
@@ -89,24 +92,6 @@ LoopStatus World::close()
 	m_actionFactory->close();
 	m_entityFactory->close();
 	return LoopStatus::EXIT;
-}
-
-
-Action* World::getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity) const
-{
-	return m_actionFactory->getAction(actionType, firstEntity, secondEntity);
-}
-
-
-void World::removeAction(Action * action) const
-{
-	m_actionFactory->removeAction(action);
-}
-
-
-void World::requestGameEnd()
-{
-	m_loopStatus = LoopStatus::EXIT;
 }
 
 

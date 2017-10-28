@@ -1,6 +1,6 @@
 #include "EffectGameEnd.h"
 
-#include "World.h"
+#include "globals.h"
 
 
 EffectGameEnd::EffectGameEnd(const std::string& effectDescription)
@@ -16,5 +16,5 @@ EffectGameEnd::~EffectGameEnd()
 
 void EffectGameEnd::doEffect() const
 {
-	world->requestGameEnd();
+	isGameEndRequested = true;
 }

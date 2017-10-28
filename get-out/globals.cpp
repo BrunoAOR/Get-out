@@ -4,6 +4,9 @@
 #include <windows.h>
 
 
+bool isGameEndRequested = false;
+
+
 void consoleLog(const std::string& message)
 {
 	if (message.length() == 0)

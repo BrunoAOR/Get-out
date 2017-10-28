@@ -28,11 +28,6 @@ public:
 	LoopStatus update(const std::string& userInput);
 	LoopStatus close();
 
-	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr) const;
-	void removeAction(Action* action) const;
-
-	void requestGameEnd();
-
 private:
 	Player* player = nullptr;
 	InputParser* m_inputParser = nullptr;
@@ -42,9 +37,6 @@ private:
 
 	void logHelpMessage();
 };
-
-// TODO: Remove the global world variable and pass a reference to whoever requires it
-extern World* world;
 
 
 #endif // !H_WORLD

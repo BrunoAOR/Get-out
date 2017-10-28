@@ -44,7 +44,7 @@ Action * ActionFactory::createAction(ActionType type, const std::string& descrip
 		secondEntity = m_entityFactory->getEntity(secondEntityId);
 		assert(secondEntity);
 	}
-	Action* action = new Action(type, description, effects, shouldDestroy, firstEntity, secondEntity);
+	Action* action = new Action(this, type, description, effects, shouldDestroy, firstEntity, secondEntity);
 	m_actions.push_back(action);
 	return action;
 }

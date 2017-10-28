@@ -16,6 +16,8 @@ enum class LoopStatus
 };
 
 
+extern bool isGameEndRequested;
+
 void consoleLog(const std::string& message);
 void consoleLog(char character);
 void outputLog(const char file[], int line, const char* format, ...);

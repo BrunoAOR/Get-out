@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "EntityFactory.h"
 class Room;
+class ActionFactory;
 struct EntityInfo;
 struct Instruction;
 
@@ -20,12 +21,14 @@ public:
 	Player(const Player& source) = delete;
 	Player& operator=(const Player& source) = delete;
 
+	void setActionFactory(ActionFactory* actionFactory);
 	void executeInstruction(const Instruction* instruction);
 
 private:
 	Room* m_location;
 	int m_maxItems = -1;
 	bool m_hasLight = false;
+	ActionFactory* m_actionFactory;
 
 	// Entity overrides
 	virtual bool canAddChild(const Entity* child) const override;

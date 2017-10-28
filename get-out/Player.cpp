@@ -11,18 +11,23 @@
 #include "Action.h"
 #include "ActionType.h"
 #include "Item.h"
-#include "World.h"
 
 
 Player::Player(int id, const std::string& name, const std::string& description, int maxItems, Room* startingRoom)
 	: Entity(id, EntityType::PLAYER, name, description, true), m_maxItems(maxItems), m_location(startingRoom)
 {
-	assert(m_location && m_maxItems > 0);
+	assert(m_maxItems > 0 && m_location);
 }
 
 
 Player::~Player()
 {
+}
+
+
+void Player::setActionFactory(ActionFactory * actionFactory)
+{
+	m_actionFactory = actionFactory;
 }
 
 
@@ -245,7 +250,8 @@ bool Player::open(const Instruction * instruction)
 	if (target)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
-		Action* interactableOpen = world->getAction(ActionType::InteractableOpen, target);
+		assert(m_actionFactory);
+		Action* interactableOpen = m_actionFactory->getAction(ActionType::InteractableOpen, target);
 		if (interactableOpen)
 		{
 			interactableOpen->performAction();
@@ -271,7 +277,8 @@ bool Player::use(const Instruction * instruction)
 		{
 			if (target->getType() == EntityType::INTERACTABLE)
 			{
-				Action* itemUse = world->getAction(ActionType::ItemUse, item, target);
+				assert(m_actionFactory);
+				Action* itemUse = m_actionFactory->getAction(ActionType::ItemUse, item, target);
 				if (itemUse)
 				{
 					itemUse->performAction();
@@ -308,7 +315,8 @@ bool Player::put(const Instruction * instruction)
 		Entity* containerItem = getChild(instruction->param2);
 		if (containerItem)
 		{
-			Action* itemPut = world->getAction(ActionType::ItemPut, item, containerItem);
+			assert(m_actionFactory);
+			Action* itemPut = m_actionFactory->getAction(ActionType::ItemPut, item, containerItem);
 			if (itemPut)
 			{
 				itemPut->performAction();

@@ -3,6 +3,7 @@
 
 #include "globals.h"
 class InputReader;
+class World;
 
 
 class Application
@@ -19,6 +20,7 @@ public:
 
 private:
 	InputReader* m_inputReader = nullptr;
+	World* m_world = nullptr;
 	LoopStatus m_loopStatus = LoopStatus::CONTINUE;
 };
 
