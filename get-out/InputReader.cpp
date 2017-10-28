@@ -92,7 +92,8 @@ std::string InputReader::getInput()
 	return "";
 }
 
-bool InputReader::getEnter()
+
+bool InputReader::getEnter() const
 {
 	if (_kbhit())
 	{
@@ -101,8 +102,9 @@ bool InputReader::getEnter()
 	return false;
 }
 
-// Allowed characters are alphanumeric, space, backspace and enter
+
 bool InputReader::isAllowed(char c) const
 {
+	// Allowed characters are those within the basic ASCII table, alphanumeric, backspace, return, space and underscore
 	return c > 0 && c <= 255 &&  isalnum(c) || c == '\b' || c == '\r' || c == ' ' || c == '_';
 }

@@ -5,6 +5,7 @@
 #include <vector>
 class Entity;
 
+
 class EffectRemoveEntities :
 	public ActionEffect
 {
@@ -13,7 +14,7 @@ public:
 	~EffectRemoveEntities();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 
 private:
 	std::vector<Entity*> m_entitiesToRemove;

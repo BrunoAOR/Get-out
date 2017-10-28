@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "EntityFactory.h"
 
+
 class Interactable :
 	public Entity
 {
@@ -16,13 +17,15 @@ public:
 	Interactable(const Interactable& source) = delete;
 	Interactable& operator=(const Interactable& source) = delete;
 
+	// Entity overrides
 	virtual std::string getDetailedDescription() const override;
 
 private:
 	std::string m_inspectDescription;
 	bool m_isVisibleInDark;
 
-	virtual bool canAddChild(Entity* child) override;
+	// Entity overrides
+	virtual bool canAddChild(const Entity* child) const override;
 };
 
 

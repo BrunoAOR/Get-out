@@ -1,6 +1,7 @@
 #include "Exit.h"
-#include "EntityType.h"
+
 #include <assert.h>
+#include "EntityType.h"
 
 
 Exit::Exit(int id, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, Room * targetRoom)
@@ -45,7 +46,7 @@ void Exit::unlock()
 }
 
 
-bool Exit::canAddChild(Entity * child)
+bool Exit::canAddChild(const Entity * child) const
 {
 	return false;
 }

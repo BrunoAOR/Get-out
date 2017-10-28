@@ -1,4 +1,5 @@
 #include "Interactable.h"
+
 #include "EntityType.h"
 
 
@@ -11,6 +12,7 @@ Interactable::Interactable(int id, const std::string& name, const std::string& d
 Interactable::~Interactable()
 {
 }
+
 
 std::string Interactable::getDetailedDescription() const
 {
@@ -30,7 +32,8 @@ std::string Interactable::getDetailedDescription() const
 	return description;
 }
 
-bool Interactable::canAddChild(Entity * child)
+
+bool Interactable::canAddChild(const Entity * child) const
 {
 	return child->getType() == EntityType::ITEM;
 }

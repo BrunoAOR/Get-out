@@ -11,7 +11,6 @@ class ActionEffect;
 enum class ActionType;
 
 
-
 class ActionFactory
 {
 public:
@@ -24,7 +23,7 @@ public:
 
 	Action* createAction(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, int firstEntityId, int secondEntityId = -1);
 	
-	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr);
+	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr) const;
 
 	void removeAction(Action* action);
 

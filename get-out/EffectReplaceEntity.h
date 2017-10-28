@@ -13,13 +13,12 @@ public:
 	~EffectReplaceEntity();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 
 private:
 	Entity* m_entityToRemove = nullptr;
 	Entity* m_entityToAdd = nullptr;
 };
-
 
 
 #endif // !H_EFFECT_REPLACE_ENTITY

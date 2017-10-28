@@ -1,6 +1,7 @@
 #include "EffectPlaceItemInItem.h"
-#include "Item.h"
+
 #include <assert.h>
+#include "Item.h"
 
 
 EffectPlaceItemInItem::EffectPlaceItemInItem(const std::string& effectDescription, Item * item, Item * container)
@@ -9,11 +10,13 @@ EffectPlaceItemInItem::EffectPlaceItemInItem(const std::string& effectDescriptio
 	assert(m_item && m_container);
 }
 
+
 EffectPlaceItemInItem::~EffectPlaceItemInItem()
 {
 }
 
-void EffectPlaceItemInItem::doEffect()
+
+void EffectPlaceItemInItem::doEffect() const
 {
 	bool success = m_item->setParent(m_container);
 	assert(success);

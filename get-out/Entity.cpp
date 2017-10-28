@@ -1,7 +1,9 @@
 #include "Entity.h"
+
+#include <assert.h>
 #include "EntityType.h"
 #include "globals.h"
-#include <assert.h>
+
 
 Entity::Entity(int id, EntityType type, const std::string& name, const std::string& description, bool isVisibleInDark)
 	: m_id(id), m_type(type), m_name(name), m_description(description), m_isVisibleInDark(isVisibleInDark)
@@ -11,7 +13,6 @@ Entity::Entity(int id, EntityType type, const std::string& name, const std::stri
 
 Entity::~Entity()
 {
-	m_children.clear();
 }
 
 
@@ -31,6 +32,7 @@ std::string Entity::getDescription() const
 {
 	return m_description;
 }
+
 
 bool Entity::isVisibleInDark() const
 {
@@ -57,7 +59,7 @@ bool Entity::hasChild(Entity * entity) const
 }
 
 
-Entity * Entity::getChild(const std::string & entityName, bool searchInChildren)
+Entity * Entity::getChild(const std::string & entityName, bool searchInChildren) const
 {
 	for (Entity* child : m_children)
 	{
@@ -105,7 +107,7 @@ bool Entity::setParent(Entity * parent)
 }
 
 
-bool Entity::canAddChild(Entity * child)
+bool Entity::canAddChild(const Entity * child) const
 {
 	return true;
 }
@@ -117,7 +119,7 @@ void Entity::addChild(Entity * child)
 }
 
 
-void Entity::removeChild(Entity * entity)
+void Entity::removeChild(const Entity * entity)
 {
 	auto it = std::find(m_children.begin(), m_children.end(), entity);
 	if (it != m_children.end())

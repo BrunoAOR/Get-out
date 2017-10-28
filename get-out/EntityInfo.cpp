@@ -28,6 +28,7 @@ EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, con
 	return info;
 }
 
+
 EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, const char * inspectDescription, bool isVisibleInDark, bool hasLight)
 {
 	EntityInfo info{ id, type, parentId, name, description };
@@ -36,6 +37,7 @@ EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, con
 	info.item.hasLight = hasLight;
 	return info;
 }
+
 
 EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, const char * inspectDescription, bool isVisibleInDark)
 {

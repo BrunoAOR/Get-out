@@ -1,13 +1,14 @@
 #include "Action.h"
+
+#include <assert.h>
 #include "World.h"
 #include "ActionEffect.h"
 #include "ActionType.h"
 #include "globals.h"
-#include <assert.h>
-
-
 #include "Item.h"
 #include "Interactable.h"
+
+
 Action::Action(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
 	: m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
 {

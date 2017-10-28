@@ -10,9 +10,8 @@ public:
 	ActionEffect(const std::string& effectDescription);
 	virtual ~ActionEffect();
 
-	std::string getEffectDescription();
-
-	virtual void doEffect() = 0;
+	std::string getEffectDescription() const;
+	virtual void doEffect() const = 0;
 
 private:
 	std::string m_description;

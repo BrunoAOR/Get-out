@@ -1,6 +1,7 @@
 #include "EffectUnlockExit.h"
-#include "Exit.h"
+
 #include <assert.h>
+#include "Exit.h"
 
 
 EffectUnlockExit::EffectUnlockExit(const std::string& effectDescription, Exit * exitToUnlock)
@@ -9,11 +10,13 @@ EffectUnlockExit::EffectUnlockExit(const std::string& effectDescription, Exit * 
 	assert(m_exit);
 }
 
+
 EffectUnlockExit::~EffectUnlockExit()
 {
 }
 
-void EffectUnlockExit::doEffect()
+
+void EffectUnlockExit::doEffect() const
 {
 	m_exit->unlock();
 }

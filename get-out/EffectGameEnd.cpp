@@ -1,4 +1,5 @@
 #include "EffectGameEnd.h"
+
 #include "World.h"
 
 
@@ -12,7 +13,8 @@ EffectGameEnd::~EffectGameEnd()
 {
 }
 
-void EffectGameEnd::doEffect()
+
+void EffectGameEnd::doEffect() const
 {
 	world->requestGameEnd();
 }

@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 #include "ActionFactory.h"
-enum class ActionType;
 class Entity;
 class ActionEffect;
+enum class ActionType;
 
 
 class Action

@@ -1,4 +1,5 @@
 #include "Player.h"
+
 #include <assert.h>
 #include "globals.h"
 #include "EntityType.h" 
@@ -10,7 +11,6 @@
 #include "Action.h"
 #include "ActionType.h"
 #include "Item.h"
-
 #include "World.h"
 
 
@@ -66,7 +66,7 @@ void Player::executeInstruction(const Instruction * instruction)
 }
 
 
-bool Player::canAddChild(Entity * child)
+bool Player::canAddChild(const Entity * child) const
 {
 	return child->getType() == EntityType::ITEM;
 }

@@ -1,6 +1,7 @@
 #include "EffectReplaceEntity.h"
-#include "Entity.h"
+
 #include <assert.h>
+#include "Entity.h"
 
 
 EffectReplaceEntity::EffectReplaceEntity(const std::string& effectDescription, Entity* entityToRemove, Entity* entityToAdd)
@@ -14,14 +15,14 @@ EffectReplaceEntity::~EffectReplaceEntity()
 {
 }
 
-void EffectReplaceEntity::doEffect()
+
+void EffectReplaceEntity::doEffect() const
 {
-	if (m_entityToAdd == m_entityToRemove)
+	if (m_entityToAdd != m_entityToRemove)
 	{
-		return;
+		Entity* parent = m_entityToRemove->getParent();
+		assert(parent);
+		m_entityToRemove->setParent(nullptr);
+		m_entityToAdd->setParent(parent);
 	}
-	Entity* parent = m_entityToRemove->getParent();
-	assert(parent);
-	m_entityToRemove->setParent(nullptr);
-	m_entityToAdd->setParent(parent);
 }

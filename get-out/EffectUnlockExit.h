@@ -13,7 +13,7 @@ public:
 	~EffectUnlockExit();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 
 private:
 	Exit* m_exit;

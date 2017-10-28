@@ -1,9 +1,10 @@
 #include "ActionFactory.h"
+
+#include <assert.h>
 #include "Action.h"
 #include "EntityFactory.h"
 #include "Entity.h"
 #include "globals.h"
-#include <assert.h>
 class Entity;
 
 
@@ -49,7 +50,7 @@ Action * ActionFactory::createAction(ActionType type, const std::string& descrip
 }
 
 
-Action * ActionFactory::getAction(ActionType actionType, const Entity * firstEntity, const Entity * secondEntity)
+Action * ActionFactory::getAction(ActionType actionType, const Entity * firstEntity, const Entity * secondEntity) const
 {
 	if (firstEntity == nullptr)
 	{

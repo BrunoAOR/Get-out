@@ -1,8 +1,8 @@
 #include "InputParser.h"
 
 #include "Instruction.h"
-#include "globals.h"
 #include "InstructionType.h"
+#include "globals.h"
 
 
 InputParser::InputParser()

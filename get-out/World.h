@@ -5,9 +5,6 @@
 #include <string>
 #include <assert.h>
 #include "globals.h"
-
-enum class LoopStatus;
-enum class ActionType;
 class Player;
 class InputParser;
 class EntityFactory;
@@ -15,6 +12,8 @@ class Entity;
 class ActionFactory;
 class Action;
 class ActionEffect;
+enum class LoopStatus;
+enum class ActionType;
 
 
 class World
@@ -29,8 +28,8 @@ public:
 	LoopStatus update(const std::string& userInput);
 	LoopStatus close();
 
-	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr);
-	void removeAction(Action* action);
+	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr) const;
+	void removeAction(Action* action) const;
 
 	void requestGameEnd();
 

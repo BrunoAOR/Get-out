@@ -2,6 +2,7 @@
 #define H_GLOBALS
 
 #define OutputLog(format, ...) outputLog(__FILE__, __LINE__, format, __VA_ARGS__);
+
 #include <string>
 
 

@@ -92,13 +92,13 @@ LoopStatus World::close()
 }
 
 
-Action* World::getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity)
+Action* World::getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity) const
 {
 	return m_actionFactory->getAction(actionType, firstEntity, secondEntity);
 }
 
 
-void World::removeAction(Action * action)
+void World::removeAction(Action * action) const
 {
 	m_actionFactory->removeAction(action);
 }
@@ -112,9 +112,8 @@ void World::requestGameEnd()
 
 void World::logHelpMessage()
 {
-	// TODO: Prepare the help message
-	std::string message = "HELP MENU:\n";
-	message += "The commands that you can perform in the game and their effects are the following:\n";
+	std::string message = "INFORMATION:\n";
+	message += "The commands that you can perform in the game and their effects are the following:\n\n";
 	message += "  HELP: Display this list of actions.\n";
 	message += "  LOOK: Look around and get a description of the room you are currently in.\n";
 	message += "  INVENTORY: Display a description of the items you are currently holding.\n";
@@ -123,7 +122,8 @@ void World::logHelpMessage()
 	message += "  INSPECT item: Display a detailed description of the item. (Example: INSPECT carrot)\n";
 	message += "  OPEN item: Attempt to open an item. (Example: OPEN fridge)\n";
 	message += "  USE item1 ON item2: Attempt to use the item1 on the item2. (Example : USE key ON lock)\n";
-	message += "  PUT item1 IN item2: Attempt to place item1 within item2.\nBoth items must be in your inventory for this action to succeed.\n";
+	message += "  PUT item1 IN item2: Attempt to place item1 within item2.\n";
+	message += "                      Both items must be in your inventory for this action to succeed.\n";
 	message += "\nDo note that commands and item names are not case-sensitive,\nso you can freely type everything in lowercase if you want.";
 	consoleLog(message);
 }

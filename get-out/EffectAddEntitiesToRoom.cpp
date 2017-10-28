@@ -1,7 +1,9 @@
 #include "EffectAddEntitiesToRoom.h"
+
+#include <assert.h>
 #include "Room.h"
 #include "globals.h"
-#include <assert.h>
+
 
 EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& effectDescription, std::vector<Entity*> entitiesToAdd, Room * targetRoom)
 	: ActionEffect(effectDescription), m_entitiesToAdd(entitiesToAdd), m_targetRoom(targetRoom)
@@ -9,12 +11,13 @@ EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& effectDescri
 	assert(m_targetRoom);
 }
 
+
 EffectAddEntitiesToRoom::~EffectAddEntitiesToRoom()
 {
-	m_entitiesToAdd.clear();
 }
 
-void EffectAddEntitiesToRoom::doEffect()
+
+void EffectAddEntitiesToRoom::doEffect() const
 {
 	bool success = true;
 	for (Entity* entity : m_entitiesToAdd)

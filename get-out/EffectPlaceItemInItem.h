@@ -13,7 +13,7 @@ public:
 	~EffectPlaceItemInItem();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 
 private:
 	Item* m_item;

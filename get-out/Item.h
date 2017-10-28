@@ -12,10 +12,12 @@ class Item :
 private:
 	Item(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false, bool hasLight = false);
 	virtual ~Item();
+
 public:
 	Item(const Item& source) = delete;
 	Item& operator=(const Item& source) = delete;
 
+	// Entity overrides
 	virtual std::string getDescription() const override;
 	virtual std::string getDetailedDescription() const override;
 
@@ -25,7 +27,8 @@ private:
 	std::string m_inspectDescription;
 	bool m_hasLight;
 
-	virtual bool canAddChild(Entity* child) override;
+	// Entity overrides
+	virtual bool canAddChild(const Entity* child) const override;
 };
 
 

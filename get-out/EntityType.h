@@ -11,4 +11,5 @@ enum class EntityType
 	EXIT
 };
 
+
 #endif // !H_ENTITY_TYPE

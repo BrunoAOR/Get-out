@@ -3,8 +3,9 @@
 
 #include "Entity.h"
 #include "EntityFactory.h"
-enum class Direction;
 class Room;
+enum class Direction;
+
 
 class Exit :
 	public Entity
@@ -30,7 +31,8 @@ private:
 	std::string m_lockedDescription;
 	Room* m_targetRoom = nullptr;
 
-	virtual bool canAddChild(Entity* child) override;
+	// Entity overrides
+	virtual bool canAddChild(const Entity* child) const override;
 };
 
 

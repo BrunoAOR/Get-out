@@ -1,4 +1,5 @@
 #include "Item.h"
+
 #include "EntityType.h"
 
 
@@ -53,7 +54,7 @@ bool Item::hasLight() const
 }
 
 
-bool Item::canAddChild(Entity * child)
+bool Item::canAddChild(const Entity * child) const
 {
 	return child->getType() == EntityType::ITEM;
 }

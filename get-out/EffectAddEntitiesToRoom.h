@@ -6,6 +6,7 @@
 class Entity;
 class Room;
 
+
 class EffectAddEntitiesToRoom :
 	public ActionEffect
 {
@@ -14,7 +15,7 @@ public:
 	~EffectAddEntitiesToRoom();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 
 private:
 	std::vector<Entity*> m_entitiesToAdd;

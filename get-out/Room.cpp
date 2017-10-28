@@ -1,9 +1,11 @@
 #include "Room.h"
+
 #include <assert.h>
 #include "EntityType.h"
 #include "Direction.h"
 #include "Exit.h"
 #include "globals.h"
+
 
 Room::Room(int id, const std::string& name, const std::string& description, bool isDark)
 	: Entity(id, EntityType::ROOM, name, description, true), m_isDark(isDark)
@@ -15,6 +17,7 @@ Room::~Room()
 {
 	m_exits.clear();
 }
+
 
 Exit * Room::getExit(Direction direction)
 {
@@ -44,6 +47,7 @@ std::string Room::getDescription() const
 	return description;
 }
 
+
 std::string Room::getDescriptionInDarkness() const
 {
 	if (!m_isDark)
@@ -66,6 +70,7 @@ std::string Room::getDescriptionInDarkness() const
 	}
 	return description;
 }
+
 
 Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInChildren)
 {
@@ -96,12 +101,13 @@ Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInC
 }
 
 
-bool Room::canAddChild(Entity * child)
+bool Room::canAddChild(const Entity * child) const
 {
 	return child->getType() == EntityType::EXIT
 		|| child->getType() == EntityType::ITEM
 		|| child->getType() == EntityType::INTERACTABLE;
 }
+
 
 void Room::addChild(Entity * child)
 {
@@ -120,11 +126,12 @@ void Room::addChild(Entity * child)
 	}
 }
 
-void Room::removeChild(Entity * entity)
+
+void Room::removeChild(const Entity * entity)
 {
 	if (entity->getType() == EntityType::EXIT)
 	{
-		Exit* exit = static_cast<Exit*>(entity);
+		const Exit* exit = static_cast<const Exit*>(entity);
 		auto it = std::find(m_exits.begin(), m_exits.end(), exit);
 		if (it != m_exits.end())
 		{

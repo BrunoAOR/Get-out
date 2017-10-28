@@ -12,7 +12,7 @@ public:
 	~EffectGameEnd();
 
 	// Inherited via ActionEffect
-	virtual void doEffect() override;
+	virtual void doEffect() const override;
 };
 
 

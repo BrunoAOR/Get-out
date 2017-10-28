@@ -1,16 +1,15 @@
 #include "worldConfig.h"
-#include "Player.h"
+
 #include "EntityFactory.h"
 #include "ActionFactory.h"
 #include "EntityInfo.h"
 #include "EntityType.h"
 #include "Direction.h"
 #include "ActionType.h"
-
+#include "Player.h"
 #include "Item.h"
 #include "Exit.h"
 #include "Room.h"
-
 #include "EffectAddEntitiesToRoom.h"
 #include "EffectReplaceEntity.h"
 #include "EffectUnlockExit.h"
@@ -274,8 +273,7 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 
 std::string getWelcomeMessage()
 {
-	// TODO: Polish the welcome message
-	std::string message = "GET OUT\n";
+	std::string message = "\n  GET OUT\n\n";
 	message += "Developed by Bruno Ortiz\n";
 	message += "A game based on the text adventure Zork\n";
 	message += "Use the HELP command to learn how to play\n";

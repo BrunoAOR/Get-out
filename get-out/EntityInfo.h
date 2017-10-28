@@ -8,6 +8,7 @@ enum class Direction;
 
 struct EntityInfo
 {
+public:
 	static EntityInfo createPlayerInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, int maxItems, int startingRoomId);
 	static EntityInfo createRoomInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, bool isDark);
 	static EntityInfo createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const char* lockedDescription, int targetRoomId);

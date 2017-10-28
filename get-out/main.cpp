@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "globals.h"
 
+
 int main()
 {
 	LoopStatus loopStatus = LoopStatus::CONTINUE;
@@ -48,5 +49,3 @@ int main()
 
 	return 0;
 }
-
-// TODO: Switch vectors to maps (when applicable)

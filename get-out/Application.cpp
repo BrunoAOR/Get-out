@@ -16,6 +16,7 @@ Application::~Application()
 	m_inputReader = nullptr;
 }
 
+
 LoopStatus Application::init()
 {
 	world = new World();

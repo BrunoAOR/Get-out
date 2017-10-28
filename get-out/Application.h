@@ -2,7 +2,6 @@
 #define H_APPLICATION
 
 #include "globals.h"
-
 class InputReader;
 
 

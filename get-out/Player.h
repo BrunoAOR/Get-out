@@ -3,9 +3,9 @@
 
 #include "Entity.h"
 #include "EntityFactory.h"
+class Room;
 struct EntityInfo;
 struct Instruction;
-class Room;
 
 
 class Player :
@@ -28,7 +28,7 @@ private:
 	bool m_hasLight = false;
 
 	// Entity overrides
-	virtual bool canAddChild(Entity* child) override;
+	virtual bool canAddChild(const Entity* child) const override;
 	
 	// Instructions:
 	void look();

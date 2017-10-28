@@ -5,6 +5,7 @@
 #include <string>
 struct Instruction;
 
+
 class InputParser
 {
 public:

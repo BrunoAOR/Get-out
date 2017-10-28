@@ -19,7 +19,7 @@ public:
 	void close();
 
 	Entity* createEntity(EntityInfo info);
-	Entity* getEntity(int id);
+	Entity* getEntity(int id) const;
 
 private:
 	std::map<int, Entity*> m_entitiesById;

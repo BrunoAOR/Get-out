@@ -1,4 +1,6 @@
 #include "EntityFactory.h"
+
+#include <assert.h>
 #include "Entity.h"
 #include "EntityInfo.h"
 #include "EntityType.h"
@@ -8,7 +10,6 @@
 #include "Item.h"
 #include "Interactable.h"
 #include "globals.h"
-#include <assert.h>
 
 
 EntityFactory::EntityFactory()
@@ -78,11 +79,11 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 }
 
 
-Entity * EntityFactory::getEntity(int id)
+Entity * EntityFactory::getEntity(int id) const
 {
 	if (m_entitiesById.count(id) != 0)
 	{
-		return m_entitiesById[id];
+		return m_entitiesById.at(id);
 	}
 	return nullptr;
 }
