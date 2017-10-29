@@ -126,17 +126,30 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 
 	// Garden
 	{
+		actionFactory->createAction(ActionType::ItemUse, "The MAN sees you swinging the SHOVEL at him and dodges the hit.", std::vector<ActionEffect*>(), false, 23, 18);
+		actionFactory->createAction(ActionType::ItemUse, "You consider stabbing the MAN with the SCREWDRIVER, but then realize you don't want to murder anyone.", std::vector<ActionEffect*>(), false, 24, 18);
+
+		actionFactory->createAction(ActionType::ItemUse, "You consider stabbing the defenseless MAN with the SCREWDRIVER, but once more choose not to.", std::vector<ActionEffect*>(), false, 24, 19);
+
+		actionFactory->createAction(ActionType::ItemUse, "The MAN is unconscious, there's no need to hit him with a SHOVEL.", std::vector<ActionEffect*>(), false, 23, 20);
+		actionFactory->createAction(ActionType::ItemUse, "The MAN is unconscious, there is absolutely no reason to stab him with a SCREWDRIVER.", std::vector<ActionEffect*>(), false, 24, 20);
+
+		EffectRemoveEntities* whiskeyRemove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(45)});
+		actionFactory->createAction(ActionType::ItemUse, "You give the WHISKEY bottle to the MAN. He just takes it and remains standing in front of the door.", std::vector<ActionEffect*>{whiskeyRemove}, true, 45, 18);
+
 		EffectReplaceEntity* man1Replace = new EffectReplaceEntity("The MAN remains standing but is blinded and trying to clear the FLOUR out of his eyes.", entityFactory->getEntity(18), entityFactory->getEntity(19));
 		EffectRemoveEntities* flourRemove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(31)});
 		actionFactory->createAction(ActionType::ItemUse, "You throw a handfull of FLOUR towards the MAN's face.", std::vector<ActionEffect*>{man1Replace, flourRemove}, true, 31, 18);
 
 		EffectReplaceEntity* man2Replace = new EffectReplaceEntity("", entityFactory->getEntity(19), entityFactory->getEntity(20));
 		EffectUnlockExit* unlockGardenToStorageRoom = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(15)));
-		actionFactory->createAction(ActionType::ItemUse, "You use the SHOVEL to hit the MAN on the head and he falls to the ground.", std::vector<ActionEffect*>{man2Replace, unlockGardenToStorageRoom}, true, 23, 19);
+		actionFactory->createAction(ActionType::ItemUse, "You use the SHOVEL to hit the MAN on the head and he falls to the ground. He is not bleeding and seems to still be breathing. Well played.", std::vector<ActionEffect*>{man2Replace, unlockGardenToStorageRoom}, true, 23, 19);
 	}
 
 	// Kitchen
 	{
+		actionFactory->createAction(ActionType::InteractableOpen, "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.", std::vector<ActionEffect*>(), false, 27);
+
 		EffectReplaceEntity* cupboardReplace = new EffectReplaceEntity("", entityFactory->getEntity(27), entityFactory->getEntity(28));
 		EffectAddEntitiesToRoom* flashlightAndFlourAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(29), entityFactory->getEntity(31)}, static_cast<Room*>(entityFactory->getEntity(4)));
 		actionFactory->createAction(ActionType::ItemUse, "You swing the TROPHY at the CUPBOARD glass doors and they shatter.", std::vector<ActionEffect*>{cupboardReplace, flashlightAndFlourAdd}, true, 65, 27);

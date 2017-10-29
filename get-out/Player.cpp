@@ -79,15 +79,15 @@ bool Player::canAddChild(const Entity * child) const
 
 void Player::addChild(Entity * child)
 {
-	updateLightStatus();
 	Entity::addChild(child);
+	updateLightStatus();
 }
 
 
 void Player::removeChild(const Entity * entity)
 {
-	updateLightStatus();
 	Entity::removeChild(entity);
+	updateLightStatus();
 }
 
 
