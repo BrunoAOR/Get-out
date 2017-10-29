@@ -251,7 +251,7 @@ bool Player::open(const Instruction * instruction)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
 		assert(m_actionFactory);
-		Action* interactableOpen = m_actionFactory->getAction(ActionType::InteractableOpen, target);
+		Action* interactableOpen = m_actionFactory->getAction(ActionType::INTERACTABLE_OPEN, target);
 		if (interactableOpen)
 		{
 			interactableOpen->performAction();
@@ -278,7 +278,7 @@ bool Player::use(const Instruction * instruction)
 			if (target->getType() == EntityType::INTERACTABLE)
 			{
 				assert(m_actionFactory);
-				Action* itemUse = m_actionFactory->getAction(ActionType::ItemUse, item, target);
+				Action* itemUse = m_actionFactory->getAction(ActionType::ITEM_USE, item, target);
 				if (itemUse)
 				{
 					itemUse->performAction();
@@ -316,7 +316,7 @@ bool Player::put(const Instruction * instruction)
 		if (containerItem)
 		{
 			assert(m_actionFactory);
-			Action* itemPut = m_actionFactory->getAction(ActionType::ItemPut, item, containerItem);
+			Action* itemPut = m_actionFactory->getAction(ActionType::ITEM_PUT, item, containerItem);
 			if (itemPut)
 			{
 				itemPut->performAction();

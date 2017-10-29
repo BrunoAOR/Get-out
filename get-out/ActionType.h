@@ -4,9 +4,9 @@
 
 enum class ActionType
 {
-	InteractableOpen,
-	ItemPut,
-	ItemUse
+	INTERACTABLE_OPEN,
+	ITEM_PUT,
+	ITEM_USE
 };
 
 

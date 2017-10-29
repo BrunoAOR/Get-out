@@ -15,13 +15,13 @@ Action::Action(ActionFactory* actionFactory, ActionType type, const std::string&
 	assert(m_actionFactory);
 	switch (type)
 	{
-	case ActionType::InteractableOpen:
+	case ActionType::INTERACTABLE_OPEN:
 		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Interactable));
 		break;
-	case ActionType::ItemPut:
+	case ActionType::ITEM_PUT:
 		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Item));
 		break;
-	case ActionType::ItemUse:
+	case ActionType::ITEM_USE:
 		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Interactable));
 		break;
 	}
