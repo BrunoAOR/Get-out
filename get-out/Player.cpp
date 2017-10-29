@@ -142,8 +142,21 @@ bool Player::go(const Instruction* instruction)
 		else
 		{
 			// So there is an exit and it's unlocked...
+			Room* previousRoom = m_location;
 			m_location = exit->getTargetRoom();
 			consoleLog("You are now in the " + m_location->getName() + ".");
+			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, previousRoom, m_location))
+			{
+				goAction->performAction();
+			}
+			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, previousRoom, nullptr))
+			{
+				goAction->performAction();
+			}
+			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, nullptr, m_location))
+			{
+				goAction->performAction();
+			}
 			return true;
 		}
 	}
@@ -172,11 +185,11 @@ bool Player::take(const Instruction* instruction)
 		if (static_cast<int>(m_children.size()) < m_maxItems)
 		{
 			target->setParent(this);
-			if (static_cast<Item*>(target)->hasLight())
-			{
-				m_hasLight = true;
-			}
 			consoleLog("You have taken the " + target->getName() + ".");
+			if (Action* takeAction = m_actionFactory->getAction(ActionType::TAKE, target))
+			{
+				takeAction->performAction();
+			}
 			return true;
 		}
 		consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + target->getName() + ".");
@@ -204,6 +217,10 @@ bool Player::drop(const Instruction* instruction)
 	{
 		target->setParent(m_location);
 		consoleLog("You have dropped the " + target->getName() + ".");
+		if (Action* dropAction = m_actionFactory->getAction(ActionType::DROP, target))
+		{
+			dropAction->performAction();
+		}
 		return true;
 	}
 	// Try to get an Entity within the children of the player's inventory to customize the message.

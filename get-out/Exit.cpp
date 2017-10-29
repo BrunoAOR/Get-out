@@ -40,6 +40,12 @@ Room * Exit::getTargetRoom() const
 }
 
 
+void Exit::lock()
+{
+	m_isLocked = true;
+}
+
+
 void Exit::unlock()
 {
 	m_isLocked = false;

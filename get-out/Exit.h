@@ -23,6 +23,7 @@ public:
 	bool isLocked() const;
 	std::string getLockedDescription() const;
 	Room* getTargetRoom() const;
+	void lock();
 	void unlock();
 
 private:

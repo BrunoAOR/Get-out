@@ -4,9 +4,12 @@
 
 enum class ActionType
 {
+	GO,
+	TAKE,
+	DROP,
 	INTERACTABLE_OPEN,
-	ITEM_PUT,
-	ITEM_USE
+	ITEM_USE,
+	ITEM_PUT
 };
 
 

@@ -13,6 +13,7 @@
 #include "EffectAddEntitiesToRoom.h"
 #include "EffectReplaceEntity.h"
 #include "EffectUnlockExit.h"
+#include "EffectLockExit.h"
 #include "EffectPlaceItemInItem.h"
 #include "EffectRemoveEntities.h"
 #include "EffectGameEnd.h"
@@ -65,9 +66,9 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 		EntityInfo::createItemInfo(35, EntityType::ITEM, -1, "POT", "A very small POT", "", false, false),
 		// Empty Room
 		EntityInfo::createExitInfo(36, EntityType::EXIT, 5, "Empty Room TO Kitchen", "A heavy looking wooden door", Direction::W, true, "The door is bolted shut.", 4),
-		EntityInfo::createExitInfo(37, EntityType::EXIT, 5, "Empty Room TO Garden", "A wooden door with small glass panels on the top half", Direction::N, true, "When trying to approach the door the RAT attemps to bite you, so you step back.", 2),
+		EntityInfo::createExitInfo(37, EntityType::EXIT, 5, "Empty Room TO Garden", "A wooden door with small glass panels on the top half", Direction::N, false, "When you approach the door a big RAT is lured by the light from your flashlight and tries to bite you, so you step back.", 2),
 		EntityInfo::createExitInfo(38, EntityType::EXIT, 5, "Empty Room TO Main Hall", "A thick wooden door", Direction::S, false, "", 8),
-		EntityInfo::createInteractableInfo(39, EntityType::INTERACTABLE, 5, "RAT", "A big RAT rests in front of the northern door.", "The RAT doesn't look very friendly.", false),
+		EntityInfo::createInteractableInfo(39, EntityType::INTERACTABLE, 5, "RAT", "A big RAT rests next to the northern door.", "The RAT doesn't look very friendly.", false),
 		EntityInfo::createItemInfo(40, EntityType::ITEM, 5, "BALL", "A small stress BALL", "", false, false),
 		// Office
 		EntityInfo::createExitInfo(41, EntityType::EXIT, 6, "Office TO Tool shed", "A fancy looking door", Direction::N, false, "", 3),
@@ -116,23 +117,29 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	Player* player = static_cast<Player*>(entityFactory->createEntity(playerInfo));
 
 	// *** ACTIONS *** //
+	std::vector<ActionEffect*> noEffect = std::vector<ActionEffect*>();
 
 	// Storage Room
 	{
 		EffectReplaceEntity* cabinetReplace = new EffectReplaceEntity("", entityFactory->getEntity(11), entityFactory->getEntity(12));
 		EffectAddEntitiesToRoom* keychainAdd = new EffectAddEntitiesToRoom("You see a KEYCHAIN inside the CABINET.", std::vector<Entity*>{entityFactory->getEntity(13)}, static_cast<Room*>(entityFactory->getEntity(1)));
 		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "With a bit of force, you open the CABINET doors.", std::vector<ActionEffect*>{cabinetReplace, keychainAdd}, true, 11);
+
+		EffectRemoveEntities* man3Remove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(20)});
+		actionFactory->createAction(ActionType::GO, "Upon entering the Storage Room, you hear many footsteps outside and the noise of someone being dragged around.", std::vector<ActionEffect*>{man3Remove}, true, 2, 1);
+
+		actionFactory->createAction(ActionType::GO, "You notice the MAN is now gone.", std::vector<ActionEffect*>(), true, 1, 2);
 	}
 
 	// Garden
 	{
 		actionFactory->createAction(ActionType::ITEM_USE, "The MAN sees you swinging the SHOVEL at him and dodges the hit.", std::vector<ActionEffect*>(), false, 23, 18);
-		actionFactory->createAction(ActionType::ITEM_USE, "You consider stabbing the MAN with the SCREWDRIVER, but then realize you don't want to murder anyone.", std::vector<ActionEffect*>(), false, 24, 18);
+		actionFactory->createAction(ActionType::ITEM_USE, "You consider stabbing the MAN with the SCREWDRIVER, but then realize you don't want to murder anyone.", noEffect, false, 24, 18);
 
-		actionFactory->createAction(ActionType::ITEM_USE, "You consider stabbing the defenseless MAN with the SCREWDRIVER, but once more choose not to.", std::vector<ActionEffect*>(), false, 24, 19);
+		actionFactory->createAction(ActionType::ITEM_USE, "You consider stabbing the defenseless MAN with the SCREWDRIVER but choose not to.", noEffect, false, 24, 19);
 
-		actionFactory->createAction(ActionType::ITEM_USE, "The MAN is unconscious, there's no need to hit him with a SHOVEL.", std::vector<ActionEffect*>(), false, 23, 20);
-		actionFactory->createAction(ActionType::ITEM_USE, "The MAN is unconscious, there is absolutely no reason to stab him with a SCREWDRIVER.", std::vector<ActionEffect*>(), false, 24, 20);
+		actionFactory->createAction(ActionType::ITEM_USE, "The MAN is unconscious, there's no need to hit him with a SHOVEL.", noEffect, false, 23, 20);
+		actionFactory->createAction(ActionType::ITEM_USE, "The MAN is unconscious, there is absolutely no reason to stab him with a SCREWDRIVER.", noEffect, false, 24, 20);
 
 		EffectRemoveEntities* whiskeyRemove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(45)});
 		actionFactory->createAction(ActionType::ITEM_USE, "You give the WHISKEY bottle to the MAN. He just takes it and remains standing in front of the door.", std::vector<ActionEffect*>{whiskeyRemove}, true, 45, 18);
@@ -148,7 +155,10 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 
 	// Kitchen
 	{
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.", std::vector<ActionEffect*>(), false, 27);
+		actionFactory->createAction(ActionType::GO, "You hear a voice coming from the Dining Room saying: 'Go to the exit'", noEffect, true, 7, 4);
+		actionFactory->createAction(ActionType::GO, "There's no one around anymore. Who said those words?", noEffect, true, 4, 7);
+
+		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.", noEffect, false, 27);
 
 		EffectReplaceEntity* cupboardReplace = new EffectReplaceEntity("", entityFactory->getEntity(27), entityFactory->getEntity(28));
 		EffectAddEntitiesToRoom* flashlightAndFlourAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(29), entityFactory->getEntity(31)}, static_cast<Room*>(entityFactory->getEntity(4)));
@@ -156,7 +166,8 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 
 		EffectReplaceEntity* flashlightReplace = new EffectReplaceEntity("The flashlight now emits a fairly bright light that will allow you to see in the dark.", entityFactory->getEntity(29), entityFactory->getEntity(30));
 		EffectPlaceItemInItem* batteriesInFlashlightPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(69)), static_cast<Item*>(entityFactory->getEntity(30)));
-		actionFactory->createAction(ActionType::ITEM_PUT, "You placed the BATTERIES in the FLASHLIGHT.", std::vector<ActionEffect*>{flashlightReplace, batteriesInFlashlightPlace}, true, 69, 29);
+		EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		actionFactory->createAction(ActionType::ITEM_PUT, "You placed the BATTERIES in the FLASHLIGHT.", std::vector<ActionEffect*>{flashlightReplace, batteriesInFlashlightPlace, EmptyRoomToGardenLock}, true, 69, 29);
 
 		EffectReplaceEntity* drawersReplace = new EffectReplaceEntity("", entityFactory->getEntity(32), entityFactory->getEntity(33));
 		EffectAddEntitiesToRoom* panAndPotAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(34), entityFactory->getEntity(35)}, static_cast<Room*>(entityFactory->getEntity(4)));
@@ -165,10 +176,18 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 
 	// Empty Room
 	{
+		EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		actionFactory->createAction(ActionType::TAKE, "", std::vector<ActionEffect*>{EmptyRoomToGardenLock}, false, 30);
+
+		EffectUnlockExit* EmptyRoomToGardenUnlock = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		actionFactory->createAction(ActionType::DROP, "", std::vector<ActionEffect*>{EmptyRoomToGardenUnlock}, false, 30);
+
+		/*
 		EffectRemoveEntities* ratRemove = new EffectRemoveEntities("The RAT runs away through a gap on the door.", std::vector<Entity*>{entityFactory->getEntity(39)});
 		EffectAddEntitiesToRoom* panFromInvToRoomAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(34)}, static_cast<Room*>(entityFactory->getEntity(5)));
 		EffectUnlockExit* unlockEmptyRoomToGarden = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
 		actionFactory->createAction(ActionType::ITEM_USE, "You throw the PAN at the RAT.", std::vector<ActionEffect*>{ratRemove, panFromInvToRoomAdd, unlockEmptyRoomToGarden}, true, 34, 39);
+		*/
 	}
 
 	// Office
@@ -234,7 +253,6 @@ std::string getWelcomeMessage()
 	std::string message = "\n  GET OUT\n\n";
 	message += "Developed by Bruno Ortiz\n";
 	message += "A game based on the text adventure Zork\n\n";
-	message += "Approximate play time: 45 minutes.\n";
 	message += "Use the HELP command to learn how to play\n";
 	message += "Note: You may find it useful to draw a map as you go.\n";
 	message += "\n--------------------------------------------------\n\n";

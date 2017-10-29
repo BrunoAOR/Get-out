@@ -4,9 +4,11 @@
 #include "World.h"
 #include "ActionEffect.h"
 #include "ActionType.h"
+#include "EntityType.h"
 #include "globals.h"
 #include "Item.h"
 #include "Interactable.h"
+#include "Room.h"
 
 
 Action::Action(ActionFactory* actionFactory, ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
@@ -15,14 +17,23 @@ Action::Action(ActionFactory* actionFactory, ActionType type, const std::string&
 	assert(m_actionFactory);
 	switch (type)
 	{
-	case ActionType::INTERACTABLE_OPEN:
-		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Interactable));
+	case ActionType::GO:
+		assert(m_firstEntity || m_secondEntity && m_firstEntity ? m_firstEntity->getType() == EntityType::ROOM : true && m_secondEntity ? m_secondEntity->getType() == EntityType::ROOM : true);
 		break;
-	case ActionType::ITEM_PUT:
-		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Item));
+	case ActionType::TAKE:
+		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && !m_secondEntity);
+		break;
+	case ActionType::DROP:
+		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && !m_secondEntity);
+		break;
+	case ActionType::INTERACTABLE_OPEN:
+		assert(m_firstEntity && m_firstEntity->getType() == EntityType::INTERACTABLE && !m_secondEntity);
 		break;
 	case ActionType::ITEM_USE:
-		assert(m_firstEntity && typeid(*m_firstEntity) == typeid(Item) && m_secondEntity && typeid(*m_secondEntity) == typeid(Interactable));
+		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && m_secondEntity && m_secondEntity->getType() == EntityType::INTERACTABLE);
+		break;
+	case ActionType::ITEM_PUT:
+		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && m_secondEntity && m_secondEntity->getType() == EntityType::ITEM);
 		break;
 	}
 }
@@ -73,7 +84,10 @@ void Action::performAction()
 			message += "\n" + effect->getEffectDescription();
 		}
 	}
-	consoleLog(message);
+	if (message != "")
+	{
+		consoleLog(message);
+	}
 	if (m_shouldDestroy)
 	{
 		m_actionFactory->removeAction(this);

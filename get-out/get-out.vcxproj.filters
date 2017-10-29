@@ -114,6 +114,9 @@
     <ClCompile Include="EffectRemoveEntities.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
+    <ClCompile Include="EffectLockExit.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -198,6 +201,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="EffectRemoveEntities.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectLockExit.h">
       <Filter>ActionEffects</Filter>
     </ClInclude>
   </ItemGroup>
