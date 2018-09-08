@@ -127,8 +127,8 @@
     <ClCompile Include="EffectUnlockExit.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InstructionType.cpp" />
-    <ClCompile Include="Application.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="EffectAddEntitiesToRoom.cpp" />
     <ClCompile Include="EffectReplaceEntity.cpp" />
@@ -142,7 +142,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="World.cpp" />
     <ClCompile Include="worldConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,8 +156,8 @@
     <ClInclude Include="EffectUnlockExit.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityInfo.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="InstructionType.h" />
-    <ClInclude Include="Application.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="EffectAddEntitiesToRoom.h" />
     <ClInclude Include="EffectReplaceEntity.h" />
@@ -173,7 +172,6 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="World.h" />
     <ClInclude Include="worldConfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,7 +1,6 @@
 #include "Action.h"
 
 #include <assert.h>
-#include "World.h"
 #include "ActionEffect.h"
 #include "ActionType.h"
 #include "EntityType.h"

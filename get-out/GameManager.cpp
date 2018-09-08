@@ -1,24 +1,25 @@
-#include "World.h"
+#include "GameManager.h"
 
-#include "worldConfig.h"
-#include "InputParser.h"
-#include "EntityFactory.h"
 #include "ActionFactory.h"
+#include "EntityFactory.h"
+#include "InputParser.h"
+#include "InputReader.h"
 #include "Instruction.h"
 #include "InstructionType.h"
 #include "Player.h"
-#include "globals.h"
+#include "worldConfig.h"
 
 
-World::World()
+GameManager::GameManager()
 {
+	m_inputReader = new InputReader();
 	m_inputParser = new InputParser();
 	m_entityFactory = new EntityFactory();
 	m_actionFactory = new ActionFactory(m_entityFactory);
 }
 
 
-World::~World()
+GameManager::~GameManager()
 {
 	delete m_actionFactory;
 	m_actionFactory = nullptr;
@@ -26,10 +27,12 @@ World::~World()
 	m_entityFactory = nullptr;
 	delete m_inputParser;
 	m_inputParser = nullptr;
+	delete m_inputReader;
+	m_inputReader = nullptr;
 }
 
 
-LoopStatus World::init()
+LoopStatus GameManager::init()
 {
 	player = setUpWorld(m_entityFactory, m_actionFactory);
 	player->setActionFactory(m_actionFactory);
@@ -40,7 +43,37 @@ LoopStatus World::init()
 }
 
 
-LoopStatus World::update(const std::string& userInput)
+LoopStatus GameManager::update()
+{
+	// Adquire input and pass to World
+	if (m_loopStatus != LoopStatus::EXIT)
+	{
+		processInput(m_inputReader->getInput());
+		if (m_loopStatus == LoopStatus::EXIT)
+		{
+			consoleLog("Thanks for playing GET OUT!\n(Press Enter to close the window)");
+		}
+	}
+	else
+	{
+		if (m_inputReader->getEnter())
+		{
+			return LoopStatus::EXIT;
+		}
+	}
+	return LoopStatus::CONTINUE;
+}
+
+
+LoopStatus GameManager::close()
+{
+	m_actionFactory->close();
+	m_entityFactory->close();
+	return LoopStatus::EXIT;
+}
+
+
+LoopStatus GameManager::processInput(const std::string & userInput)
 {
 	if (userInput != "")
 	{
@@ -86,16 +119,7 @@ LoopStatus World::update(const std::string& userInput)
 	return m_loopStatus;
 }
 
-
-LoopStatus World::close()
-{
-	m_actionFactory->close();
-	m_entityFactory->close();
-	return LoopStatus::EXIT;
-}
-
-
-void World::logHelpMessage()
+void GameManager::logHelpMessage() const
 {
 	std::string message = "INFORMATION:\n";
 	message += "The commands that you can perform in the game and their effects are the following:\n\n";
