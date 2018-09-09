@@ -72,7 +72,7 @@ std::string Room::getDescriptionInDarkness() const
 }
 
 
-Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInChildren)
+Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInChildren) const
 {
 	if (!m_isDark)
 	{

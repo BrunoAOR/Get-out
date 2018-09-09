@@ -24,7 +24,7 @@ public:
 
 	Exit* getExit(Direction direction);
 	std::string getDescriptionInDarkness() const;
-	Entity* getChildInDarkness(const std::string& entityName, bool searchInChildren = false);
+	Entity* getChildInDarkness(const std::string& entityName, bool searchInChildren = false) const;
 
 	// Entity overrides
 	virtual std::string getDescription() const override;
