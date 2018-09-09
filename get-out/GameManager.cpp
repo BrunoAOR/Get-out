@@ -69,7 +69,7 @@ LoopStatus GameManager::update()
 	{
 		if (m_inputReader->getEnter())
 		{
-			return LoopStatus::EXIT;
+			return m_loopStatus;
 		}
 	}
 	return LoopStatus::CONTINUE;

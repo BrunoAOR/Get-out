@@ -44,11 +44,18 @@ Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory
 	{
 		if (loadMessages(json))
 		{
-			player = hardcodedMethod(entityFactory, actionFactory);
+			if (loadEntities(json, entityFactory))
+			{
+				player = hardcodedMethod(entityFactory, actionFactory);
+			}
+			else
+			{
+				OutputLog("ERROR: Failed to load entities from the game configuration file!");
+			}
 		}
 		else
 		{
-			OutputLog("ERROR: Failed to load messages from the game configuration file");
+			OutputLog("ERROR: Failed to load messages from the game configuration file!");
 		}
 	}
 	else
@@ -81,8 +88,8 @@ bool GameDataLoader::loadMessages(Json* json)
 
 	if (json->count("messages"))
 	{
-		Json messages = (*json)["messages"];
-		if (messages.count("welcomeMessage"))
+		Json& messages = (*json)["messages"];
+		if (success && messages.count("welcomeMessage"))
 		{
 			welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
 		}
@@ -121,6 +128,75 @@ bool GameDataLoader::loadMessages(Json* json)
 }
 
 
+bool GameDataLoader::loadEntities(Json* json, EntityFactory* entityFactory)
+{
+	assert(json && entityFactory);
+	bool success = true;
+
+	if (json->count("entityInfos"))
+	{
+		std::vector<EntityInfo> entityInfos;
+
+		Json& jsonEntityInfos = (*json)["entityInfos"];
+		if (success && jsonEntityInfos.count("rooms"))
+		{
+			Json& rooms = jsonEntityInfos["rooms"];
+			if (!loadRoomInfos(rooms, entityInfos))
+			{
+				OutputLog("ERROR: Failed to load rooms from the game configuration file!");
+				success = false;
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: The gameConfig file does not contain the key 'welcomeMessage' within 'messages'!");
+			success = false;
+		}
+
+		// TO DO: Load exits, interactables and items
+
+		// Create all entities
+		if (success)
+		{
+			for (EntityInfo& entityInfo : entityInfos)
+			{
+				entityFactory->createEntity(entityInfo);
+			}
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
+		success = false;
+	}
+
+	return success;
+}
+
+
+bool GameDataLoader::loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos)
+{
+	bool success = true;
+
+	for (unsigned int i = 0; i < jsonRooms.size(); ++i)
+	{
+		const Json& room = jsonRooms[i];
+		if (room.count("id") && room.count("name") && room.count("description") && room.count("isDark"))
+		{
+			EntityInfo ei = EntityInfo::createRoomInfo(room["id"], EntityType::ROOM, -1, room["name"], room["description"], room["isDark"]);
+			entityInfos.push_back(ei);
+		}
+		else
+		{
+			OutputLog("ERROR: Room at index %i doesn't have all the required keys!", i);
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+
 const std::string& GameDataLoader::getWelcomeMessage()
 {
 	return welcomeMessage;
@@ -144,15 +220,15 @@ Player* GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFact
 
 	std::vector<EntityInfo> worldInfo{
 		// Rooms
-		EntityInfo::createRoomInfo(1, EntityType::ROOM, -1, "Storage Room", "A small storage room.", true),
-		EntityInfo::createRoomInfo(2, EntityType::ROOM, -1, "Garden", "A fairly small garden with beautiful roses.", false),
-		EntityInfo::createRoomInfo(3, EntityType::ROOM, -1, "Tool Shed", "A dirty shed.", false),
-		EntityInfo::createRoomInfo(4, EntityType::ROOM, -1, "Kitchen", "A very clean, but fairly empty kitchen.", false),
-		EntityInfo::createRoomInfo(5, EntityType::ROOM, -1, "Empty Room", "An empty room with nothing special in it.", false),
-		EntityInfo::createRoomInfo(6, EntityType::ROOM, -1, "Office", "A nice office with fancy looking wooden walls.", false),
-		EntityInfo::createRoomInfo(7, EntityType::ROOM, -1, "Dining Room", "A room with a long dining table in the middle.", true),
-		EntityInfo::createRoomInfo(8, EntityType::ROOM, -1, "Main Hall", "A big hall without much to see in it.", true),
-		EntityInfo::createRoomInfo(9, EntityType::ROOM, -1, "Trophy Room", "A room that contains prizes and trophies on the walls.", false),
+		//EntityInfo::createRoomInfo(1, EntityType::ROOM, -1, "Storage Room", "A small storage room.", true),
+		//EntityInfo::createRoomInfo(2, EntityType::ROOM, -1, "Garden", "A fairly small garden with beautiful roses.", false),
+		//EntityInfo::createRoomInfo(3, EntityType::ROOM, -1, "Tool Shed", "A dirty shed.", false),
+		//EntityInfo::createRoomInfo(4, EntityType::ROOM, -1, "Kitchen", "A very clean, but fairly empty kitchen.", false),
+		//EntityInfo::createRoomInfo(5, EntityType::ROOM, -1, "Empty Room", "An empty room with nothing special in it.", false),
+		//EntityInfo::createRoomInfo(6, EntityType::ROOM, -1, "Office", "A nice office with fancy looking wooden walls.", false),
+		//EntityInfo::createRoomInfo(7, EntityType::ROOM, -1, "Dining Room", "A room with a long dining table in the middle.", true),
+		//EntityInfo::createRoomInfo(8, EntityType::ROOM, -1, "Main Hall", "A big hall without much to see in it.", true),
+		//EntityInfo::createRoomInfo(9, EntityType::ROOM, -1, "Trophy Room", "A room that contains prizes and trophies on the walls.", false),
 		// Storage Room
 		EntityInfo::createExitInfo(10, EntityType::EXIT, 1, "Storage Room TO Garden", "A rusted metal door", Direction::E, false, "", 2),
 		EntityInfo::createInteractableInfo(11, EntityType::INTERACTABLE, 1, "CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are closed.", false),

@@ -6,6 +6,7 @@
 class ActionFactory;
 class EntityFactory;
 class Player;
+struct EntityInfo;
 
 typedef nlohmann::json Json;
 
@@ -26,6 +27,8 @@ public:
 private:
 	Json* loadJson(const char* path);
 	bool loadMessages(Json* json);
+	bool loadEntities(Json* json, EntityFactory* entityFactory);
+	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
 	Player* hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 
 	std::string welcomeMessage;
