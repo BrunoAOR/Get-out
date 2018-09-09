@@ -12,16 +12,16 @@ enum class ActionType;
 
 class Action
 {
-	friend Action* ActionFactory::createAction(ActionType, const std::string&, std::vector<ActionEffect*>, bool, int, int);
+	friend Action* ActionFactory::createAction(ActionType, const std::string&, const std::vector<ActionEffect*>&, bool, int, int);
 	friend void ActionFactory::close();
 	friend void ActionFactory::removeAction(Action* action);
 private:
-	Action(ActionFactory* actionFactory, ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
+	Action(ActionFactory* actionFactory, ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
 	~Action();
 
 public:
 	ActionType getActionType() const;
-	std::string getDescription() const;
+	const std::string& getDescription() const;
 	const Entity* getFirstEntity() const;
 	const Entity* getSecondEntity() const;
 	void performAction();
