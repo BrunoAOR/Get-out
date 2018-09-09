@@ -171,6 +171,8 @@
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="json_fwd.hpp" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
   </ItemGroup>

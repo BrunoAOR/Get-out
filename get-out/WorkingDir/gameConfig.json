@@ -1,0 +1,7 @@
+{
+	"messages": {
+		"welcomeMessage": "\n  GET OUT\n\nDeveloped by Bruno Ortiz\nA game based on the text adventure Zork\n\nUse the HELP command to learn how to play\nNote: You may find it useful to draw a map as you go.\n\n--------------------------------------------------\n\nYou find yourself in an unfamiliar place, uncertain of where you are or how you got there.\nYou can see a door on the southern side of the room and hear some noises coming from the other side.",
+		"gameEndMessage": "\n\nAs you remove the heavy triple lock from the door, you can hear footsteps on the other side.\nYou quickly open the door and are blinded by a very bright white light.\nWhile trying to adjust to the extreme lighting, you feel a needle in your neck.\nAs you fall down to the ground, fainting, you hear a rather high-pitched voice saying:\n'THE EXIT IS A LIE'.\n\n...\n\nWell, you finished the game.\nIt's probably not the ending you expected, but at least you have some closure now.",
+		"exitMessage": "Thanks for playing GET OUT!"
+	}
+}

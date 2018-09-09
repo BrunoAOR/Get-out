@@ -192,5 +192,7 @@
     <ClInclude Include="GameDataLoader.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="json_fwd.hpp" />
+    <ClInclude Include="json.hpp" />
   </ItemGroup>
 </Project>

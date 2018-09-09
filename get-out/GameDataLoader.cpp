@@ -25,26 +25,6 @@
 
 GameDataLoader::GameDataLoader()
 {
-	welcomeMessage = "\n  GET OUT\n\n";
-	welcomeMessage += "Developed by Bruno Ortiz\n";
-	welcomeMessage += "A game based on the text adventure Zork\n\n";
-	welcomeMessage += "Use the HELP command to learn how to play\n";
-	welcomeMessage += "Note: You may find it useful to draw a map as you go.\n";
-	welcomeMessage += "\n--------------------------------------------------\n\n";
-	welcomeMessage += "You find yourself in an unfamiliar place, uncertain of where you are or how you got there.\n";
-	welcomeMessage += "You can see a door on the southern side of the room and hear some noises coming from the other side.";
-
-	gameEndMessage = "\n\n";
-	gameEndMessage += "As you remove the heavy triple lock from the door, you can hear footsteps on the other side.\n";
-	gameEndMessage += "You quickly open the door and are blinded by a very bright white light.\n";
-	gameEndMessage += "While trying to adjust to the extreme lighting, you feel a needle in your neck.\n";
-	gameEndMessage += "As you fall down to the ground, fainting, you hear a rather high-pitched voice saying:\n";
-	gameEndMessage += "'THE EXIT IS A LIE'.\n\n";
-	gameEndMessage += "...\n\n";
-	gameEndMessage += "Well, you finished the game.\n";
-	gameEndMessage += "It's probably not the ending you expected, but at least you have some closure now.";
-
-	exitMessage = "Thanks for playing GET OUT!";
 }
 
 
@@ -56,8 +36,88 @@ GameDataLoader::~GameDataLoader()
 Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory* actionFactory)
 {
 	assert(entityFactory && actionFactory);
-	Player* player = hardcodedMethod(entityFactory, actionFactory);
+	Player* player = nullptr;
+	const char* path = CONFIG_FILE_PATH;
+
+	Json* json = loadJson(path);
+	if (json != nullptr)
+	{
+		if (loadMessages(json))
+		{
+			player = hardcodedMethod(entityFactory, actionFactory);
+		}
+		else
+		{
+			OutputLog("ERROR: Failed to load messages from the game configuration file");
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: Failed to open the json file from %s", path);
+	}
 	return player;
+}
+
+
+Json* GameDataLoader::loadJson(const char* path)
+{
+	Json* json = nullptr;
+
+	std::ifstream file(path);
+	if (file.good())
+	{
+		assert(file.good());
+		json = new Json();
+		file >> (*json);
+	}
+	return json;
+}
+
+
+bool GameDataLoader::loadMessages(Json* json)
+{
+	assert(json);
+	bool success = true;
+
+	if (json->count("messages"))
+	{
+		Json messages = (*json)["messages"];
+		if (messages.count("welcomeMessage"))
+		{
+			welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
+		}
+		else
+		{
+			OutputLog("ERROR: The gameConfig file does not contain the key 'welcomeMessage' within 'messages'!");
+			success = false;
+		}
+
+		if (success && messages.count("gameEndMessage"))
+		{
+			gameEndMessage = (messages["gameEndMessage"]).get<std::string>();
+		}
+		else
+		{
+			OutputLog("ERROR: The gameConfig file does not contain the key 'gameEndMessage' within 'messages'!");
+			success = false;
+		}
+
+		if (success && messages.count("exitMessage"))
+		{
+			exitMessage = (messages["exitMessage"]).get<std::string>();
+		}
+		else
+		{
+			OutputLog("ERROR: The gameConfig file does not contain the key 'exitMessage' within 'messages'!");
+			success = false;
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: The gameConfig file does not contain the key 'messages'!");
+		success = false;
+	}
+	return success;
 }
 
 
