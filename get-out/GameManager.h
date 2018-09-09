@@ -35,4 +35,5 @@ private:
 	void logHelpMessage() const;
 };
 
+
 #endif // !H_GAME_MANAGER

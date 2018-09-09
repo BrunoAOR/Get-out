@@ -20,7 +20,7 @@ extern bool isGameEndRequested;
 
 void consoleLog(const std::string& message);
 void consoleLog(char character);
-void outputLog(const char file[], int line, const char* format, ...);
+void outputLog(const char* file, int line, const char* format, ...);
 bool caselessEquals(const std::string& s1, const std::string& s2);
 
 
