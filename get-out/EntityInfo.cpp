@@ -10,7 +10,7 @@ EntityInfo EntityInfo::createPlayerInfo(int id, EntityType type, int parentId, c
 }
 
 
-EntityInfo EntityInfo::createRoomInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, bool isDark)
+EntityInfo EntityInfo::createRoomInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, bool isDark)
 {
 	EntityInfo info{ id, type, parentId, name, description };
 	info.room.isDark = isDark;
@@ -18,7 +18,7 @@ EntityInfo EntityInfo::createRoomInfo(int id, EntityType type, int parentId, con
 }
 
 
-EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, Direction direction, bool isLocked, const char* lockedDescription, int targetRoomId)
+EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const char* lockedDescription, int targetRoomId)
 {
 	EntityInfo info{ id, type, parentId, name, description };
 	info.exit.direction = direction;
@@ -29,7 +29,7 @@ EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, con
 }
 
 
-EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, const char * inspectDescription, bool isVisibleInDark, bool hasLight)
+EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const char* inspectDescription, bool isVisibleInDark, bool hasLight)
 {
 	EntityInfo info{ id, type, parentId, name, description };
 	info.item.inspectDescription = inspectDescription;
@@ -39,7 +39,7 @@ EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, con
 }
 
 
-EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string & name, const std::string & description, const char * inspectDescription, bool isVisibleInDark)
+EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const char* inspectDescription, bool isVisibleInDark)
 {
 	EntityInfo info{ id, type, parentId, name, description };
 	info.interactable.inspectDescription = inspectDescription;

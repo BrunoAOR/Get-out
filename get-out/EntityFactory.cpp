@@ -32,10 +32,10 @@ void EntityFactory::close()
 }
 
 
-Entity * EntityFactory::createEntity(EntityInfo info)
+Entity* EntityFactory::createEntity(EntityInfo info)
 {
 	assert(m_entitiesById.count(info.id) == 0);
-	Entity * entity = nullptr;
+	Entity* entity = nullptr;
 	switch (info.type)
 	{
 	case EntityType::PLAYER:
@@ -59,10 +59,9 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 		Entity* targetRoom = getEntity(info.exit.targetRoomId);
 		assert(targetRoom && targetRoom->getType() == EntityType::ROOM);
 		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.exit.lockedDescription, static_cast<Room*>(targetRoom));
-		break; 
-	}
-	default:
 		break;
+	}
+
 	}
 	if (entity != nullptr)
 	{
@@ -79,7 +78,7 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 }
 
 
-Entity * EntityFactory::getEntity(int id) const
+Entity* EntityFactory::getEntity(int id) const
 {
 	if (m_entitiesById.count(id) != 0)
 	{

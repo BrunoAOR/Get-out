@@ -1,8 +1,6 @@
 #ifndef H_ENTITY_FACTORY
 #define H_ENTITY_FACTORY
 
-#include <string>
-#include <vector>
 #include <map>
 class Entity;
 struct EntityInfo;
