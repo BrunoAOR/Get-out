@@ -4,7 +4,7 @@
 #include "Exit.h"
 
 
-EffectLockExit::EffectLockExit(const std::string& effectDescription, Exit * exitToLock)
+EffectLockExit::EffectLockExit(const std::string& effectDescription, Exit* exitToLock)
 	: ActionEffect(effectDescription), m_exit(exitToLock)
 {
 	assert(m_exit);

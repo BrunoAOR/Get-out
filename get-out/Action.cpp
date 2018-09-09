@@ -78,9 +78,10 @@ void Action::performAction()
 	for (ActionEffect* effect : m_effects)
 	{
 		effect->doEffect();
-		if (effect->getEffectDescription() != "")
+		const std::string& effectDescription = effect->getEffectDescription();
+		if (effectDescription != "")
 		{
-			message += "\n" + effect->getEffectDescription();
+			message += "\n" + effectDescription;
 		}
 	}
 	if (message != "")
