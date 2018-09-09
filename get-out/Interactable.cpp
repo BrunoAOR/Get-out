@@ -33,7 +33,7 @@ std::string Interactable::getDetailedDescription() const
 }
 
 
-bool Interactable::canAddChild(const Entity * child) const
+bool Interactable::canAddChild(const Entity* child) const
 {
 	return child->getType() == EntityType::ITEM;
 }

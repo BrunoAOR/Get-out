@@ -13,7 +13,7 @@ enum class Direction;
 class Room :
 	public Entity
 {	
-	friend Entity * EntityFactory::createEntity(EntityInfo);
+	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
 	Room(int id, const std::string& name, const std::string& description, bool isDark);
 	virtual ~Room();

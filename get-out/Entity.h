@@ -18,14 +18,13 @@ public:
 	Entity(const Entity& source) = delete;
 	Entity& operator=(const Entity& source) = delete;
 
-	virtual void update() {}
-
 	// Getters and setters
 	EntityType getType() const;
-	std::string getName() const;
+	const std::string& getName() const;
 	virtual std::string getDescription() const;
 	bool isVisibleInDark() const;
 	virtual std::string getDetailedDescription() const;
+
 	bool hasChild(Entity* entity) const;
 	Entity* getChild(const std::string& entityName, bool searchInChildren=false) const;
 	Entity* getParent() const;
@@ -43,7 +42,6 @@ protected:
 	virtual bool canAddChild(const Entity* child) const;
 	virtual void addChild(Entity* child);
 	virtual void removeChild(const Entity* entity);
-
 };
 
 

@@ -34,7 +34,7 @@ std::string Exit::getLockedDescription() const
 }
 
 
-Room * Exit::getTargetRoom() const
+Room* Exit::getTargetRoom() const
 {
 	return m_targetRoom;
 }
@@ -52,7 +52,7 @@ void Exit::unlock()
 }
 
 
-bool Exit::canAddChild(const Entity * child) const
+bool Exit::canAddChild(const Entity* child) const
 {
 	return false;
 }
