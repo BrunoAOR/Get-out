@@ -3,28 +3,21 @@
 #include "globals.h"
 
 
-std::vector<std::string> getInstructionTypeNames()
+InstructionType getInstructionFromString(const std::string& text)
 {
-	static std::vector<std::string> namesList{ "ERROR", "QUIT", "HELP", "LOOK", "INVENTORY", "GO", "TAKE", "DROP", "INSPECT", "OPEN", "USE", "PUT" };
-	return namesList;
-}
-
-
-InstructionType getInstructionFromString(const std::string & s)
-{
-	if (caselessEquals(s, "ERROR"))		return InstructionType::ERROR;
-	if (caselessEquals(s, "QUIT"))		return InstructionType::QUIT;
-	if (caselessEquals(s, "HELP"))		return InstructionType::HELP;
-	if (caselessEquals(s, "LOOK"))		return InstructionType::LOOK;
-	if (caselessEquals(s, "INVENTORY"))	return InstructionType::INVENTORY;
-	if (caselessEquals(s, "GO"))		return InstructionType::GO;
-	if (caselessEquals(s, "TAKE"))		return InstructionType::TAKE;
-	if (caselessEquals(s, "DROP"))		return InstructionType::DROP;
-	if (caselessEquals(s, "INSPECT"))	return InstructionType::INSPECT;
-	if (caselessEquals(s, "OPEN"))		return InstructionType::OPEN;
-	if (caselessEquals(s, "USE"))		return InstructionType::USE;
-	if (caselessEquals(s, "PUT"))		return InstructionType::PUT;
-	return InstructionType::_UNDEFINED;
+	if (caselessEquals(text, "ERROR"))		return InstructionType::ERROR;
+	if (caselessEquals(text, "QUIT"))		return InstructionType::QUIT;
+	if (caselessEquals(text, "HELP"))		return InstructionType::HELP;
+	if (caselessEquals(text, "LOOK"))		return InstructionType::LOOK;
+	if (caselessEquals(text, "INVENTORY"))	return InstructionType::INVENTORY;
+	if (caselessEquals(text, "GO"))			return InstructionType::GO;
+	if (caselessEquals(text, "TAKE"))		return InstructionType::TAKE;
+	if (caselessEquals(text, "DROP"))		return InstructionType::DROP;
+	if (caselessEquals(text, "INSPECT"))	return InstructionType::INSPECT;
+	if (caselessEquals(text, "OPEN"))		return InstructionType::OPEN;
+	if (caselessEquals(text, "USE"))		return InstructionType::USE;
+	if (caselessEquals(text, "PUT"))		return InstructionType::PUT;
+	return InstructionType::ERROR;
 }
 
 
@@ -44,8 +37,6 @@ std::string getStringFromInstruction(InstructionType instructionType)
 	case InstructionType::OPEN:			return "OPEN";
 	case InstructionType::USE:			return "USE";
 	case InstructionType::PUT:			return "PUT";
-	default:							return "";
-	// default case includes having an _UNDEFINED
 	}
 }
 
@@ -66,7 +57,6 @@ std::string getInstructionPreposition(InstructionType instructionType)
 	case InstructionType::OPEN:			return "";
 	case InstructionType::USE:			return "ON";
 	case InstructionType::PUT:			return "IN";
-	default:							return "";
 	}
 }
 

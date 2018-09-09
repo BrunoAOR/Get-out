@@ -73,7 +73,7 @@ bool InputParser::checkInputValidity(const std::vector<std::string>& input, Inst
 	InstructionType action = getInstructionFromString(input[0]);
 	const std::string actionString = getStringFromInstruction(action);
 	const int actionExpectedLength = getInstructionExpectedLength(action);
-	if (action == InstructionType::_UNDEFINED || action == InstructionType::ERROR)
+	if (action == InstructionType::ERROR)
 	{
 		instruction->errorDescription = "Input rejected: I can't understand the word " + input[0] + ".";
 		return false;

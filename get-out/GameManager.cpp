@@ -80,10 +80,6 @@ LoopStatus GameManager::processInput(const std::string & userInput)
 		Instruction* instruction = m_inputParser->parse(userInput);
 		switch (instruction->instructionType)
 		{
-		case InstructionType::_UNDEFINED:
-			OutputLog("ERROR: Resulting Instruction undefined!\n");
-			m_loopStatus = LoopStatus::UPDATE_ERROR;
-			break;
 		case InstructionType::ERROR:
 			consoleLog(instruction->errorDescription);
 			break;
@@ -103,8 +99,6 @@ LoopStatus GameManager::processInput(const std::string & userInput)
 		case InstructionType::USE:
 		case InstructionType::PUT:
 			player->executeInstruction(instruction);
-			break;
-		default:
 			break;
 		}
 
