@@ -31,9 +31,9 @@ void Player::setActionFactory(ActionFactory * actionFactory)
 }
 
 
-void Player::executeInstruction(const Instruction * instruction)
+void Player::executeInstruction(const Instruction& instruction)
 {
-	switch (instruction->instructionType)
+	switch (instruction.instructionType)
 	{
 	case InstructionType::LOOK:
 		look();
@@ -63,7 +63,7 @@ void Player::executeInstruction(const Instruction * instruction)
 		put(instruction);
 		break;
 	default:
-		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(instruction->instructionType));
+		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(instruction.instructionType));
 		assert(false);
 		break;
 	}
@@ -122,12 +122,12 @@ void Player::inventory()
 }
 
 
-bool Player::go(const Instruction* instruction)
+bool Player::go(const Instruction& instruction)
 {
-	Direction direction = getDirectionFromString(instruction->param1);
+	Direction direction = getDirectionFromString(instruction.param1);
 	if (direction == Direction::_UNDEFINED)
 	{
-		consoleLog(instruction->param1 + " doesn't seem to be a valid direction to go to.");
+		consoleLog(instruction.param1 + " doesn't seem to be a valid direction to go to.");
 		return false;
 	}
 
@@ -168,11 +168,11 @@ bool Player::go(const Instruction* instruction)
 }
 
 
-bool Player::take(const Instruction* instruction)
+bool Player::take(const Instruction& instruction)
 {
 	Entity* target = nullptr;
 	// Try to get an Entity with the requested name from the room.
-	target = m_hasLight ? m_location->getChild(instruction->param1) : m_location->getChildInDarkness(instruction->param1);
+	target = m_hasLight ? m_location->getChild(instruction.param1) : m_location->getChildInDarkness(instruction.param1);
 	
 	if (target)
 	{
@@ -196,23 +196,23 @@ bool Player::take(const Instruction* instruction)
 		return false;
 	}
 	// Try to get an Entity within the children of the room's children to customize the message.
-	target = m_hasLight ? m_location->getChild(instruction->param1, true) : m_location->getChildInDarkness(instruction->param1, true);
+	target = m_hasLight ? m_location->getChild(instruction.param1, true) : m_location->getChildInDarkness(instruction.param1, true);
 
 	if (target)
 	{
 		consoleLog("You can't take the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
 		return false;
 	}
-	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
+	consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
 	return false;
 }
 
 
-bool Player::drop(const Instruction* instruction)
+bool Player::drop(const Instruction& instruction)
 {
 	Entity* target = nullptr;
 	// Try to get an Entity with the requested name from the player's inventory (it will be an ITEM).
-	target = getChild(instruction->param1);
+	target = getChild(instruction.param1);
 	if (target)
 	{
 		target->setParent(m_location);
@@ -224,25 +224,25 @@ bool Player::drop(const Instruction* instruction)
 		return true;
 	}
 	// Try to get an Entity within the children of the player's inventory to customize the message.
-	target = getChild(instruction->param1, true);
+	target = getChild(instruction.param1, true);
 	if (target)
 	{
 		consoleLog("You can't drop the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
 		return false;
 	}
-	consoleLog("You don't have the " + instruction->param1 + " that you intend to drop.");
+	consoleLog("You don't have the " + instruction.param1 + " that you intend to drop.");
 	return false;
 }
 
 
-bool Player::inspect(const Instruction* instruction)
+bool Player::inspect(const Instruction& instruction)
 {
 	Entity* target;
 	// Try to get an Entity* with the requested name from the palyer's inventory or the room.
-	target = getChild(instruction->param1, true);
+	target = getChild(instruction.param1, true);
 	if (!target)
 	{
-		target = m_hasLight ? m_location->getChild(instruction->param1, true) : m_location->getChildInDarkness(instruction->param1, true);
+		target = m_hasLight ? m_location->getChild(instruction.param1, true) : m_location->getChildInDarkness(instruction.param1, true);
 	}
 	if (target)
 	{
@@ -255,15 +255,15 @@ bool Player::inspect(const Instruction* instruction)
 		consoleLog(target->getDetailedDescription());
 		return true;
 	}
-	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
+	consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
 	return false;
 }
 
 
-bool Player::open(const Instruction * instruction)
+bool Player::open(const Instruction& instruction)
 {
 	// Try to get an Entity* with the requested name form the Room.
-	Entity* target = m_hasLight ? m_location->getChild(instruction->param1) : m_location->getChildInDarkness(instruction->param1);
+	Entity* target = m_hasLight ? m_location->getChild(instruction.param1) : m_location->getChildInDarkness(instruction.param1);
 	if (target)
 	{
 		// Try to get an InteractableOpen* with the requested Entity name from the World.
@@ -277,19 +277,19 @@ bool Player::open(const Instruction * instruction)
 		consoleLog("You can't open the " + target->getName() + ".");
 		return false;
 	}
-	consoleLog("There doesn't seem to be anything called " + instruction->param1 + " in here.");
+	consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
 	return false;
 }
 
 
-bool Player::use(const Instruction * instruction)
+bool Player::use(const Instruction& instruction)
 {
 	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
-	Entity* item = getChild(instruction->param1, true);
+	Entity* item = getChild(instruction.param1, true);
 	if (item)
 	{
 		// Try to get an Entity* with the requested name form the Room.
-		Entity* target = m_hasLight ? m_location->getChild(instruction->param2) : m_location->getChildInDarkness(instruction->param2);
+		Entity* target = m_hasLight ? m_location->getChild(instruction.param2) : m_location->getChildInDarkness(instruction.param2);
 		if (target)
 		{
 			if (target->getType() == EntityType::INTERACTABLE)
@@ -307,29 +307,29 @@ bool Player::use(const Instruction * instruction)
 		}
 		if (!target)
 		{
-			target = getChild(instruction->param2, true);
+			target = getChild(instruction.param2, true);
 			if (target)
 			{
 				consoleLog("You can't use the " + item->getName() + " on the " + target->getName() + ".");
 				return false;
 			}
 		}
-		consoleLog("There doesn't seem to be anything called " + instruction->param2 + " in here.");
+		consoleLog("There doesn't seem to be anything called " + instruction.param2 + " in here.");
 		return false;
 	}
-	consoleLog("You don't have the " + instruction->param1 + " that you intend to use.");
+	consoleLog("You don't have the " + instruction.param1 + " that you intend to use.");
 	return false;
 }
 
 
-bool Player::put(const Instruction * instruction)
+bool Player::put(const Instruction& instruction)
 {
 	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
-	Entity* item = getChild(instruction->param1);
+	Entity* item = getChild(instruction.param1);
 	if (item)
 	{
 		// Try to get a second Entity* with the requested name form the Inventory (will also be an item).
-		Entity* containerItem = getChild(instruction->param2);
+		Entity* containerItem = getChild(instruction.param2);
 		if (containerItem)
 		{
 			assert(m_actionFactory);
@@ -342,10 +342,10 @@ bool Player::put(const Instruction * instruction)
 			consoleLog("You can't put the " + item->getName() + " in the " + containerItem->getName() + ".");
 			return false;
 		}
-		consoleLog("There is no " + instruction->param2 + " in your inventory to put the " + item->getName() + " into.");
+		consoleLog("There is no " + instruction.param2 + " in your inventory to put the " + item->getName() + " into.");
 		return false;
 	}
-	consoleLog("You don't have the " + instruction->param1 + " that you intend to put into something else.");
+	consoleLog("You don't have the " + instruction.param1 + " that you intend to put into something else.");
 	return false;
 }
 

@@ -73,15 +73,15 @@ LoopStatus GameManager::close()
 }
 
 
-LoopStatus GameManager::processInput(const std::string & userInput)
+LoopStatus GameManager::processInput(const std::string& userInput)
 {
 	if (userInput != "")
 	{
-		Instruction* instruction = m_inputParser->parse(userInput);
-		switch (instruction->instructionType)
+		Instruction instruction = m_inputParser->parse(userInput);
+		switch (instruction.instructionType)
 		{
 		case InstructionType::ERROR:
-			consoleLog(instruction->errorDescription);
+			consoleLog(instruction.param1);
 			break;
 		case InstructionType::QUIT:
 			m_loopStatus = LoopStatus::EXIT;
@@ -101,9 +101,6 @@ LoopStatus GameManager::processInput(const std::string & userInput)
 			player->executeInstruction(instruction);
 			break;
 		}
-
-		delete instruction;
-		instruction = nullptr;
 	}
 	// Check whether a GameEnd request has been made
 	if (m_loopStatus == LoopStatus::CONTINUE && isGameEndRequested)

@@ -38,6 +38,7 @@ std::string getStringFromInstruction(InstructionType instructionType)
 	case InstructionType::USE:			return "USE";
 	case InstructionType::PUT:			return "PUT";
 	}
+	return "";
 }
 
 
@@ -58,6 +59,7 @@ std::string getInstructionPreposition(InstructionType instructionType)
 	case InstructionType::USE:			return "ON";
 	case InstructionType::PUT:			return "IN";
 	}
+	return "";
 }
 
 
@@ -77,6 +79,6 @@ unsigned int getInstructionExpectedLength(InstructionType instructionType)
 	case InstructionType::OPEN:			return 2;
 	case InstructionType::USE:			return 4;
 	case InstructionType::PUT:			return 4;
-	default:							return 0;
 	}
+	return 0;
 }
