@@ -1,25 +1,84 @@
-#include "worldConfig.h"
+#include "GameDataLoader.h"
 
-#include "EntityFactory.h"
+#include <assert.h>
+#include <fstream>
 #include "ActionFactory.h"
-#include "EntityInfo.h"
-#include "EntityType.h"
-#include "Direction.h"
 #include "ActionType.h"
-#include "Player.h"
-#include "Item.h"
-#include "Exit.h"
-#include "Room.h"
+#include "Direction.h"
 #include "EffectAddEntitiesToRoom.h"
-#include "EffectReplaceEntity.h"
-#include "EffectUnlockExit.h"
+#include "EffectGameEnd.h"
 #include "EffectLockExit.h"
 #include "EffectPlaceItemInItem.h"
 #include "EffectRemoveEntities.h"
-#include "EffectGameEnd.h"
+#include "EffectReplaceEntity.h"
+#include "EffectUnlockExit.h"
+#include "EntityFactory.h"
+#include "EntityInfo.h"
+#include "EntityType.h"
+#include "Exit.h"
+#include "Item.h"
+#include "Player.h"
+#include "Room.h"
+#include "globals.h"
+#include "json.hpp"
 
 
-Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
+GameDataLoader::GameDataLoader()
+{
+	welcomeMessage = "\n  GET OUT\n\n";
+	welcomeMessage += "Developed by Bruno Ortiz\n";
+	welcomeMessage += "A game based on the text adventure Zork\n\n";
+	welcomeMessage += "Use the HELP command to learn how to play\n";
+	welcomeMessage += "Note: You may find it useful to draw a map as you go.\n";
+	welcomeMessage += "\n--------------------------------------------------\n\n";
+	welcomeMessage += "You find yourself in an unfamiliar place, uncertain of where you are or how you got there.\n";
+	welcomeMessage += "You can see a door on the southern side of the room and hear some noises coming from the other side.";
+
+	gameEndMessage = "\n\n";
+	gameEndMessage += "As you remove the heavy triple lock from the door, you can hear footsteps on the other side.\n";
+	gameEndMessage += "You quickly open the door and are blinded by a very bright white light.\n";
+	gameEndMessage += "While trying to adjust to the extreme lighting, you feel a needle in your neck.\n";
+	gameEndMessage += "As you fall down to the ground, fainting, you hear a rather high-pitched voice saying:\n";
+	gameEndMessage += "'THE EXIT IS A LIE'.\n\n";
+	gameEndMessage += "...\n\n";
+	gameEndMessage += "Well, you finished the game.\n";
+	gameEndMessage += "It's probably not the ending you expected, but at least you have some closure now.";
+
+	exitMessage = "Thanks for playing GET OUT!";
+}
+
+
+GameDataLoader::~GameDataLoader()
+{
+}
+
+
+Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory* actionFactory)
+{
+	assert(entityFactory && actionFactory);
+	Player* player = hardcodedMethod(entityFactory, actionFactory);
+	return player;
+}
+
+
+const std::string& GameDataLoader::getWelcomeMessage()
+{
+	return welcomeMessage;
+}
+
+
+const std::string& GameDataLoader::getGameEndMessage()
+{
+	return gameEndMessage;
+}
+
+
+const std::string& GameDataLoader::getExitMessage()
+{
+	return exitMessage;
+}
+
+Player* GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory)
 {
 	// *** ENTITIES *** //
 
@@ -111,7 +170,7 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	{
 		entityFactory->createEntity(entityInfo);
 	}
-	
+
 	// *** PLAYER *** //
 	EntityInfo playerInfo = EntityInfo::createPlayerInfo(0, EntityType::PLAYER, -1, "", "", 2, 8);
 	Player* player = static_cast<Player*>(entityFactory->createEntity(playerInfo));
@@ -245,33 +304,4 @@ Player* setUpWorld(EntityFactory* entityFactory, ActionFactory* actionFactory)
 	}
 
 	return player;
-}
-
-
-std::string getWelcomeMessage()
-{
-	std::string message = "\n  GET OUT\n\n";
-	message += "Developed by Bruno Ortiz\n";
-	message += "A game based on the text adventure Zork\n\n";
-	message += "Use the HELP command to learn how to play\n";
-	message += "Note: You may find it useful to draw a map as you go.\n";
-	message += "\n--------------------------------------------------\n\n";
-	message += "You find yourself in an unfamiliar place, uncertain of where you are or how you got there.\n";
-	message += "You can see a door on the southern side of the room and hear some noises coming from the other side.";
-	return message;
-}
-
-
-std::string getGameEndMessage()
-{
-	std::string message = "\n\n";
-	message += "As you remove the heavy triple lock from the door, you can hear footsteps on the other side.\n";
-	message += "You quickly open the door and are blinded by a very bright white light.\n";
-	message += "While trying to adjust to the extreme lighting, you feel a needle in your neck.\n";
-	message += "As you fall down to the ground, fainting, you hear a rather high-pitched voice saying:\n";
-	message += "'THE EXIT IS A LIE'.\n\n";
-	message += "...\n\n";
-	message += "Well, you finished the game.\n";
-	message += "It's probably not the ending you expected, but at least you have some closure now.";
-	return message;
 }

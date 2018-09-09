@@ -11,7 +11,10 @@ int main()
 	GameManager app;
 	loopStatus = app.init();
 
-	OutputLog("INFO: App will update.");
+	if (loopStatus == LoopStatus::CONTINUE)
+	{
+		OutputLog("INFO: App will update.");
+	}
 	while (loopStatus == LoopStatus::CONTINUE)
 	{
 		loopStatus = app.update();

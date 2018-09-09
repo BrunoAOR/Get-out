@@ -5,6 +5,7 @@
 #include "globals.h"
 class ActionFactory;
 class EntityFactory;
+class GameDataLoader;
 class InputParser;
 class InputReader;
 class Player;
@@ -24,7 +25,8 @@ public:
 	LoopStatus close();
 
 private:
-	Player* player = nullptr;
+	Player* m_player = nullptr;
+	GameDataLoader* m_gameDataLoader;
 	InputReader * m_inputReader = nullptr;
 	InputParser* m_inputParser = nullptr;
 	EntityFactory* m_entityFactory = nullptr;

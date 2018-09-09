@@ -2,16 +2,17 @@
 
 #include "ActionFactory.h"
 #include "EntityFactory.h"
+#include "GameDataLoader.h"
 #include "InputParser.h"
 #include "InputReader.h"
 #include "Instruction.h"
 #include "InstructionType.h"
 #include "Player.h"
-#include "worldConfig.h"
 
 
 GameManager::GameManager()
 {
+	m_gameDataLoader = new GameDataLoader();
 	m_inputReader = new InputReader();
 	m_inputParser = new InputParser();
 	m_entityFactory = new EntityFactory();
@@ -29,16 +30,26 @@ GameManager::~GameManager()
 	m_inputParser = nullptr;
 	delete m_inputReader;
 	m_inputReader = nullptr;
+	delete m_gameDataLoader;
+	m_gameDataLoader = nullptr;
 }
 
 
 LoopStatus GameManager::init()
 {
-	player = setUpWorld(m_entityFactory, m_actionFactory);
-	player->setActionFactory(m_actionFactory);
-	// After all the initialization, log the welcome message
-	consoleLog(getWelcomeMessage());
-
+	m_player = m_gameDataLoader->loadGameData(m_entityFactory, m_actionFactory);
+	if (m_player)
+	{
+		m_player->setActionFactory(m_actionFactory);
+		// After all the initialization, log the welcome message
+		consoleLog(m_gameDataLoader->getWelcomeMessage());
+		m_loopStatus = LoopStatus::CONTINUE;
+	}
+	else
+	{
+		consoleLog("An error occured while loading the game configuration file!\n(Press Enter to close the window)");
+		m_loopStatus = LoopStatus::INIT_ERROR;
+	}
 	return LoopStatus::CONTINUE;
 }
 
@@ -46,12 +57,12 @@ LoopStatus GameManager::init()
 LoopStatus GameManager::update()
 {
 	// Adquire input and pass to World
-	if (m_loopStatus != LoopStatus::EXIT)
+	if (m_loopStatus == LoopStatus::CONTINUE)
 	{
 		processInput(m_inputReader->getInput());
 		if (m_loopStatus == LoopStatus::EXIT)
 		{
-			consoleLog("Thanks for playing GET OUT!\n(Press Enter to close the window)");
+			consoleLog(m_gameDataLoader->getExitMessage() + "\n(Press Enter to close the window)");
 		}
 	}
 	else
@@ -98,7 +109,7 @@ LoopStatus GameManager::processInput(const std::string& userInput)
 		case InstructionType::OPEN:
 		case InstructionType::USE:
 		case InstructionType::PUT:
-			player->executeInstruction(instruction);
+			m_player->executeInstruction(instruction);
 			break;
 		}
 	}

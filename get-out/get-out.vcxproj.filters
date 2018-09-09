@@ -88,9 +88,6 @@
     <ClCompile Include="ActionFactory.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="worldConfig.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="EffectGameEnd.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
@@ -104,6 +101,9 @@
       <Filter>ActionEffects</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDataLoader.cpp">
       <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,9 +174,6 @@
     <ClInclude Include="ActionFactory.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="worldConfig.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="EffectGameEnd.h">
       <Filter>ActionEffects</Filter>
     </ClInclude>
@@ -190,6 +187,9 @@
       <Filter>ActionEffects</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDataLoader.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
