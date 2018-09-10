@@ -8,8 +8,7 @@ class EntityFactory;
 class Player;
 struct EntityInfo;
 
-typedef nlohmann::json Json;
-
+using Json = nlohmann::json;
 
 class GameDataLoader
 {
@@ -25,9 +24,12 @@ public:
 	const std::string& getExitMessage();
 
 private:
+	using entityLoaderFunc = bool(GameDataLoader::*)(const Json&, std::vector<EntityInfo>&);
+
 	Json* loadJson(const char* path);
 	bool loadMessages(Json* json);
-	bool loadEntities(Json* json, EntityFactory* entityFactory);
+	bool loadAndCreateEntities(Json* json, EntityFactory* entityFactory);
+	bool loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderfunc);
 	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
 	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);
 	Player* hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);

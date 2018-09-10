@@ -44,7 +44,7 @@ Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory
 	{
 		if (loadMessages(json))
 		{
-			if (loadEntities(json, entityFactory))
+			if (loadAndCreateEntities(json, entityFactory))
 			{
 				player = hardcodedMethod(entityFactory, actionFactory);
 			}
@@ -128,7 +128,7 @@ bool GameDataLoader::loadMessages(Json* json)
 }
 
 
-bool GameDataLoader::loadEntities(Json* json, EntityFactory* entityFactory)
+bool GameDataLoader::loadAndCreateEntities(Json* json, EntityFactory* entityFactory)
 {
 	assert(json && entityFactory);
 	bool success = true;
@@ -138,39 +138,10 @@ bool GameDataLoader::loadEntities(Json* json, EntityFactory* entityFactory)
 		std::vector<EntityInfo> entityInfos;
 		Json& jsonEntityInfos = (*json)["entityInfos"];
 		
-		// Rooms
-		if (success && jsonEntityInfos.count("rooms"))
-		{
-			Json& jsonRooms = jsonEntityInfos["rooms"];
-			if (!loadRoomInfos(jsonRooms, entityInfos))
-			{
-				OutputLog("ERROR: Failed to load rooms from the game configuration file!");
-				success = false;
-			}
-		}
-		else
-		{
-			OutputLog("ERROR: The gameConfig file does not contain the key 'rooms' within 'entityInfos'!");
-			success = false;
-		}
-
-		// Exits
-		if (success && jsonEntityInfos.count("exits"))
-		{
-			Json& jsonExits = jsonEntityInfos["exits"];
-			if (!loadExitInfos(jsonExits, entityInfos))
-			{
-				OutputLog("ERROR: Failed to load exits from the game configuration file!");
-				success = false;
-			}
-		}
-		else
-		{
-			OutputLog("ERROR: The gameConfig file does not contain the key 'exits' within 'entityInfos'!");
-			success = false;
-		}
-
-		// TO DO: Load exits, interactables and items
+		success = loadEntitiesByKey(jsonEntityInfos, entityInfos, "rooms", &GameDataLoader::loadRoomInfos)
+			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "exits", &GameDataLoader::loadExitInfos);
+		
+		// TO DO: Load interactables and items
 
 		// Create all entities
 		if (success)
@@ -184,6 +155,28 @@ bool GameDataLoader::loadEntities(Json* json, EntityFactory* entityFactory)
 	else
 	{
 		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
+		success = false;
+	}
+
+	return success;
+}
+
+bool GameDataLoader::loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderFunc)
+{
+	bool success = true;
+
+	if (jsonEntityInfos.count(key))
+	{
+		const Json& jsonRooms = jsonEntityInfos[key];
+		if (!((this->*loaderFunc)(jsonRooms, entityInfos)))
+		{
+			OutputLog("ERROR: Failed to load rooms from the game configuration file!");
+			success = false;
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: The gameConfig file does not contain the key '%s' within 'entityInfos'!", key.c_str());
 		success = false;
 	}
 
