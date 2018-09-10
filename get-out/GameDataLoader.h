@@ -26,9 +26,9 @@ public:
 private:
 	using entityLoaderFunc = bool(GameDataLoader::*)(const Json&, std::vector<EntityInfo>&);
 
-	Json* loadJson(const char* path);
-	bool loadMessages(Json* json);
-	Player* loadAndCreateEntities(Json* json, EntityFactory* entityFactory);
+	Json loadJson(const char* path);
+	bool loadMessages(const Json& json);
+	Player* loadAndCreateEntities(const Json& json, EntityFactory* entityFactory);
 	bool loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderfunc);
 	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
 	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);

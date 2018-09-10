@@ -39,8 +39,8 @@ Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory
 	Player* player = nullptr;
 	const char* path = CONFIG_FILE_PATH;
 
-	Json* json = loadJson(path);
-	if (json != nullptr)
+	Json json = loadJson(path);
+	if (!json.is_null())
 	{
 		if (loadMessages(json))
 		{
@@ -63,33 +63,32 @@ Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory
 	{
 		OutputLog("ERROR: Failed to open the json file from %s", path);
 	}
+	
 	return player;
 }
 
 
-Json* GameDataLoader::loadJson(const char* path)
+Json GameDataLoader::loadJson(const char* path)
 {
-	Json* json = nullptr;
+	Json json;
 
 	std::ifstream file(path);
 	if (file.good())
 	{
 		assert(file.good());
-		json = new Json();
-		file >> (*json);
+		file >> json;
 	}
 	return json;
 }
 
 
-bool GameDataLoader::loadMessages(Json* json)
+bool GameDataLoader::loadMessages(const Json& json)
 {
-	assert(json);
 	bool success = true;
 
-	if (json->count("messages"))
+	if (json.count("messages"))
 	{
-		Json& messages = (*json)["messages"];
+		const Json& messages = json["messages"];
 		if (success && messages.count("welcomeMessage"))
 		{
 			welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
@@ -129,15 +128,15 @@ bool GameDataLoader::loadMessages(Json* json)
 }
 
 
-Player* GameDataLoader::loadAndCreateEntities(Json* json, EntityFactory* entityFactory)
+Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* entityFactory)
 {
-	assert(json && entityFactory);
+	assert(entityFactory);
 	Player* player = nullptr;
 
-	if (json->count("entityInfos"))
+	if (json.count("entityInfos"))
 	{
 		std::vector<EntityInfo> entityInfos;
-		Json& jsonEntityInfos = (*json)["entityInfos"];
+		const Json& jsonEntityInfos = json["entityInfos"];
 		
 		bool success = loadEntitiesByKey(jsonEntityInfos, entityInfos, "rooms", &GameDataLoader::loadRoomInfos)
 			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "exits", &GameDataLoader::loadExitInfos)
