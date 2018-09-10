@@ -26,11 +26,11 @@ public:
 
 private:
 	Player* m_player = nullptr;
-	GameDataLoader* m_gameDataLoader;
 	InputReader * m_inputReader = nullptr;
 	InputParser* m_inputParser = nullptr;
 	EntityFactory* m_entityFactory = nullptr;
 	ActionFactory* m_actionFactory = nullptr;
+	GameDataLoader* m_gameDataLoader = nullptr;
 	LoopStatus m_loopStatus = LoopStatus::CONTINUE;
 
 	LoopStatus processInput(const std::string& userInput);

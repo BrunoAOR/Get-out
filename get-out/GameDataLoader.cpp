@@ -24,8 +24,10 @@
 #include "json.hpp"
 
 
-GameDataLoader::GameDataLoader()
+GameDataLoader::GameDataLoader(EntityFactory* entityFactory, ActionFactory* actionFactory)
+	:m_entityFactory(entityFactory), m_actionFactory(actionFactory)
 {
+	assert(m_entityFactory && m_actionFactory);
 }
 
 
@@ -34,29 +36,27 @@ GameDataLoader::~GameDataLoader()
 }
 
 
-Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory* actionFactory)
+Player* GameDataLoader::loadGameData(const char* path)
 {
-	assert(entityFactory && actionFactory);
 	Player* player = nullptr;
-	const char* path = CONFIG_FILE_PATH;
 
 	Json json = loadJson(path);
 	if (!json.is_null())
 	{
 		if (loadMessages(json))
 		{
-			player = loadAndCreateEntities(json, entityFactory);
+			player = loadAndCreateEntities(json);
 			if (player)
 			{
-				if (loadAndCreateActions(json, actionFactory))
+				if (loadAndCreateActions(json))
 				{
-					hardcodedMethod(entityFactory, actionFactory);
+					hardcodedMethod(m_entityFactory, m_actionFactory);
 				}
 				else
 				{
 					// Clean Up
 					player = nullptr;
-					entityFactory->close();
+					m_entityFactory->close();
 					OutputLog("ERROR: Failed to load actions from the game configuration file!");
 				}
 			}
@@ -102,7 +102,7 @@ bool GameDataLoader::loadMessages(const Json& json)
 		const Json& messages = json["messages"];
 		if (success && messages.count("welcomeMessage"))
 		{
-			welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
+			m_welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
 		}
 		else
 		{
@@ -112,7 +112,7 @@ bool GameDataLoader::loadMessages(const Json& json)
 
 		if (success && messages.count("gameEndMessage"))
 		{
-			gameEndMessage = (messages["gameEndMessage"]).get<std::string>();
+			m_gameEndMessage = (messages["gameEndMessage"]).get<std::string>();
 		}
 		else
 		{
@@ -122,7 +122,7 @@ bool GameDataLoader::loadMessages(const Json& json)
 
 		if (success && messages.count("exitMessage"))
 		{
-			exitMessage = (messages["exitMessage"]).get<std::string>();
+			m_exitMessage = (messages["exitMessage"]).get<std::string>();
 		}
 		else
 		{
@@ -139,9 +139,8 @@ bool GameDataLoader::loadMessages(const Json& json)
 }
 
 
-Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* entityFactory)
+Player* GameDataLoader::loadAndCreateEntities(const Json& json)
 {
-	assert(entityFactory);
 	Player* player = nullptr;
 
 	if (json.count("entityInfos"))
@@ -159,7 +158,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* e
 		{
 			for (EntityInfo& entityInfo : entityInfos)
 			{
-				entityFactory->createEntity(entityInfo);
+				m_entityFactory->createEntity(entityInfo);
 			}
 
 			if (jsonEntityInfos.count("player"))
@@ -168,7 +167,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* e
 				if (jsonPlayer.count("id") && jsonPlayer.count("parentId") && jsonPlayer.count("maxItems") && jsonPlayer.count("startingRoomId"))
 				{
 					EntityInfo playerInfo = EntityInfo::createPlayerInfo(jsonPlayer["id"], EntityType::PLAYER, jsonPlayer["parentId"], "", "", jsonPlayer["maxItems"], jsonPlayer["startingRoomId"]);
-					player = static_cast<Player*>(entityFactory->createEntity(playerInfo));
+					player = static_cast<Player*>(m_entityFactory->createEntity(playerInfo));
 				}
 				else
 				{
@@ -182,7 +181,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* e
 
 			if (!player)
 			{
-				entityFactory->close();
+				m_entityFactory->close();
 			}
 		}
 	}
@@ -315,9 +314,8 @@ bool GameDataLoader::loadItemInfos(const Json& jsonItems, std::vector<EntityInfo
 	return success;
 }
 
-bool GameDataLoader::loadAndCreateActions(const Json& json, ActionFactory* actionFactory)
+bool GameDataLoader::loadAndCreateActions(const Json& json)
 {
-	assert(actionFactory);
 	bool success = true;
 
 	if (json.count("actions"))
@@ -328,7 +326,7 @@ bool GameDataLoader::loadAndCreateActions(const Json& json, ActionFactory* actio
 			const Json& action = jsonActions[i];
 			if (action.count("type") && action.count("description") && action.count("shouldDestroy") && action.count("firstEntityId") && action.count("secondEntityId") && action.count("effects"))
 			{
-				success &= loadAction(action, actionFactory, i);
+				success &= loadAction(action, i);
 			}
 			else
 			{
@@ -343,15 +341,14 @@ bool GameDataLoader::loadAndCreateActions(const Json& json, ActionFactory* actio
 
 	if (!success)
 	{
-		actionFactory->close();
+		m_actionFactory->close();
 	}
 
 	return success;
 }
 
-bool GameDataLoader::loadAction(const Json& jsonAction, ActionFactory* actionFactory, int actionIndex)
+bool GameDataLoader::loadAction(const Json& jsonAction, int actionIndex)
 {
-	assert(actionFactory);
 	bool success = false;
 
 	ActionType type = getActionTypeFromString(jsonAction["type"]);
@@ -362,7 +359,7 @@ bool GameDataLoader::loadAction(const Json& jsonAction, ActionFactory* actionFac
 		success = loadActionEffects(jsonAction["effects"], actionEffects, actionIndex);
 		if (success)
 		{
-			actionFactory->createAction(type, jsonAction["description"], actionEffects, jsonAction["shouldDestroy"], jsonAction["firstEntityId"], jsonAction["secondEntityId"]);
+			m_actionFactory->createAction(type, jsonAction["description"], actionEffects, jsonAction["shouldDestroy"], jsonAction["firstEntityId"], jsonAction["secondEntityId"]);
 		}
 	}
 	else
@@ -380,10 +377,10 @@ bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<Acti
 
 	for (unsigned int i = 0; i < jsonEffects.size(); ++i)
 	{
-		const Json& effect = jsonEffects[i];
-		if (effect.count("type") && effect.count("description"))
+		const Json& jsonEffect = jsonEffects[i];
+		if (jsonEffect.count("type") && jsonEffect.count("description"))
 		{
-			ActionEffectType effectType = getActionEffectTypeFromString("type");
+			ActionEffectType effectType = getActionEffectTypeFromString(jsonEffect["type"]);
 			if (effectType != ActionEffectType::_UNDEFINED)
 			{
 				// Now we can switch over the action types and load them appropriately
@@ -416,19 +413,19 @@ bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<Acti
 
 const std::string& GameDataLoader::getWelcomeMessage()
 {
-	return welcomeMessage;
+	return m_welcomeMessage;
 }
 
 
 const std::string& GameDataLoader::getGameEndMessage()
 {
-	return gameEndMessage;
+	return m_gameEndMessage;
 }
 
 
 const std::string& GameDataLoader::getExitMessage()
 {
-	return exitMessage;
+	return m_exitMessage;
 }
 
 void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory)

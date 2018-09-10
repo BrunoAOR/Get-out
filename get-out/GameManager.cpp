@@ -12,16 +12,18 @@
 
 GameManager::GameManager()
 {
-	m_gameDataLoader = new GameDataLoader();
 	m_inputReader = new InputReader();
 	m_inputParser = new InputParser();
 	m_entityFactory = new EntityFactory();
 	m_actionFactory = new ActionFactory(m_entityFactory);
+	m_gameDataLoader = new GameDataLoader(m_entityFactory, m_actionFactory);
 }
 
 
 GameManager::~GameManager()
 {
+	delete m_gameDataLoader;
+	m_gameDataLoader = nullptr; 
 	delete m_actionFactory;
 	m_actionFactory = nullptr;
 	delete m_entityFactory;
@@ -30,14 +32,12 @@ GameManager::~GameManager()
 	m_inputParser = nullptr;
 	delete m_inputReader;
 	m_inputReader = nullptr;
-	delete m_gameDataLoader;
-	m_gameDataLoader = nullptr;
 }
 
 
 LoopStatus GameManager::init()
 {
-	m_player = m_gameDataLoader->loadGameData(m_entityFactory, m_actionFactory);
+	m_player = m_gameDataLoader->loadGameData(CONFIG_FILE_PATH);
 	if (m_player)
 	{
 		m_player->setActionFactory(m_actionFactory);

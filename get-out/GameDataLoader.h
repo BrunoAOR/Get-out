@@ -14,12 +14,12 @@ using Json = nlohmann::json;
 class GameDataLoader
 {
 public:
-	GameDataLoader();
+	GameDataLoader(EntityFactory* entityFactory, ActionFactory* actionFactory);
 	~GameDataLoader();
 	GameDataLoader(const GameDataLoader& source) = delete;
 	GameDataLoader operator=(const GameDataLoader& source) = delete;
 
-	Player* loadGameData(EntityFactory* entityFactory, ActionFactory* actionFactory);
+	Player* loadGameData(const char* path);
 	const std::string& getWelcomeMessage();
 	const std::string& getGameEndMessage();
 	const std::string& getExitMessage();
@@ -30,22 +30,25 @@ private:
 	Json loadJson(const char* path);
 	bool loadMessages(const Json& json);
 	
-	Player* loadAndCreateEntities(const Json& json, EntityFactory* entityFactory);
+	Player* loadAndCreateEntities(const Json& json);
 	bool loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderfunc);
 	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
 	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);
 	bool loadInteractableInfos(const Json& jsonInteractables, std::vector<EntityInfo>& entityInfos);
 	bool loadItemInfos(const Json& jsonItems, std::vector<EntityInfo>& entityInfos);
 
-	bool loadAndCreateActions(const Json& jsonActions, ActionFactory* actionFactory);
-	bool loadAction(const Json& jsonAction, ActionFactory* actionFactory, int actionIndex);
+	bool loadAndCreateActions(const Json& jsonActions);
+	bool loadAction(const Json& jsonAction, int actionIndex);
 	bool loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& effects, int actionIndex);
 
 	void hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 
-	std::string welcomeMessage;
-	std::string gameEndMessage;
-	std::string exitMessage;
+	std::string m_welcomeMessage;
+	std::string m_gameEndMessage;
+	std::string m_exitMessage;
+
+	EntityFactory* m_entityFactory = nullptr;
+	ActionFactory* m_actionFactory = nullptr;
 };
 
 
