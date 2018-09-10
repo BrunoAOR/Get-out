@@ -481,10 +481,69 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEff
 		break;
 
 	case ActionEffectType::PLACE_ITEM_IN_ITEM:
+	{
+		if (jsonEffect.count("itemId") && jsonEffect.count("containerId"))
+		{
+			Item* item = static_cast<Item*>(m_entityFactory->getEntity(jsonEffect["itemId"]));
+			Item* container = static_cast<Item*>(m_entityFactory->getEntity(jsonEffect["containerId"]));
+			if (item && container)
+			{
+				actionEffect = new EffectPlaceItemInItem(jsonEffect["description"], item, container);
+			}
+			else
+			{
+				if (!item)
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'itemId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+				}
+				if (!container)
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'containerId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+				}
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
 		break;
+	}
 
 	case ActionEffectType::REMOVE_ENTITIES:
+	{
+		if (jsonEffect.count("entitiesToRemoveIds"))
+		{
+			bool success = true;
+
+			const Json& entitiesToRemoveIds = jsonEffect["entitiesToRemoveIds"];
+			std::vector<Entity*> entitiesToRemove;
+			int entitiesCount = entitiesToRemoveIds.size();
+			for (int i = 0; i < entitiesCount; ++i)
+			{
+				Entity* entity = m_entityFactory->getEntity(entitiesToRemoveIds[i]);
+				if (entity)
+				{
+					entitiesToRemove.push_back(entity);
+				}
+				else
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", effectIndex, actionIndex, i);
+					success = false;
+				}
+			}
+
+			if (success)
+			{
+				// We continue
+				actionEffect = new EffectRemoveEntities(jsonEffect["description"], entitiesToRemove);
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
 		break;
+	}
 
 	case ActionEffectType::REPLACE_ENTITY:
 	{
@@ -492,17 +551,20 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEff
 		{
 			Entity* entityToRemove = m_entityFactory->getEntity(jsonEffect["entityToRemoveId"]);
 			Entity* entityToAdd = m_entityFactory->getEntity(jsonEffect["entityToAddId"]);
-			if (!entityToRemove)
-			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
-			}
-			if (!entityToAdd)
-			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", effectIndex, actionIndex);
-			}
 			if (entityToRemove && entityToAdd)
 			{
 				actionEffect = new EffectReplaceEntity(jsonEffect["description"], entityToRemove, entityToAdd);
+			}
+			else
+			{
+				if (!entityToRemove)
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+				}
+				if (!entityToAdd)
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+				}
 			}
 		}
 		else
@@ -637,13 +699,13 @@ void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory
 
 	// Dining Room
 	{
-		EffectReplaceEntity* dogReplace = new EffectReplaceEntity("The DOG stops being angry and moves aside with the BONE in his mouth.", entityFactory->getEntity(51), entityFactory->getEntity(52));
-		EffectRemoveEntities* boneRemove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(68)});
-		EffectUnlockExit* unlockDiningRoomToKitchen = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(50)));
-		actionFactory->createAction(ActionType::ITEM_USE, "Slowly, you give the BONE to the big DOG.", std::vector<ActionEffect*>{dogReplace, boneRemove, unlockDiningRoomToKitchen}, true, 68, 51);
+		//EffectReplaceEntity* dogReplace = new EffectReplaceEntity("The DOG stops being angry and moves aside with the BONE in his mouth.", entityFactory->getEntity(51), entityFactory->getEntity(52));
+		//EffectRemoveEntities* boneRemove = new EffectRemoveEntities("", std::vector<Entity*>{entityFactory->getEntity(68)});
+		//EffectUnlockExit* unlockDiningRoomToKitchen = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(50)));
+		//actionFactory->createAction(ActionType::ITEM_USE, "Slowly, you give the BONE to the big DOG.", std::vector<ActionEffect*>{dogReplace, boneRemove, unlockDiningRoomToKitchen}, true, 68, 51);
 
-		EffectPlaceItemInItem* keyBInKeychainPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(53)), static_cast<Item*>(entityFactory->getEntity(13)));
-		actionFactory->createAction(ActionType::ITEM_PUT, "You placed the KEY_B in the KEYCHAIN", std::vector<ActionEffect*>{keyBInKeychainPlace}, true, 53, 13);
+		//EffectPlaceItemInItem* keyBInKeychainPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(53)), static_cast<Item*>(entityFactory->getEntity(13)));
+		//actionFactory->createAction(ActionType::ITEM_PUT, "You placed the KEY_B in the KEYCHAIN.", std::vector<ActionEffect*>{keyBInKeychainPlace}, true, 53, 13);
 	}
 
 	// Main Hall

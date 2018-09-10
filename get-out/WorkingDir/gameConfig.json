@@ -640,6 +640,46 @@
 	"actions": [
 		{
 			"type": "ITEM_USE",
+			"description": "Slowly, you give the BONE to the big DOG.",
+			"shouldDestroy": true,
+			"firstEntityId": 68,
+			"secondEntityId": 51,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The DOG stops being angry and moves aside with the BONE in his mouth.",
+					"entityToRemoveId": 51,
+					"entityToAddId": 52
+				},
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [68]
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 50
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the KEY_B in the KEYCHAIN.",
+			"shouldDestroy": true,
+			"firstEntityId": 53,
+			"secondEntityId": 13,
+			"effects": [
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 53,
+					"containerId": 13 
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
 			"description": "You use the KEY_A to open the first part of the triple LOCK.",
 			"shouldDestroy": true,
 			"firstEntityId": 48,
