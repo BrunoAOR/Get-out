@@ -637,5 +637,8 @@
 			"maxItems": 2,
 			"startingRoomId": 8
 		}
-	}
+	},
+	"actions": [
+		
+	]
 }

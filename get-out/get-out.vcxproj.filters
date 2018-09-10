@@ -106,6 +106,12 @@
     <ClCompile Include="GameDataLoader.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="ActionType.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionEffectType.cpp">
+      <Filter>ActionEffects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -194,5 +200,8 @@
     </ClInclude>
     <ClInclude Include="json_fwd.hpp" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="ActionEffectType.h">
+      <Filter>ActionEffects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

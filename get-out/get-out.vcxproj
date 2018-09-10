@@ -119,7 +119,9 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
+    <ClCompile Include="ActionEffectType.cpp" />
     <ClCompile Include="ActionFactory.cpp" />
+    <ClCompile Include="ActionType.cpp" />
     <ClCompile Include="EffectGameEnd.cpp" />
     <ClCompile Include="EffectLockExit.cpp" />
     <ClCompile Include="EffectPlaceItemInItem.cpp" />
@@ -147,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
+    <ClInclude Include="ActionEffectType.h" />
     <ClInclude Include="ActionFactory.h" />
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="EffectGameEnd.h" />

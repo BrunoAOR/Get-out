@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <fstream>
+#include "ActionEffectType.h"
 #include "ActionFactory.h"
 #include "ActionType.h"
 #include "Direction.h"
@@ -47,7 +48,17 @@ Player* GameDataLoader::loadGameData(EntityFactory* entityFactory, ActionFactory
 			player = loadAndCreateEntities(json, entityFactory);
 			if (player)
 			{
-				hardcodedMethod(entityFactory, actionFactory);
+				if (loadAndCreateActions(json, actionFactory))
+				{
+					hardcodedMethod(entityFactory, actionFactory);
+				}
+				else
+				{
+					// Clean Up
+					player = nullptr;
+					entityFactory->close();
+					OutputLog("ERROR: Failed to load actions from the game configuration file!");
+				}
 			}
 			else
 			{
@@ -298,6 +309,104 @@ bool GameDataLoader::loadItemInfos(const Json& jsonItems, std::vector<EntityInfo
 		{
 			OutputLog("ERROR: Item at index %i doesn't have all the required keys!", i);
 			success = false;
+		}
+	}
+
+	return success;
+}
+
+bool GameDataLoader::loadAndCreateActions(const Json& json, ActionFactory* actionFactory)
+{
+	assert(actionFactory);
+	bool success = true;
+
+	if (json.count("actions"))
+	{
+		const Json& jsonActions = json["actions"];
+		for (unsigned int i = 0; i < jsonActions.size(); ++i)
+		{
+			const Json& action = jsonActions[i];
+			if (action.count("type") && action.count("description") && action.count("shouldDestroy") && action.count("firstEntityId") && action.count("secondEntityId") && action.count("effects"))
+			{
+				success &= loadAction(action, actionFactory, i);
+			}
+			else
+			{
+				OutputLog("ERROR: Action at index %i doesn't have all the required keys!", i);
+			}
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
+	}
+
+	if (!success)
+	{
+		actionFactory->close();
+	}
+
+	return success;
+}
+
+bool GameDataLoader::loadAction(const Json& jsonAction, ActionFactory* actionFactory, int actionIndex)
+{
+	assert(actionFactory);
+	bool success = false;
+
+	ActionType type = getActionTypeFromString(jsonAction["type"]);
+	if (type != ActionType::_UNDEFINED)
+	{
+		// Load ActionEffects
+		std::vector<ActionEffect*> actionEffects;
+		success = loadActionEffects(jsonAction["effects"], actionEffects, actionIndex);
+		if (success)
+		{
+			actionFactory->createAction(type, jsonAction["description"], actionEffects, jsonAction["shouldDestroy"], jsonAction["firstEntityId"], jsonAction["secondEntityId"]);
+		}
+	}
+	else
+	{
+		OutputLog("ERROR: Action at index %i doesn't have a valid value for the key 'type'!", actionIndex);
+	}
+
+	return success;
+}
+
+
+bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& actionEffects, int actionIndex)
+{
+	bool success = true;
+
+	for (unsigned int i = 0; i < jsonEffects.size(); ++i)
+	{
+		const Json& effect = jsonEffects[i];
+		if (effect.count("type") && effect.count("description"))
+		{
+			ActionEffectType effectType = getActionEffectTypeFromString("type");
+			if (effectType != ActionEffectType::_UNDEFINED)
+			{
+				// Now we can switch over the action types and load them appropriately
+			}
+			else
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have a valid value for the key 'type'!", i, actionIndex);
+				success = false;
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", i, actionIndex);
+			success = false;
+		}
+	}
+
+	// Clean Up after failure
+	if (!success)
+	{
+		for each (ActionEffect* actionEffect in actionEffects)
+		{
+			delete actionEffect;
 		}
 	}
 
