@@ -478,7 +478,25 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEff
 	}
 
 	case ActionEffectType::LOCK_EXIT:
+	{
+		if (jsonEffect.count("exitToLockId"))
+		{
+			Exit* exitToLock = static_cast<Exit*>(m_entityFactory->getEntity(jsonEffect["exitToLockId"]));
+			if (exitToLock)
+			{
+				actionEffect = new EffectLockExit(jsonEffect["description"], exitToLock);
+			}
+			else
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToLockId' that does't point to any existing Exit!", effectIndex, actionIndex);
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
 		break;
+	}
 
 	case ActionEffectType::PLACE_ITEM_IN_ITEM:
 	{
@@ -653,48 +671,47 @@ void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory
 
 	// Kitchen
 	{
-		actionFactory->createAction(ActionType::GO, "You hear a voice coming from the Dining Room saying: 'Go to the exit'", noEffect, true, 7, 4);
-		actionFactory->createAction(ActionType::GO, "There's no one around anymore. Who said those words?", noEffect, true, 4, 7);
+		//actionFactory->createAction(ActionType::GO, "You hear a voice coming from the Dining Room saying: 'Go to the exit'", noEffect, true, 7, 4);
+		//actionFactory->createAction(ActionType::GO, "There's no one around anymore. Who said those words?", noEffect, true, 4, 7);
 
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.", noEffect, false, 27);
+		//actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.", noEffect, false, 27);
 
-		EffectReplaceEntity* cupboardReplace = new EffectReplaceEntity("", entityFactory->getEntity(27), entityFactory->getEntity(28));
-		EffectAddEntitiesToRoom* flashlightAndFlourAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(29), entityFactory->getEntity(31)}, static_cast<Room*>(entityFactory->getEntity(4)));
-		actionFactory->createAction(ActionType::ITEM_USE, "You swing the TROPHY at the CUPBOARD glass doors and they shatter.", std::vector<ActionEffect*>{cupboardReplace, flashlightAndFlourAdd}, true, 65, 27);
+		//EffectReplaceEntity* cupboardReplace = new EffectReplaceEntity("", entityFactory->getEntity(27), entityFactory->getEntity(28));
+		//EffectAddEntitiesToRoom* flashlightAndFlourAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(29), entityFactory->getEntity(31)}, static_cast<Room*>(entityFactory->getEntity(4)));
+		//actionFactory->createAction(ActionType::ITEM_USE, "You swing the TROPHY at the CUPBOARD glass doors and they shatter.", std::vector<ActionEffect*>{cupboardReplace, flashlightAndFlourAdd}, true, 65, 27);
 
-		EffectReplaceEntity* flashlightReplace = new EffectReplaceEntity("The flashlight now emits a fairly bright light that will allow you to see in the dark.", entityFactory->getEntity(29), entityFactory->getEntity(30));
-		EffectPlaceItemInItem* batteriesInFlashlightPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(69)), static_cast<Item*>(entityFactory->getEntity(30)));
-		EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
-		actionFactory->createAction(ActionType::ITEM_PUT, "You placed the BATTERIES in the FLASHLIGHT.", std::vector<ActionEffect*>{flashlightReplace, batteriesInFlashlightPlace, EmptyRoomToGardenLock}, true, 69, 29);
+		//EffectReplaceEntity* flashlightReplace = new EffectReplaceEntity("The flashlight now emits a fairly bright light that will allow you to see in the dark.", entityFactory->getEntity(29), entityFactory->getEntity(30));
+		//EffectPlaceItemInItem* batteriesInFlashlightPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(69)), static_cast<Item*>(entityFactory->getEntity(30)));
+		//EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		//actionFactory->createAction(ActionType::ITEM_PUT, "You placed the BATTERIES in the FLASHLIGHT.", std::vector<ActionEffect*>{flashlightReplace, batteriesInFlashlightPlace, EmptyRoomToGardenLock}, true, 69, 29);
 
-		EffectReplaceEntity* drawersReplace = new EffectReplaceEntity("", entityFactory->getEntity(32), entityFactory->getEntity(33));
-		EffectAddEntitiesToRoom* panAndPotAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(34), entityFactory->getEntity(35)}, static_cast<Room*>(entityFactory->getEntity(4)));
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You open all of the DRAWERS and only find a big PAN and a very small POT.", std::vector<ActionEffect*>{drawersReplace, panAndPotAdd}, true, 32);
+		//EffectReplaceEntity* drawersReplace = new EffectReplaceEntity("", entityFactory->getEntity(32), entityFactory->getEntity(33));
+		//EffectAddEntitiesToRoom* panAndPotAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(34), entityFactory->getEntity(35)}, static_cast<Room*>(entityFactory->getEntity(4)));
+		//actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You open all of the DRAWERS and only find a big PAN and a very small POT.", std::vector<ActionEffect*>{drawersReplace, panAndPotAdd}, true, 32);
 	}
 
 	// Empty Room
 	{
-		EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
-		actionFactory->createAction(ActionType::TAKE, "", std::vector<ActionEffect*>{EmptyRoomToGardenLock}, false, 30);
+		//EffectLockExit* EmptyRoomToGardenLock = new EffectLockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		//actionFactory->createAction(ActionType::TAKE, "", std::vector<ActionEffect*>{EmptyRoomToGardenLock}, false, 30);
 
-		EffectUnlockExit* EmptyRoomToGardenUnlock = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
-		actionFactory->createAction(ActionType::DROP, "", std::vector<ActionEffect*>{EmptyRoomToGardenUnlock}, false, 30);
+		//EffectUnlockExit* EmptyRoomToGardenUnlock = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
+		//actionFactory->createAction(ActionType::DROP, "", std::vector<ActionEffect*>{EmptyRoomToGardenUnlock}, false, 30);
 	}
 
 	// Office
 	{
-		EffectReplaceEntity* latchReplace = new EffectReplaceEntity("", entityFactory->getEntity(43), entityFactory->getEntity(44));
-		EffectUnlockExit* unlockOfficeToTrophyRoom = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(42)));
-		EffectUnlockExit* unlockTrophyRoomToOffice = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(64)));
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You pull on the LATCH to open it.", std::vector<ActionEffect*>{latchReplace, unlockOfficeToTrophyRoom, unlockTrophyRoomToOffice}, true, 43);
+		//EffectReplaceEntity* latchReplace = new EffectReplaceEntity("", entityFactory->getEntity(43), entityFactory->getEntity(44));
+		//EffectUnlockExit* unlockOfficeToTrophyRoom = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(42)));
+		//EffectUnlockExit* unlockTrophyRoomToOffice = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(64)));
+		//actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You pull on the LATCH to open it.", std::vector<ActionEffect*>{latchReplace, unlockOfficeToTrophyRoom, unlockTrophyRoomToOffice}, true, 43);
 
-		EffectReplaceEntity* drawerReplace = new EffectReplaceEntity("", entityFactory->getEntity(46), entityFactory->getEntity(47));
-		EffectAddEntitiesToRoom* keyAAdd = new EffectAddEntitiesToRoom("You can see a small key labeled KEY_A", std::vector<Entity*>{entityFactory->getEntity(48)}, static_cast<Room*>(entityFactory->getEntity(6)));
-		actionFactory->createAction(ActionType::ITEM_USE, "You use the SCREWDRIVER to force the DRAWER open.", std::vector<ActionEffect*>{drawerReplace, keyAAdd}, true, 24, 46);
+		//EffectReplaceEntity* drawerReplace = new EffectReplaceEntity("", entityFactory->getEntity(46), entityFactory->getEntity(47));
+		//EffectAddEntitiesToRoom* keyAAdd = new EffectAddEntitiesToRoom("You can see a small key labeled KEY_A.", std::vector<Entity*>{entityFactory->getEntity(48)}, static_cast<Room*>(entityFactory->getEntity(6)));
+		//actionFactory->createAction(ActionType::ITEM_USE, "You use the SCREWDRIVER to force the DRAWER open.", std::vector<ActionEffect*>{drawerReplace, keyAAdd}, true, 24, 46);
 
-		EffectPlaceItemInItem* keyAInKeychainPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(48)), static_cast<Item*>(entityFactory->getEntity(13)));
-		actionFactory->createAction(ActionType::ITEM_PUT, "You placed the KEY_A in the KEYCHAIN", std::vector<ActionEffect*>{keyAInKeychainPlace}, true, 48, 13);
-
+		//EffectPlaceItemInItem* keyAInKeychainPlace = new EffectPlaceItemInItem("", static_cast<Item*>(entityFactory->getEntity(48)), static_cast<Item*>(entityFactory->getEntity(13)));
+		//actionFactory->createAction(ActionType::ITEM_PUT, "You placed the KEY_A in the KEYCHAIN.", std::vector<ActionEffect*>{keyAInKeychainPlace}, true, 48, 13);
 	}
 
 	// Dining Room

@@ -639,6 +639,187 @@
 	},
 	"actions": [
 		{
+			"type": "GO",
+			"description": "You hear a voice coming from the Dining Room saying: 'Go to the exit'",
+			"shouldDestroy": true,
+			"firstEntityId": 7,
+			"secondEntityId": 4,
+			"effects": []
+		},
+		{
+			"type": "GO",
+			"description": "There's no one around anymore. Who said those words?",
+			"shouldDestroy": true,
+			"firstEntityId": 4,
+			"secondEntityId": 7,
+			"effects": []
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.",
+			"shouldDestroy": false,
+			"firstEntityId": 27,
+			"secondEntityId": -1,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You swing the TROPHY at the CUPBOARD glass doors and they shatter.",
+			"shouldDestroy": true,
+			"firstEntityId": 65,
+			"secondEntityId": 27,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 27,
+					"entityToAddId": 28
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [29, 31],
+					"targetRoomId": 4
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the BATTERIES in the FLASHLIGHT.",
+			"shouldDestroy": true,
+			"firstEntityId": 69,
+			"secondEntityId": 29,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The flashlight now emits a fairly bright light that will allow you to see in the dark.",
+					"entityToRemoveId": 29,
+					"entityToAddId": 30
+				},
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 69,
+					"containerId": 30
+				},
+				{
+					"type": "LOCK_EXIT",
+					"description": "",
+					"exitToLockId": 37
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You open all of the DRAWERS and only find a big PAN and a very small POT.",
+			"shouldDestroy": true,
+			"firstEntityId": 32,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 32,
+					"entityToAddId": 33
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [34, 35],
+					"targetRoomId": 4
+				}
+			]
+		},
+		{
+			"type": "TAKE",
+			"description": "",
+			"shouldDestroy": false,
+			"firstEntityId": 30,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "LOCK_EXIT",
+					"description": "",
+					"exitToLockId": 37
+				}
+			]
+		},
+		{
+			"type": "DROP",
+			"description": "",
+			"shouldDestroy": false,
+			"firstEntityId": 30,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 37
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You pull on the LATCH to open it.",
+			"shouldDestroy": true,
+			"firstEntityId": 43,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 43,
+					"entityToAddId": 44
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 42
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 64
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the SCREWDRIVER to force the DRAWER open.",
+			"shouldDestroy": true,
+			"firstEntityId": 24,
+			"secondEntityId": 46,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 46,
+					"entityToAddId": 47
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "You can see a small key labeled KEY_A.",
+					"entitiesToAddIds": [48],
+					"targetRoomId": 6
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the KEY_A in the KEYCHAIN.",
+			"shouldDestroy": true,
+			"firstEntityId": 48,
+			"secondEntityId": 13,
+			"effects": [
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 48,
+					"containerId": 13 
+				}
+			]
+		},
+		{
 			"type": "ITEM_USE",
 			"description": "Slowly, you give the BONE to the big DOG.",
 			"shouldDestroy": true,
