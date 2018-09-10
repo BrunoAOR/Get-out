@@ -272,6 +272,200 @@
 				"lockedDescription": "The door is locked from the other side.",
 				"targetRoomId": 6
 			}
+		],
+		"interactables": [
+			{
+				"id": 11,
+				"parentId": 1,
+				"name": "CABINET",
+				"description": "A metal CABINET hangs from the wall",
+				"inspectDescription": "The CABINET doors are closed.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 12,
+				"parentId": -1,
+				"name": "CABINET",
+				"description": "A metal CABINET hangs from the wall",
+				"inspectDescription": "The CABINET doors are opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 18,
+				"parentId": 2,
+				"name": "MAN",
+				"description": "An old MAN stands in from of the western exit",
+				"inspectDescription": "The MAN doesn't seem to be going anywhere.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 19,
+				"parentId": -1,
+				"name": "MAN",
+				"description": "The old MAN is still standing in front of the door",
+				"inspectDescription": "The MAN is trying to clear the flour from his eyes.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 20,
+				"parentId": -1,
+				"name": "MAN",
+				"description": "An old MAN lying on the ground",
+				"inspectDescription": "The MAN seems to be unconscious.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 27,
+				"parentId": 4,
+				"name": "CUPBOARD",
+				"description": "A large CUPBOARD with glass doors",
+				"inspectDescription": "The CUPBOARD doors are closed shut but you can see a FLASHLIGHT and a bag of FLOUR inside.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 28,
+				"parentId": -1,
+				"name": "CUPBOARD",
+				"description": "A large CUPBOARD with broken glass doors",
+				"inspectDescription": "The CUPBOARD doors are still closed but the glass panes are broken.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 32,
+				"parentId": 4,
+				"name": "DRAWERS",
+				"description": "A group of DRAWERS next to the sink",
+				"inspectDescription": "The DRAWERS are closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 33,
+				"parentId": -1,
+				"name": "DRAWERS",
+				"description": "A group of DRAWERS next to the sink",
+				"inspectDescription": "The DRAWERS are closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 39,
+				"parentId": 5,
+				"name": "RAT",
+				"description": "A big RAT rests next to the northern door.",
+				"inspectDescription": "The RAT doesn't look very friendly.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 43,
+				"parentId": 6,
+				"name": "LATCH",
+				"description": "A LATCH keeping the southern door locked",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 44,
+				"parentId": -1,
+				"name": "LATCH",
+				"description": "An opened LATCH",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 46,
+				"parentId": 6,
+				"name": "DRAWER",
+				"description": "A DRAWER that is very slightly opened but stuck",
+				"inspectDescription": "You can see something shiny inside the DRAWER",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 47,
+				"parentId": -1,
+				"name": "DRAWER",
+				"description": "An opened DRAWER",
+				"inspectDescription": "The DRAWER edge is slightly damaged.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 51,
+				"parentId": 7,
+				"name": "DOG",
+				"description": "A big angry DOG stands in front of the north door",
+				"inspectDescription": "The DOG seems to be really, really angry.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 52,
+				"parentId": -1,
+				"name": "DOG",
+				"description": "A big happy DOG lies down next to the north door",
+				"inspectDescription": "The DOG seems to be really, really happy.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 59,
+				"parentId": 8,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door",
+				"inspectDescription": "The LOCK is labeled 'ABC'.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 60,
+				"parentId": -1,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door, the first part is already opened",
+				"inspectDescription": "The LOCK is labeled 'ABC', the first part is already opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 61,
+				"parentId": -1,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door, only the third part remains locked",
+				"inspectDescription": "The LOCK is labeled 'ABC', only the third part remains locked.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 66,
+				"parentId": 9,
+				"name": "BAG",
+				"description": "A fabric BAG closed with a simple knot",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 67,
+				"parentId": -1,
+				"name": "BAG",
+				"description": "An opened fabric BAG",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 70,
+				"parentId": 9,
+				"name": "PANEL",
+				"description": "A small blue PANEL hangs from the wall",
+				"inspectDescription": "The PANEL door is closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 71,
+				"parentId": -1,
+				"name": "PANEL",
+				"description": "A small blue PANEL hangs from the wall",
+				"inspectDescription": "The PANEL door is opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 72,
+				"parentId": -1,
+				"name": "KEYHOLE",
+				"description": "A blue KEYHOLE in the back wall of the PANEL",
+				"inspectDescription": "The KEYHOLE seems to be part of some electronic circuitry.",
+				"isVisibleInDark": false
+			}
 		]
 	}
 }
