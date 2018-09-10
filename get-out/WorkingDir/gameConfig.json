@@ -466,6 +466,170 @@
 				"inspectDescription": "The KEYHOLE seems to be part of some electronic circuitry.",
 				"isVisibleInDark": false
 			}
+		],
+		"items": [
+			{
+				"id": 13,
+				"parentId": -1,
+				"name": "KEYCHAIN",
+				"description": "A shiny KEYCHAIN",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 14,
+				"parentId": 13,
+				"name": "KEY_C",
+				"description": "A small key labeled KEY_C",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 23,
+				"parentId": 3,
+				"name": "SHOVEL",
+				"description": "A small, worn out SHOVEL",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 24,
+				"parentId": 3,
+				"name": "SCREWDRIVER",
+				"description": "A standard Phillips SCREWDRIVER",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 29,
+				"parentId": -1,
+				"name": "FLASHLIGHT",
+				"description": "A small led FLASHLIGHT without batteries",
+				"inspectDescription": "The FLASHLIGHT looks brand new but is not working.",
+				"isVisibleInDark": true,
+				"hasLight": false
+			},
+			{
+				"id": 30,
+				"parentId": -1,
+				"name": "FLASHLIGHT",
+				"description": "A small and powerful led FLASHLIGHT",
+				"inspectDescription": "The FLASHLIGHT looks brand new.",
+				"isVisibleInDark": true,
+				"hasLight": true
+			},
+			{
+				"id": 31,
+				"parentId": -1,
+				"name": "FLOUR",
+				"description": "A bag of FLOUR",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 34,
+				"parentId": -1,
+				"name": "PAN",
+				"description": "A big PAN",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 35,
+				"parentId": -1,
+				"name": "POT",
+				"description": "A very small POT",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 40,
+				"parentId": 5,
+				"name": "BALL",
+				"description": "A small stress BALL",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 45,
+				"parentId": 6,
+				"name": "WHISKEY",
+				"description": "A WHISKEY bottle",
+				"inspectDescription": "The WHISKEY bottle is still sealed.",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 48,
+				"parentId": -1,
+				"name": "KEY_A",
+				"description": "A small key labeled KEY_A",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 53,
+				"parentId": 7,
+				"name": "KEY_B",
+				"description": "A small key labeled KEY_B",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 54,
+				"parentId": 7,
+				"name": "BLUE_KEY",
+				"description": "A small BLUE_KEY",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 62,
+				"parentId": 8,
+				"name": "POTATO",
+				"description": "A beautiful POTATO",
+				"inspectDescription": "The POTATO is very bright.",
+				"isVisibleInDark": true,
+				"hasLight": false
+			},
+			{
+				"id": 65,
+				"parentId": 9,
+				"name": "TROPHY",
+				"description": "A heavy-looking, mid-sized TROPHY",
+				"inspectDescription": "The TROPHY has an unreadable inscription.",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 68,
+				"parentId": -1,
+				"name": "BONE",
+				"description": "A dog toy shaped like a BONE",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 69,
+				"parentId": -1,
+				"name": "BATTERIES",
+				"description": "A couple of standard BATTERIES",
+				"inspectDescription": "The BATTERIES look brand new.",
+				"isVisibleInDark": false,
+				"hasLight": false
+			}
 		]
 	}
 }

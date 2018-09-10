@@ -140,7 +140,8 @@ bool GameDataLoader::loadAndCreateEntities(Json* json, EntityFactory* entityFact
 		
 		success = loadEntitiesByKey(jsonEntityInfos, entityInfos, "rooms", &GameDataLoader::loadRoomInfos)
 			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "exits", &GameDataLoader::loadExitInfos)
-			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "interactables", &GameDataLoader::loadInteractableInfos);
+			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "interactables", &GameDataLoader::loadInteractableInfos)
+			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "items", &GameDataLoader::loadItemInfos);
 		
 		// TO DO: Load interactables and items
 
@@ -254,6 +255,29 @@ bool GameDataLoader::loadInteractableInfos(const Json& jsonInteractables, std::v
 }
 
 
+bool GameDataLoader::loadItemInfos(const Json& jsonItems, std::vector<EntityInfo>& entityInfos)
+{
+	bool success = true;
+
+	for (unsigned int i = 0; i < jsonItems.size(); ++i)
+	{
+		const Json& item = jsonItems[i];
+		if (item.count("id") && item.count("parentId") && item.count("name") && item.count("description") && item.count("inspectDescription") && item.count("isVisibleInDark") && item.count("hasLight"))
+		{
+			EntityInfo ei = EntityInfo::createItemInfo(item["id"], EntityType::ITEM, item["parentId"], item["name"], item["description"], item["inspectDescription"], item["isVisibleInDark"], item["hasLight"]);
+			entityInfos.push_back(ei);
+		}
+		else
+		{
+			OutputLog("ERROR: Item at index %i doesn't have all the required keys!", i);
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+
 const std::string& GameDataLoader::getWelcomeMessage()
 {
 	return welcomeMessage;
@@ -290,8 +314,8 @@ Player* GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFact
 		//EntityInfo::createExitInfo(10, EntityType::EXIT, 1, "Storage Room TO Garden", "A rusted metal door", Direction::E, false, "", 2),
 		//EntityInfo::createInteractableInfo(11, EntityType::INTERACTABLE, 1, "CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are closed.", false),
 		//EntityInfo::createInteractableInfo(12, EntityType::INTERACTABLE, -1, "CABINET", "A metal CABINET hangs from the wall", "The CABINET doors are opened.", false),
-		EntityInfo::createItemInfo(13, EntityType::ITEM, -1, "KEYCHAIN", "A shiny KEYCHAIN", "", false, false),
-		EntityInfo::createItemInfo(14, EntityType::ITEM, 13, "KEY_C", "A small key labeled KEY_C", "", false, false),
+		//EntityInfo::createItemInfo(13, EntityType::ITEM, -1, "KEYCHAIN", "A shiny KEYCHAIN", "", false, false),
+		//EntityInfo::createItemInfo(14, EntityType::ITEM, 13, "KEY_C", "A small key labeled KEY_C", "", false, false),
 		// Garden
 		//EntityInfo::createExitInfo(15, EntityType::EXIT, 2, "Garden TO Storage Room", "A rusted metal door", Direction::W, true, "The MAN standing in front of the door pushes you away.", 1),
 		//EntityInfo::createExitInfo(16, EntityType::EXIT, 2, "Garden TO Tool Shed", "A wooden door covered in moss", Direction::E, false, "", 3),
@@ -302,42 +326,42 @@ Player* GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFact
 		// Tool Shed
 		//EntityInfo::createExitInfo(21, EntityType::EXIT, 3, "Tool Shed TO Garden", "A wooden door covered in moss", Direction::W, false, "", 2),
 		//EntityInfo::createExitInfo(22, EntityType::EXIT, 3, "Tool Shed TO Office", "A fancy looking door", Direction::S, false, "", 6),
-		EntityInfo::createItemInfo(23, EntityType::ITEM, 3, "SHOVEL", "A small, worn out SHOVEL", "", false, false),
-		EntityInfo::createItemInfo(24, EntityType::ITEM, 3, "SCREWDRIVER", "A standard Phillips SCREWDRIVER", "", false, false),
+		//EntityInfo::createItemInfo(23, EntityType::ITEM, 3, "SHOVEL", "A small, worn out SHOVEL", "", false, false),
+		//EntityInfo::createItemInfo(24, EntityType::ITEM, 3, "SCREWDRIVER", "A standard Phillips SCREWDRIVER", "", false, false),
 		// Kitchen
 		//EntityInfo::createExitInfo(25, EntityType::EXIT, 4, "Kitchen TO Empty Room", "A heavy looking wooden door", Direction::E, true, "The door is bolted shut.", 5),
 		//EntityInfo::createExitInfo(26, EntityType::EXIT, 4, "Kitchen TO Dining Room", "A swing door", Direction::S, false, "", 7),
 		//EntityInfo::createInteractableInfo(27, EntityType::INTERACTABLE, 4, "CUPBOARD", "A large CUPBOARD with glass doors", "The CUPBOARD doors are closed shut but you can see a FLASHLIGHT and a bag of FLOUR inside.", false),
 		//EntityInfo::createInteractableInfo(28, EntityType::INTERACTABLE, -1, "CUPBOARD", "A large CUPBOARD with broken glass doors", "The CUPBOARD doors are still closed but the glass panes are broken.", false),
-		EntityInfo::createItemInfo(29, EntityType::ITEM, -1, "FLASHLIGHT", "A small led FLASHLIGHT without batteries", "The FLASHLIGHT looks brand new but is not working.", true, false),
-		EntityInfo::createItemInfo(30, EntityType::ITEM, -1, "FLASHLIGHT", "A small and powerful led FLASHLIGHT", "The FLASHLIGHT looks brand new.", true, true),
-		EntityInfo::createItemInfo(31, EntityType::ITEM, -1, "FLOUR", "A bag of FLOUR", "", false, false),
+		//EntityInfo::createItemInfo(29, EntityType::ITEM, -1, "FLASHLIGHT", "A small led FLASHLIGHT without batteries", "The FLASHLIGHT looks brand new but is not working.", true, false),
+		//EntityInfo::createItemInfo(30, EntityType::ITEM, -1, "FLASHLIGHT", "A small and powerful led FLASHLIGHT", "The FLASHLIGHT looks brand new.", true, true),
+		//EntityInfo::createItemInfo(31, EntityType::ITEM, -1, "FLOUR", "A bag of FLOUR", "", false, false),
 		//EntityInfo::createInteractableInfo(32, EntityType::INTERACTABLE, 4, "DRAWERS", "A group of DRAWERS next to the sink", "The DRAWERS are closed.", false),
 		//EntityInfo::createInteractableInfo(33, EntityType::INTERACTABLE, -1, "DRAWERS", "A group of DRAWERS next to the sink", "The DRAWERS are opened.", false),
-		EntityInfo::createItemInfo(34, EntityType::ITEM, -1, "PAN", "A big PAN", "", false, false),
-		EntityInfo::createItemInfo(35, EntityType::ITEM, -1, "POT", "A very small POT", "", false, false),
+		//EntityInfo::createItemInfo(34, EntityType::ITEM, -1, "PAN", "A big PAN", "", false, false),
+		//EntityInfo::createItemInfo(35, EntityType::ITEM, -1, "POT", "A very small POT", "", false, false),
 		// Empty Room
 		//EntityInfo::createExitInfo(36, EntityType::EXIT, 5, "Empty Room TO Kitchen", "A heavy looking wooden door", Direction::W, true, "The door is bolted shut.", 4),
 		//EntityInfo::createExitInfo(37, EntityType::EXIT, 5, "Empty Room TO Garden", "A wooden door with small glass panels on the top half", Direction::N, false, "When you approach the door a big RAT is lured by the light from your flashlight and tries to bite you, so you step back.", 2),
 		//EntityInfo::createExitInfo(38, EntityType::EXIT, 5, "Empty Room TO Main Hall", "A thick wooden door", Direction::S, false, "", 8),
 		//EntityInfo::createInteractableInfo(39, EntityType::INTERACTABLE, 5, "RAT", "A big RAT rests next to the northern door", "The RAT doesn't look very friendly.", false),
-		EntityInfo::createItemInfo(40, EntityType::ITEM, 5, "BALL", "A small stress BALL", "", false, false),
+		//EntityInfo::createItemInfo(40, EntityType::ITEM, 5, "BALL", "A small stress BALL", "", false, false),
 		// Office
 		//EntityInfo::createExitInfo(41, EntityType::EXIT, 6, "Office TO Tool shed", "A fancy looking door", Direction::N, false, "", 3),
 		//EntityInfo::createExitInfo(42, EntityType::EXIT, 6, "Office TO Trophy Room", "A red-painted door", Direction::S, true, "The door is locked by a LATCH", 9),
 		//EntityInfo::createInteractableInfo(43, EntityType::INTERACTABLE, 6, "LATCH", "A LATCH keeping the southern door locked", "", false),
 		//EntityInfo::createInteractableInfo(44, EntityType::INTERACTABLE, -1, "LATCH", "An opened LATCH", "", false),
-		EntityInfo::createItemInfo(45, EntityType::ITEM, 6, "WHISKEY", "A WHISKEY bottle", "The WHISKEY bottle is still sealed.", false, false),
+		//EntityInfo::createItemInfo(45, EntityType::ITEM, 6, "WHISKEY", "A WHISKEY bottle", "The WHISKEY bottle is still sealed.", false, false),
 		//EntityInfo::createInteractableInfo(46, EntityType::INTERACTABLE, 6, "DRAWER", "A DRAWER that is very slightly opened but stuck", "You can see something shiny inside the DRAWER", false),
 		//EntityInfo::createInteractableInfo(47, EntityType::INTERACTABLE, -1, "DRAWER", "An opened DRAWER", "The DRAWER edge is slightly damaged.", false),
-		EntityInfo::createItemInfo(48, EntityType::ITEM, -1, "KEY_A", "A small key labeled KEY_A", "", false, false),
+		//EntityInfo::createItemInfo(48, EntityType::ITEM, -1, "KEY_A", "A small key labeled KEY_A", "", false, false),
 		// Dining Room
 		//EntityInfo::createExitInfo(49, EntityType::EXIT, 7, "Dining Room TO Main Hall", "A carved wooden door", Direction::E, false, "", 8),
 		//EntityInfo::createExitInfo(50, EntityType::EXIT, 7, "Dining Room TO Kitchen", "A swing door", Direction::N, true, "The door is blocked by a big angry DOG.", 4),
 		//EntityInfo::createInteractableInfo(51, EntityType::INTERACTABLE, 7, "DOG", "A big angry DOG stands in front of the north door", "The DOG seems to be really, really angry.", true),
 		//EntityInfo::createInteractableInfo(52, EntityType::INTERACTABLE, -1, "DOG", "A big happy DOG lies down next to the north door", "The DOG seems to be really, really happy.", true),
-		EntityInfo::createItemInfo(53, EntityType::ITEM, 7, "KEY_B", "A small key labeled KEY_B", "", false, false),
-		EntityInfo::createItemInfo(54, EntityType::ITEM, 7, "BLUE_KEY", "A small BLUE_KEY", "", false, false),
+		//EntityInfo::createItemInfo(53, EntityType::ITEM, 7, "KEY_B", "A small key labeled KEY_B", "", false, false),
+		//EntityInfo::createItemInfo(54, EntityType::ITEM, 7, "BLUE_KEY", "A small BLUE_KEY", "", false, false),
 		// Main Hall
 		//EntityInfo::createExitInfo(55, EntityType::EXIT, 8, "Main Hall TO Dining Room", "A carved wooden door", Direction::W, false, "", 7),
 		//EntityInfo::createExitInfo(56, EntityType::EXIT, 8, "Main Hall TO Trophy Room", "A nicely decorated door", Direction::E, false, "", 9),
@@ -346,15 +370,15 @@ Player* GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFact
 		//EntityInfo::createInteractableInfo(59, EntityType::INTERACTABLE, 8, "LOCK", "A triple LOCK on the south door", "The LOCK is labeled 'ABC'.", false),
 		//EntityInfo::createInteractableInfo(60, EntityType::INTERACTABLE, -1, "LOCK", "A triple LOCK on the south door, the first part is already opened", "The LOCK is labeled 'ABC', the first part is already opened.", false),
 		//EntityInfo::createInteractableInfo(61, EntityType::INTERACTABLE, -1, "LOCK", "A triple LOCK on the south door, only the third part remains locked", "The LOCK is labeled 'ABC', only the third part remains locked.", false),
-		EntityInfo::createItemInfo(62, EntityType::ITEM, 8, "POTATO", "A beautiful POTATO", "The POTATO is very bright.", true, false),
+		//EntityInfo::createItemInfo(62, EntityType::ITEM, 8, "POTATO", "A beautiful POTATO", "The POTATO is very bright.", true, false),
 		// Trophy Room
 		//EntityInfo::createExitInfo(63, EntityType::EXIT, 9, "Trophy Room TO Main Hall", "A nicely decorated door", Direction::W, false, "", 8),
 		//EntityInfo::createExitInfo(64, EntityType::EXIT, 9, "Trophy Room TO Office", "A red-painted door", Direction::N, true, "The door is locked from the other side.", 6),
-		EntityInfo::createItemInfo(65, EntityType::ITEM, 9, "TROPHY", "A heavy-looking, mid-sized TROPHY", "The TROPHY has an unreadable inscription.", false, false),
+		//EntityInfo::createItemInfo(65, EntityType::ITEM, 9, "TROPHY", "A heavy-looking, mid-sized TROPHY", "The TROPHY has an unreadable inscription.", false, false),
 		//EntityInfo::createInteractableInfo(66, EntityType::INTERACTABLE, 9, "BAG", "A fabric BAG closed with a simple knot", "", false),
 		//EntityInfo::createInteractableInfo(67, EntityType::INTERACTABLE, -1, "BAG", "An opened fabric BAG", "", false),
-		EntityInfo::createItemInfo(68, EntityType::ITEM, -1, "BONE", "A dog toy shaped like a BONE", "", false, false),
-		EntityInfo::createItemInfo(69, EntityType::ITEM, -1, "BATTERIES", "A couple of standard BATTERIES", "The BATTERIES look brand new.", false, false),
+		//EntityInfo::createItemInfo(68, EntityType::ITEM, -1, "BONE", "A dog toy shaped like a BONE", "", false, false),
+		//EntityInfo::createItemInfo(69, EntityType::ITEM, -1, "BATTERIES", "A couple of standard BATTERIES", "The BATTERIES look brand new.", false, false),
 		//EntityInfo::createInteractableInfo(70, EntityType::INTERACTABLE, 9, "PANEL", "A small blue PANEL hangs from the wall", "The PANEL door is closed.", false),
 		//EntityInfo::createInteractableInfo(71, EntityType::INTERACTABLE, -1, "PANEL", "A small blue PANEL hangs from the wall", "The PANEL door is opened.", false),
 		//EntityInfo::createInteractableInfo(72, EntityType::INTERACTABLE, -1, "KEYHOLE", "A blue KEYHOLE in the back wall of the PANEL", "The KEYHOLE seems to be part of some electronic circuitry.", false)
