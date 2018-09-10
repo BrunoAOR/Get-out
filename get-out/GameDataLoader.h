@@ -8,6 +8,7 @@ class ActionFactory;
 class EntityFactory;
 class Player;
 struct EntityInfo;
+enum class ActionEffectType;
 
 using Json = nlohmann::json;
 
@@ -40,6 +41,7 @@ private:
 	bool loadAndCreateActions(const Json& jsonActions);
 	bool loadAction(const Json& jsonAction, int actionIndex);
 	bool loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& effects, int actionIndex);
+	ActionEffect* loadActionEffect(const Json& jsonEffect, ActionEffectType effectType, int actionIndex, int effectIndex);
 
 	void hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 

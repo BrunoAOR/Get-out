@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <fstream>
+#include "ActionEffect.h"
 #include "ActionEffectType.h"
 #include "ActionFactory.h"
 #include "ActionType.h"
@@ -220,7 +221,8 @@ bool GameDataLoader::loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo
 {
 	bool success = true;
 
-	for (unsigned int i = 0; i < jsonRooms.size(); ++i)
+	unsigned int roomsCount = jsonRooms.size();
+	for (unsigned int i = 0; i < roomsCount; ++i)
 	{
 		const Json& room = jsonRooms[i];
 		if (room.count("id") && room.count("name") && room.count("description") && room.count("isDark"))
@@ -243,7 +245,8 @@ bool GameDataLoader::loadExitInfos(const Json& jsonExits, std::vector<EntityInfo
 {
 	bool success = true;
 
-	for (unsigned int i = 0; i < jsonExits.size(); ++i)
+	unsigned int exitsCount = jsonExits.size();
+	for (unsigned int i = 0; i < exitsCount; ++i)
 	{
 		const Json& exit = jsonExits[i];
 		if (exit.count("id") && exit.count("parentId") && exit.count("name") && exit.count("description") && exit.count("direction") && exit.count("isLocked") && exit.count("lockedDescription") && exit.count("targetRoomId"))
@@ -273,7 +276,8 @@ bool GameDataLoader::loadInteractableInfos(const Json& jsonInteractables, std::v
 {
 	bool success = true;
 
-	for (unsigned int i = 0; i < jsonInteractables.size(); ++i)
+	unsigned int interactablesCount = jsonInteractables.size();
+	for (unsigned int i = 0; i < interactablesCount; ++i)
 	{
 		const Json& interactable = jsonInteractables[i];
 		if (interactable.count("id") && interactable.count("parentId") && interactable.count("name") && interactable.count("description") && interactable.count("inspectDescription") && interactable.count("isVisibleInDark"))
@@ -296,7 +300,8 @@ bool GameDataLoader::loadItemInfos(const Json& jsonItems, std::vector<EntityInfo
 {
 	bool success = true;
 
-	for (unsigned int i = 0; i < jsonItems.size(); ++i)
+	unsigned int itemsCount = jsonItems.size();
+	for (unsigned int i = 0; i < itemsCount; ++i)
 	{
 		const Json& item = jsonItems[i];
 		if (item.count("id") && item.count("parentId") && item.count("name") && item.count("description") && item.count("inspectDescription") && item.count("isVisibleInDark") && item.count("hasLight"))
@@ -321,7 +326,8 @@ bool GameDataLoader::loadAndCreateActions(const Json& json)
 	if (json.count("actions"))
 	{
 		const Json& jsonActions = json["actions"];
-		for (unsigned int i = 0; i < jsonActions.size(); ++i)
+		unsigned int actionsCount = jsonActions.size();
+		for (unsigned int i = 0; i < actionsCount; ++i)
 		{
 			const Json& action = jsonActions[i];
 			if (action.count("type") && action.count("description") && action.count("shouldDestroy") && action.count("firstEntityId") && action.count("secondEntityId") && action.count("effects"))
@@ -375,7 +381,8 @@ bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<Acti
 {
 	bool success = true;
 
-	for (unsigned int i = 0; i < jsonEffects.size(); ++i)
+	unsigned int effectsCount = jsonEffects.size();
+	for (unsigned int i = 0; i < effectsCount; ++i)
 	{
 		const Json& jsonEffect = jsonEffects[i];
 		if (jsonEffect.count("type") && jsonEffect.count("description"))
@@ -383,7 +390,17 @@ bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<Acti
 			ActionEffectType effectType = getActionEffectTypeFromString(jsonEffect["type"]);
 			if (effectType != ActionEffectType::_UNDEFINED)
 			{
-				// Now we can switch over the action types and load them appropriately
+				ActionEffect* actionEffect = loadActionEffect(jsonEffect, effectType, actionIndex, i);
+				if (actionEffect)
+				{
+					actionEffects.push_back(actionEffect);
+				}
+				else
+				{
+					OutputLog("ERROR: Failed to load ActionEffect at index %i in Action at index %i!", i, actionIndex);
+					success = false;
+				}
+
 			}
 			else
 			{
@@ -408,6 +425,123 @@ bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<Acti
 	}
 
 	return success;
+}
+
+
+ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEffectType effectType, int actionIndex, int effectIndex)
+{
+	assert(effectType != ActionEffectType::_UNDEFINED);
+	ActionEffect* actionEffect = nullptr;
+
+	// Now we can switch over the action types and load them appropriately
+	switch (effectType)
+	{
+
+	case ActionEffectType::ADD_ENTITIES:
+	{
+		if (jsonEffect.count("entitiesToAddIds") && jsonEffect.count("targetRoomId"))
+		{
+			bool success = true;
+
+			const Json& entitiesToAddIds = jsonEffect["entitiesToAddIds"];
+			std::vector<Entity*> entitiesToAdd;
+			int entitiesCount = entitiesToAddIds.size();
+			for (int i = 0; i < entitiesCount; ++i)
+			{
+				Entity* entity = m_entityFactory->getEntity(entitiesToAddIds[i]);
+				if (entity)
+				{
+					entitiesToAdd.push_back(entity);
+				}
+				else
+				{
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", effectIndex, actionIndex, i);
+					success = false;
+				}
+			}
+
+			Room* targetRoom = static_cast<Room*>(m_entityFactory->getEntity(jsonEffect["targetRoomId"]));
+			if (!targetRoom)
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'targetRoomId' that does't point to any existing Room!", effectIndex, actionIndex);
+				success = false;
+			}
+
+			if (success)
+			{
+				// We continue
+				actionEffect = new EffectAddEntitiesToRoom(jsonEffect["description"], entitiesToAdd, targetRoom);
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
+		break;
+	}
+
+	case ActionEffectType::GAME_END:
+		break;
+
+	case ActionEffectType::LOCK_EXIT:
+		break;
+
+	case ActionEffectType::PLACE_ITEM_IN_ITEM:
+		break;
+
+	case ActionEffectType::REMOVE_ENTITIES:
+		break;
+
+	case ActionEffectType::REPLACE_ENTITY:
+	{
+		if (jsonEffect.count("entityToRemoveId") && jsonEffect.count("entityToAddId"))
+		{
+			Entity* entityToRemove = m_entityFactory->getEntity(jsonEffect["entityToRemoveId"]);
+			Entity* entityToAdd = m_entityFactory->getEntity(jsonEffect["entityToAddId"]);
+			if (!entityToRemove)
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+			}
+			if (!entityToAdd)
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+			}
+			if (entityToRemove && entityToAdd)
+			{
+				actionEffect = new EffectReplaceEntity(jsonEffect["description"], entityToRemove, entityToAdd);
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
+		break;
+	}
+
+	case ActionEffectType::UNLOCK_EXIT:
+	{
+		if (jsonEffect.count("exitToUnlockId"))
+		{
+			Exit* exitToUnlock = static_cast<Exit*>(m_entityFactory->getEntity(jsonEffect["exitToUnlockId"]));
+			if (exitToUnlock)
+			{
+				actionEffect = new EffectUnlockExit(jsonEffect["description"], exitToUnlock);
+			}
+			else
+			{
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToUnlockId' that does't point to any existing Exit!", effectIndex, actionIndex);
+			}
+		}
+		else
+		{
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+		}
+		break;
+	}
+
+	}
+
+	return actionEffect;
 }
 
 
@@ -495,13 +629,6 @@ void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory
 
 		EffectUnlockExit* EmptyRoomToGardenUnlock = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
 		actionFactory->createAction(ActionType::DROP, "", std::vector<ActionEffect*>{EmptyRoomToGardenUnlock}, false, 30);
-
-		/*
-		EffectRemoveEntities* ratRemove = new EffectRemoveEntities("The RAT runs away through a gap on the door.", std::vector<Entity*>{entityFactory->getEntity(39)});
-		EffectAddEntitiesToRoom* panFromInvToRoomAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(34)}, static_cast<Room*>(entityFactory->getEntity(5)));
-		EffectUnlockExit* unlockEmptyRoomToGarden = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(37)));
-		actionFactory->createAction(ActionType::ITEM_USE, "You throw the PAN at the RAT.", std::vector<ActionEffect*>{ratRemove, panFromInvToRoomAdd, unlockEmptyRoomToGarden}, true, 34, 39);
-		*/
 	}
 
 	// Office
@@ -545,16 +672,15 @@ void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory
 
 	// Trophy Room
 	{
-		EffectReplaceEntity* bagReplace = new EffectReplaceEntity("", entityFactory->getEntity(66), entityFactory->getEntity(67));
-		EffectAddEntitiesToRoom* boneAndBatteriesAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(68), entityFactory->getEntity(69)}, static_cast<Room*>(entityFactory->getEntity(9)));
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You undo the knot, open the BAG and find some BATTERIES and a dog toy shaped like a BONE inside.", std::vector<ActionEffect*>{bagReplace, boneAndBatteriesAdd}, true, 66);
+		//EffectReplaceEntity* bagReplace = new EffectReplaceEntity("", entityFactory->getEntity(66), entityFactory->getEntity(67));
+		//EffectAddEntitiesToRoom* boneAndBatteriesAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(68), entityFactory->getEntity(69)}, static_cast<Room*>(entityFactory->getEntity(9)));
+		//actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You undo the knot, open the BAG and find some BATTERIES and a dog toy shaped like a BONE inside.", std::vector<ActionEffect*>{bagReplace, boneAndBatteriesAdd}, true, 66);
 
-		EffectReplaceEntity* panelReplace = new EffectReplaceEntity("", entityFactory->getEntity(70), entityFactory->getEntity(71));
-		EffectAddEntitiesToRoom* keyholeAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(72)}, static_cast<Room*>(entityFactory->getEntity(9)));
-		actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You open the PANEL door and see a blue KEYHOLE in the back wall.", std::vector<ActionEffect*>{panelReplace, keyholeAdd}, true, 70);
+		//EffectReplaceEntity* panelReplace = new EffectReplaceEntity("", entityFactory->getEntity(70), entityFactory->getEntity(71));
+		//EffectAddEntitiesToRoom* keyholeAdd = new EffectAddEntitiesToRoom("", std::vector<Entity*>{entityFactory->getEntity(72)}, static_cast<Room*>(entityFactory->getEntity(9)));
+		//actionFactory->createAction(ActionType::INTERACTABLE_OPEN, "You open the PANEL door and see a blue KEYHOLE in the back wall.", std::vector<ActionEffect*>{panelReplace, keyholeAdd}, true, 70);
 
-		EffectUnlockExit* unlockMainHallToEmptyRoom = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(57)));
-		actionFactory->createAction(ActionType::ITEM_USE, "You use the BLUE_KEY on the blue KEYHOLE and hear a loud clicking noise coming from elsewhere.", std::vector<ActionEffect*>{unlockMainHallToEmptyRoom}, true, 54, 72);
-
+		//EffectUnlockExit* unlockMainHallToEmptyRoom = new EffectUnlockExit("", static_cast<Exit*>(entityFactory->getEntity(57)));
+		//actionFactory->createAction(ActionType::ITEM_USE, "You use the BLUE_KEY on the blue KEYHOLE and hear a loud clicking noise coming from elsewhere.", std::vector<ActionEffect*>{unlockMainHallToEmptyRoom}, true, 54, 72);
 	}
 }

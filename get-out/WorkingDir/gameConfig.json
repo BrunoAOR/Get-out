@@ -639,6 +639,61 @@
 		}
 	},
 	"actions": [
-		
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You undo the knot, open the BAG and find some BATTERIES and a dog toy shaped like a BONE inside.",
+			"shouldDestroy": true,
+			"firstEntityId": 66,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 66,
+					"entityToAddId": 67
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [68, 69],
+					"targetRoomId": 9
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You open the PANEL door and see a blue KEYHOLE in the back wall.",
+			"shouldDestroy": true,
+			"firstEntityId": 70,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 70,
+					"entityToAddId": 71
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [72],
+					"targetRoomId": 9
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the BLUE_KEY on the blue KEYHOLE and hear a loud clicking noise coming from elsewhere.",
+			"shouldDestroy": true,
+			"firstEntityId": 54,
+			"secondEntityId": 72,
+			"effects": [
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 57
+				}
+			]
+		}
 	]
 }
