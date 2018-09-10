@@ -21,9 +21,8 @@ public:
 	GameDataLoader operator=(const GameDataLoader& source) = delete;
 
 	Player* loadGameData(const char* path);
-	const std::string& getWelcomeMessage();
-	const std::string& getGameEndMessage();
-	const std::string& getExitMessage();
+	const std::string& getWelcomeMessage() const;
+	const std::string& getExitMessage() const;
 
 private:
 	using entityLoaderFunc = bool(GameDataLoader::*)(const Json&, std::vector<EntityInfo>&);
@@ -46,7 +45,6 @@ private:
 	void hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 
 	std::string m_welcomeMessage;
-	std::string m_gameEndMessage;
 	std::string m_exitMessage;
 
 	EntityFactory* m_entityFactory = nullptr;

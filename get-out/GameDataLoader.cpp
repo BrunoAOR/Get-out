@@ -111,16 +111,6 @@ bool GameDataLoader::loadMessages(const Json& json)
 			success = false;
 		}
 
-		if (success && messages.count("gameEndMessage"))
-		{
-			m_gameEndMessage = (messages["gameEndMessage"]).get<std::string>();
-		}
-		else
-		{
-			OutputLog("ERROR: The gameConfig file does not contain the key 'gameEndMessage' within 'messages'!");
-			success = false;
-		}
-
 		if (success && messages.count("exitMessage"))
 		{
 			m_exitMessage = (messages["exitMessage"]).get<std::string>();
@@ -481,7 +471,11 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEff
 	}
 
 	case ActionEffectType::GAME_END:
+	{
+		std::string description = jsonEffect["description"];
+		actionEffect = new EffectGameEnd(description);
 		break;
+	}
 
 	case ActionEffectType::LOCK_EXIT:
 		break;
@@ -545,19 +539,13 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEff
 }
 
 
-const std::string& GameDataLoader::getWelcomeMessage()
+const std::string& GameDataLoader::getWelcomeMessage() const
 {
 	return m_welcomeMessage;
 }
 
 
-const std::string& GameDataLoader::getGameEndMessage()
-{
-	return m_gameEndMessage;
-}
-
-
-const std::string& GameDataLoader::getExitMessage()
+const std::string& GameDataLoader::getExitMessage() const
 {
 	return m_exitMessage;
 }
@@ -660,14 +648,14 @@ void GameDataLoader::hardcodedMethod(EntityFactory* entityFactory, ActionFactory
 
 	// Main Hall
 	{
-		EffectReplaceEntity* lock1Replace = new EffectReplaceEntity("", entityFactory->getEntity(59), entityFactory->getEntity(60));
-		actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_A to open the first part of the triple LOCK.", std::vector<ActionEffect*>{lock1Replace}, true, 48, 59);
+		//EffectReplaceEntity* lock1Replace = new EffectReplaceEntity("", entityFactory->getEntity(59), entityFactory->getEntity(60));
+		//actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_A to open the first part of the triple LOCK.", std::vector<ActionEffect*>{lock1Replace}, true, 48, 59);
 
-		EffectReplaceEntity* lock2Replace = new EffectReplaceEntity("", entityFactory->getEntity(60), entityFactory->getEntity(61));
-		actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_B to open the second part of the triple LOCK.", std::vector<ActionEffect*>{lock2Replace}, true, 53, 60);
+		//EffectReplaceEntity* lock2Replace = new EffectReplaceEntity("", entityFactory->getEntity(60), entityFactory->getEntity(61));
+		//actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_B to open the second part of the triple LOCK.", std::vector<ActionEffect*>{lock2Replace}, true, 53, 60);
 
-		EffectGameEnd* gameEnd = new EffectGameEnd(getGameEndMessage());
-		actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_C to open the final part of the triple LOCK.", std::vector<ActionEffect*>{gameEnd}, true, 14, 61);
+		//EffectGameEnd* gameEnd = new EffectGameEnd(getGameEndMessage());
+		//actionFactory->createAction(ActionType::ITEM_USE, "You use the KEY_C to open the final part of the triple LOCK.", std::vector<ActionEffect*>{gameEnd}, true, 14, 61);
 	}
 
 	// Trophy Room
