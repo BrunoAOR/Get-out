@@ -626,8 +626,8 @@
 				"parentId": -1,
 				"name": "BATTERIES",
 				"description": "A couple of standard BATTERIES",
-				"inspectDescription": "The BATTERIES look brand new.",
-				"isVisibleInDark": false,
+				"inspectDescription": "The BATTERIES look brand new and are very shiny.",
+				"isVisibleInDark": true,
 				"hasLight": false
 			}
 		]
