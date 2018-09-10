@@ -28,13 +28,13 @@ private:
 
 	Json* loadJson(const char* path);
 	bool loadMessages(Json* json);
-	bool loadAndCreateEntities(Json* json, EntityFactory* entityFactory);
+	Player* loadAndCreateEntities(Json* json, EntityFactory* entityFactory);
 	bool loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderfunc);
 	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
 	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);
 	bool loadInteractableInfos(const Json& jsonInteractables, std::vector<EntityInfo>& entityInfos);
 	bool loadItemInfos(const Json& jsonItems, std::vector<EntityInfo>& entityInfos);
-	Player* hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
+	void hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 
 	std::string welcomeMessage;
 	std::string gameEndMessage;

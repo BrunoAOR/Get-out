@@ -630,6 +630,12 @@
 				"isVisibleInDark": true,
 				"hasLight": false
 			}
-		]
+		],
+		"player": {
+			"id": 0,
+			"parentId": -1,
+			"maxItems": 2,
+			"startingRoomId": 8
+		}
 	}
 }
