@@ -29,6 +29,7 @@ private:
 	bool loadMessages(Json* json);
 	bool loadEntities(Json* json, EntityFactory* entityFactory);
 	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
+	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);
 	Player* hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
 
 	std::string welcomeMessage;

@@ -46,10 +46,10 @@ Entity* EntityFactory::createEntity(EntityInfo info)
 		break;
 	}
 	case EntityType::ITEM:
-		entity = new Item(info.id, info.name, info.description, info.item.inspectDescription, info.item.isVisibleInDark, info.item.hasLight);
+		entity = new Item(info.id, info.name, info.description, info.aditionalDescription, info.item.isVisibleInDark, info.item.hasLight);
 		break;
 	case EntityType::INTERACTABLE:
-		entity = new Interactable(info.id, info.name, info.description, info.interactable.inspectDescription, info.interactable.isVisibleInDark);
+		entity = new Interactable(info.id, info.name, info.description, info.aditionalDescription, info.interactable.isVisibleInDark);
 		break;
 	case EntityType::ROOM:
 		entity = new Room(info.id, info.name, info.description, info.room.isDark);
@@ -58,7 +58,7 @@ Entity* EntityFactory::createEntity(EntityInfo info)
 	{
 		Entity* targetRoom = getEntity(info.exit.targetRoomId);
 		assert(targetRoom && targetRoom->getType() == EntityType::ROOM);
-		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.exit.lockedDescription, static_cast<Room*>(targetRoom));
+		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.aditionalDescription, static_cast<Room*>(targetRoom));
 		break;
 	}
 

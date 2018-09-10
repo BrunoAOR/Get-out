@@ -60,6 +60,218 @@
 				"description": "A room that contains prizes and trophies on the walls.",
 				"isDark": false
 			}
+		],
+		"exits": [
+			{
+				"id": 10,
+				"parentId": 1,
+				"name": "Storage Room TO Garden",
+				"description": "A rusted metal door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 2
+			},
+			{
+				"id": 15,
+				"parentId": 2,
+				"name": "Garden TO Storage Room",
+				"description": "A rusted metal door",
+				"direction": "W",
+				"isLocked": true,
+				"lockedDescription": "The MAN standing in front of the door pushes you away.",
+				"targetRoomId": 1
+			},
+			{
+				"id": 16,
+				"parentId": 2,
+				"name": "Garden TO Tool Shed",
+				"description": "A wooden door covered in moss",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 3
+			},
+			{
+				"id": 17,
+				"parentId": 2,
+				"name": "Garden TO Empty Room",
+				"description": "A wooden door with small glass panels on the top half",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 5
+			},
+			{
+				"id": 21,
+				"parentId": 3,
+				"name": "Tool Shed TO Garden",
+				"description": "A wooden door covered in moss",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 2
+			},
+			{
+				"id": 22,
+				"parentId": 3,
+				"name": "Tool Shed TO Office",
+				"description": "A fancy looking door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 6
+			},
+			{
+				"id": 25,
+				"parentId": 4,
+				"name": "Kitchen TO Empty Room",
+				"description": "A heavy looking wooden door",
+				"direction": "E",
+				"isLocked": true,
+				"lockedDescription": "The door is bolted shut.",
+				"targetRoomId": 5
+			},
+			{
+				"id": 26,
+				"parentId": 4,
+				"name": "Kitchen TO Dining Room",
+				"description": "A swing door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 7
+			},
+			{
+				"id": 36,
+				"parentId": 5,
+				"name": "Empty Room TO Kitchen",
+				"description": "A heavy looking wooden door",
+				"direction": "W",
+				"isLocked": true,
+				"lockedDescription": "The door is bolted shut.",
+				"targetRoomId": 4
+			},
+			{
+				"id": 37,
+				"parentId": 5,
+				"name": "Empty Room TO Garden",
+				"description": "A wooden door with small glass panels on the top half",
+				"direction": "N",
+				"isLocked": false,
+				"lockedDescription": "When you approach the door a big RAT is lured by the light from your flashlight and tries to bite you, so you step back.",
+				"targetRoomId": 2
+			},
+			{
+				"id": 38,
+				"parentId": 5,
+				"name": "Empty Room TO Main Hall",
+				"description": "A thick wooden door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 41,
+				"parentId": 6,
+				"name": "Office TO Tool shed",
+				"description": "A fancy looking door",
+				"direction": "N",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 3
+			},
+			{
+				"id": 42,
+				"parentId": 6,
+				"name": "Office TO Trophy Room",
+				"description": "A red-painted door",
+				"direction": "S",
+				"isLocked": true,
+				"lockedDescription": "The door is locked by a LATCH",
+				"targetRoomId": 9
+			},
+			{
+				"id": 49,
+				"parentId": 7,
+				"name": "Dining Room TO Main Hall",
+				"description": "A carved wooden door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 50,
+				"parentId": 7,
+				"name": "Dining Room TO Kitchen",
+				"description": "A swing door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is blocked by a big angry DOG.",
+				"targetRoomId": 4
+			},
+			{
+				"id": 55,
+				"parentId": 8,
+				"name": "Main Hall TO Dining Room",
+				"description": "A carved wooden door",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 7
+			},
+			{
+				"id": 56,
+				"parentId": 8,
+				"name": "Main Hall TO Trophy Room",
+				"description": "A nicely decorated door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 9
+			},
+			{
+				"id": 57,
+				"parentId": 8,
+				"name": "Main Hall TO Empty Room",
+				"description": "A thick wooden door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is locked.\nThere is a blue electronic screen next to the door displaying the word 'Closed'.",
+				"targetRoomId": 5
+			},
+			{
+				"id": 58,
+				"parentId": 8,
+				"name": "Main Hall TO END",
+				"description": "A heavy looking, tall door",
+				"direction": "S",
+				"isLocked": true,
+				"lockedDescription": "There is something keeping the door shut.",
+				"targetRoomId": 8
+			},
+			{
+				"id": 63,
+				"parentId": 9,
+				"name": "Trophy Room TO Main Hall",
+				"description": "A nicely decorated door",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 64,
+				"parentId": 9,
+				"name": "Trophy Room TO Office",
+				"description": "A red-painted door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is locked from the other side.",
+				"targetRoomId": 6
+			}
 		]
 	}
 }

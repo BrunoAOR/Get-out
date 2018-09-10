@@ -18,31 +18,31 @@ EntityInfo EntityInfo::createRoomInfo(int id, EntityType type, int parentId, con
 }
 
 
-EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const char* lockedDescription, int targetRoomId)
+EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, int targetRoomId)
 {
 	EntityInfo info{ id, type, parentId, name, description };
 	info.exit.direction = direction;
 	info.exit.isLocked = isLocked;
-	info.exit.lockedDescription = lockedDescription;
+	info.aditionalDescription = lockedDescription;
 	info.exit.targetRoomId = targetRoomId;
 	return info;
 }
 
 
-EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const char* inspectDescription, bool isVisibleInDark, bool hasLight)
+EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark, bool hasLight)
 {
 	EntityInfo info{ id, type, parentId, name, description };
-	info.item.inspectDescription = inspectDescription;
+	info.aditionalDescription = inspectDescription;
 	info.item.isVisibleInDark = isVisibleInDark;
 	info.item.hasLight = hasLight;
 	return info;
 }
 
 
-EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const char* inspectDescription, bool isVisibleInDark)
+EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark)
 {
 	EntityInfo info{ id, type, parentId, name, description };
-	info.interactable.inspectDescription = inspectDescription;
+	info.aditionalDescription = inspectDescription;
 	info.interactable.isVisibleInDark = isVisibleInDark;
 	return info;
 }
