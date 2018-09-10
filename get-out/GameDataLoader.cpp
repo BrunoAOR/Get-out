@@ -168,6 +168,11 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json, EntityFactory* e
 			{
 				OutputLog("ERROR: The gameConfig file does not contain the key 'player' within 'entityInfos'!");
 			}
+
+			if (!player)
+			{
+				entityFactory->close();
+			}
 		}
 	}
 	else
@@ -231,10 +236,17 @@ bool GameDataLoader::loadExitInfos(const Json& jsonExits, std::vector<EntityInfo
 	for (unsigned int i = 0; i < jsonExits.size(); ++i)
 	{
 		const Json& exit = jsonExits[i];
-		if (exit.count("id") && exit.count("parentId") && exit.count("name") && exit.count("description") && exit.count("direction") && getDirectionFromString(exit["direction"]) != Direction::_UNDEFINED && exit.count("isLocked") && exit.count("lockedDescription") && exit.count("targetRoomId"))
+		if (exit.count("id") && exit.count("parentId") && exit.count("name") && exit.count("description") && exit.count("direction") && exit.count("isLocked") && exit.count("lockedDescription") && exit.count("targetRoomId"))
 		{
-			EntityInfo ei = EntityInfo::createExitInfo(exit["id"], EntityType::EXIT, exit["parentId"], exit["name"], exit["description"], getDirectionFromString(exit["direction"]), exit["isLocked"], exit["lockedDescription"], exit["targetRoomId"]);
-			entityInfos.push_back(ei);
+			if (getDirectionFromString(exit["direction"]) != Direction::_UNDEFINED)
+			{
+				EntityInfo ei = EntityInfo::createExitInfo(exit["id"], EntityType::EXIT, exit["parentId"], exit["name"], exit["description"], getDirectionFromString(exit["direction"]), exit["isLocked"], exit["lockedDescription"], exit["targetRoomId"]);
+				entityInfos.push_back(ei);
+			}
+			else
+			{
+				OutputLog("ERROR: Exit at index %i doesn't have a valid value for the key 'direction'!", i);
+			}
 		}
 		else
 		{
