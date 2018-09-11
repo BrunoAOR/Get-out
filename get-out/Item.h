@@ -8,7 +8,7 @@
 class Item :
 	public Entity
 {
-	friend Entity * EntityFactory::createEntity(EntityInfo);
+	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
 	Item(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false, bool hasLight = false);
 	virtual ~Item();

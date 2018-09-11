@@ -9,7 +9,6 @@ struct Instruction
 {
 public:
 	InstructionType instructionType;
-	std::string errorDescription;
 	std::string param1;
 	std::string param2;
 };

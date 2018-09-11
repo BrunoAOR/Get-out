@@ -34,7 +34,7 @@ void ActionFactory::close()
 }
 
 
-Action * ActionFactory::createAction(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, int firstEntityId, int secondEntityId)
+Action* ActionFactory::createAction(ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, int firstEntityId, int secondEntityId)
 {
 	Entity* firstEntity = nullptr;
 	if (firstEntityId >= 0)
@@ -54,7 +54,7 @@ Action * ActionFactory::createAction(ActionType type, const std::string& descrip
 }
 
 
-Action * ActionFactory::getAction(ActionType actionType, const Entity * firstEntity, const Entity * secondEntity) const
+Action* ActionFactory::getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity) const
 {
 	if (firstEntity == nullptr && secondEntity == nullptr)
 	{
@@ -72,7 +72,7 @@ Action * ActionFactory::getAction(ActionType actionType, const Entity * firstEnt
 }
 
 
-void ActionFactory::removeAction(Action * action)
+void ActionFactory::removeAction(Action* action)
 {
 	auto it = std::find(m_actions.begin(), m_actions.end(), action);
 	assert(it != m_actions.end());

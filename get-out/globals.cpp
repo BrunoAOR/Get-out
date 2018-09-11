@@ -1,6 +1,7 @@
 #include "globals.h"
 
 #include <iostream>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 
@@ -23,7 +24,7 @@ void consoleLog(char character)
 }
 
 
-void outputLog(const char file[], int line, const char* format, ...)
+void outputLog(const char* file, int line, const char* format, ...)
 {
 	static char tmp_string[4096];
 	static char tmp_string2[4096];
@@ -37,7 +38,7 @@ void outputLog(const char file[], int line, const char* format, ...)
 }
 
 
-bool caselessEquals(const std::string & s1, const std::string & s2)
+bool caselessEquals(const std::string& s1, const std::string& s2)
 {
 	return _stricmp(s1.c_str(), s2.c_str()) == 0;
 }

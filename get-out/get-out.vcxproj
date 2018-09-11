@@ -114,12 +114,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="Design ideas.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
+    <ClCompile Include="ActionEffectType.cpp" />
     <ClCompile Include="ActionFactory.cpp" />
+    <ClCompile Include="ActionType.cpp" />
     <ClCompile Include="EffectGameEnd.cpp" />
     <ClCompile Include="EffectLockExit.cpp" />
     <ClCompile Include="EffectPlaceItemInItem.cpp" />
@@ -127,8 +126,9 @@
     <ClCompile Include="EffectUnlockExit.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
+    <ClCompile Include="GameDataLoader.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InstructionType.cpp" />
-    <ClCompile Include="Application.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="EffectAddEntitiesToRoom.cpp" />
     <ClCompile Include="EffectReplaceEntity.cpp" />
@@ -142,12 +142,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="World.cpp" />
-    <ClCompile Include="worldConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
+    <ClInclude Include="ActionEffectType.h" />
     <ClInclude Include="ActionFactory.h" />
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="EffectGameEnd.h" />
@@ -157,8 +156,9 @@
     <ClInclude Include="EffectUnlockExit.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityInfo.h" />
+    <ClInclude Include="GameDataLoader.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="InstructionType.h" />
-    <ClInclude Include="Application.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="EffectAddEntitiesToRoom.h" />
     <ClInclude Include="EffectReplaceEntity.h" />
@@ -171,10 +171,13 @@
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="json_fwd.hpp" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="World.h" />
-    <ClInclude Include="worldConfig.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gameConfig.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

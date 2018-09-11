@@ -16,6 +16,7 @@ private:
 	std::string m_input;
 	bool m_shouldClear = true;
 
+	void handleInvalidKeys(char key) const;
 	bool isAllowed(char c) const;
 };
 

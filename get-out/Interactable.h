@@ -8,7 +8,7 @@
 class Interactable :
 	public Entity
 {
-	friend Entity * EntityFactory::createEntity(EntityInfo);
+	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
 	Interactable(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false);
 	virtual ~Interactable();

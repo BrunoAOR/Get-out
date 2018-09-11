@@ -3,7 +3,7 @@
 #include "Entity.h"
 
 
-EffectRemoveEntities::EffectRemoveEntities(const std::string& effectDescription, std::vector<Entity*> entitiesToRemove)
+EffectRemoveEntities::EffectRemoveEntities(const std::string& effectDescription, const std::vector<Entity*>& entitiesToRemove)
 	: ActionEffect(effectDescription), m_entitiesToRemove(entitiesToRemove)
 {
 }

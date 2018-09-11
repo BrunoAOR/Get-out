@@ -1,4 +1,4 @@
-#include "Application.h"
+#include "GameManager.h"
 #include "globals.h"
 
 
@@ -8,10 +8,13 @@ int main()
 
 	// Start-up Application
 	OutputLog("INFO: App will initiate.");
-	Application app;
+	GameManager app;
 	loopStatus = app.init();
 
-	OutputLog("INFO: App will update.");
+	if (loopStatus == LoopStatus::CONTINUE)
+	{
+		OutputLog("INFO: App will update.");
+	}
 	while (loopStatus == LoopStatus::CONTINUE)
 	{
 		loopStatus = app.update();
@@ -34,11 +37,11 @@ int main()
 		OutputLog("ERROR: App failed during update!");
 		break;
 	case LoopStatus::CLOSE_ERROR:
-		OutputLog("ERROR: App failed at closure!");
+		OutputLog("ERROR: App failed while closing!");
 		break;
 	case LoopStatus::CONTINUE:
 		// We shouldn't hit this point if loopStatus is Continue
-		OutputLog("ERROR: Main looped aborted!");
+		OutputLog("ERROR: Main loop aborted!");
 		break;
 	case LoopStatus::EXIT:
 		OutputLog("INFO: App exited successfully!");
@@ -47,5 +50,5 @@ int main()
 		break;
 	}
 
-	return 0;
+	return !(loopStatus == LoopStatus::EXIT);
 }

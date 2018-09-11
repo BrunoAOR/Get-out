@@ -16,8 +16,6 @@ InputReader::~InputReader()
 
 std::string InputReader::getInput()
 {
-	char key;
-	
 	if (m_shouldClear)
 	{
 		m_shouldClear = false;
@@ -28,38 +26,12 @@ std::string InputReader::getInput()
 
 	if (_kbhit())
 	{
-		key = _getch();
+		char key = _getch();
 
 		// Handle forbidden characters (any non-alphanumeric) and special sequences (like arrows, function keys, home, end, etc...)
 		if (!isAllowed(key))
 		{
-			std::string message = "INPUT: Ignoring special character/sequence: ";
-			if (key == '\0')
-			{
-				message.append("[NUL (code: 0)]");
-			}
-			else
-			{
-				message += "[" + std::string(1, key) + " (code: " + std::to_string((int)key) + ")]";
-			}
-			
-			// drop all chars after invalid character (if present)
-			
-			while (_kbhit())
-			{
-				message += " + ";
-				key = _getch();
-				if (key == '\0')
-				{
-					message.append("[NUL (code: 0)]");
-				}
-				else
-				{
-					message += "[" + std::string(1, key) + " (code: " + std::to_string((int)key) + ")]";
-				}
-			}
-			message += "!";
-			OutputLog(message.c_str());
+			handleInvalidKeys(key);
 		}
 		// Handle backspace
 		else if (key == '\b')
@@ -88,7 +60,7 @@ std::string InputReader::getInput()
 			}
 		}
 	}
-	
+
 	return "";
 }
 
@@ -103,8 +75,47 @@ bool InputReader::getEnter() const
 }
 
 
+void InputReader::handleInvalidKeys(char key) const
+{
+	std::string message = "INPUT: Ignoring special character/sequence: ";
+
+	// Drop all chars after invalid character (if present)
+	bool allCharsCaptured = false;
+	while (!allCharsCaptured)
+	{
+		if (key == '\0')
+		{
+			message.append("[NUL (code: 0)]");
+		}
+		else if (key == '%')
+		{
+			message.append("[%% (code: 37)]");
+		}
+		else
+		{
+			message += "[" + std::string(1, key) + " (code: " + std::to_string((int)key) + ")]";
+		}
+
+		if (_kbhit())
+		{
+			message += " + ";
+			key = _getch();
+		}
+		else
+		{
+			allCharsCaptured = true;
+		}
+	}
+
+	message += "!";
+	OutputLog(message.c_str());
+}
+
+
 bool InputReader::isAllowed(char c) const
 {
 	// Allowed characters are those within the basic ASCII table, alphanumeric, backspace, return, space and underscore
-	return c > 0 && c <= 255 &&  isalnum(c) || c == '\b' || c == '\r' || c == ' ' || c == '_';
+	return c > 0
+		&& c < 128
+		&& (isalnum(c) || c == '\b' || c == '\r' || c == ' ' || c == '_');
 }

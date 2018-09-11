@@ -22,7 +22,7 @@ EntityType Entity::getType() const
 }
 
 
-std::string Entity::getName() const
+const std::string& Entity::getName() const
 {
 	return m_name;
 }
@@ -46,7 +46,7 @@ std::string Entity::getDetailedDescription() const
 }
 
 
-bool Entity::hasChild(Entity * entity) const
+bool Entity::hasChild(Entity* entity) const
 {
 	for (Entity* child : m_children)
 	{
@@ -59,28 +59,33 @@ bool Entity::hasChild(Entity * entity) const
 }
 
 
-Entity * Entity::getChild(const std::string & entityName, bool searchInChildren) const
+Entity* Entity::getChild(const std::string& entityName, bool searchInChildren) const
 {
+	Entity* queryChild = nullptr;
+
 	for (Entity* child : m_children)
 	{
 		if (caselessEquals(child->m_name, entityName))
 		{
-			return child;
+			queryChild = child;
+			break;
 		}
 		if (searchInChildren)
 		{
 			Entity* childFound = child->getChild(entityName, true);
 			if (childFound)
 			{
-				return childFound;
+				queryChild = childFound;
+				break;
 			}
 		}
 	}
-	return nullptr;
+
+	return queryChild;
 }
 
 
-Entity * Entity::getParent() const
+Entity* Entity::getParent() const
 {
 	return m_parent;
 }
@@ -107,19 +112,19 @@ bool Entity::setParent(Entity * parent)
 }
 
 
-bool Entity::canAddChild(const Entity * child) const
+bool Entity::canAddChild(const Entity* child) const
 {
-	return true;
+	return false;
 }
 
 
-void Entity::addChild(Entity * child)
+void Entity::addChild(Entity* child)
 {
 	m_children.push_back(child);
 }
 
 
-void Entity::removeChild(const Entity * entity)
+void Entity::removeChild(const Entity* entity)
 {
 	auto it = std::find(m_children.begin(), m_children.end(), entity);
 	if (it != m_children.end())

@@ -10,7 +10,7 @@ class EffectRemoveEntities :
 	public ActionEffect
 {
 public:
-	EffectRemoveEntities(const std::string& effectDescription, std::vector<Entity*> entitiesToRemove);
+	EffectRemoveEntities(const std::string& effectDescription, const std::vector<Entity*>& entitiesToRemove);
 	~EffectRemoveEntities();
 
 	// Inherited via ActionEffect
