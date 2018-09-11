@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Input-related">
       <UniqueIdentifier>{90bc8612-0d94-4f97-b202-ad09f195e667}</UniqueIdentifier>
     </Filter>
@@ -23,9 +19,9 @@
     <Filter Include="Actions">
       <UniqueIdentifier>{5de34bb4-f9ea-4b1d-8759-86955d2ee728}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Design ideas.txt" />
+    <Filter Include="GameDataLoading">
+      <UniqueIdentifier>{3ad4e92d-cb4d-4fad-8e6c-dbe3752a61bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputReader.cpp">
@@ -33,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="InputParser.cpp">
       <Filter>Input-related</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
       <Filter>Instructions</Filter>
@@ -103,15 +96,16 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="GameDataLoader.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="ActionType.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
     <ClCompile Include="ActionEffectType.cpp">
       <Filter>ActionEffects</Filter>
     </ClCompile>
+    <ClCompile Include="GameDataLoader.cpp">
+      <Filter>GameDataLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -195,13 +189,20 @@
     <ClInclude Include="GameManager.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="GameDataLoader.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="json_fwd.hpp" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="ActionEffectType.h">
       <Filter>ActionEffects</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>GameDataLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="json_fwd.hpp">
+      <Filter>GameDataLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDataLoader.h">
+      <Filter>GameDataLoading</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gameConfig.json" />
   </ItemGroup>
 </Project>

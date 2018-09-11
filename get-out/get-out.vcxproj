@@ -114,9 +114,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="Design ideas.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionEffect.cpp" />
     <ClCompile Include="ActionEffectType.cpp" />
@@ -178,6 +175,9 @@
     <ClInclude Include="json_fwd.hpp" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gameConfig.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
