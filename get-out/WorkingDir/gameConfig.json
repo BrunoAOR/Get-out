@@ -639,6 +639,151 @@
 	},
 	"actions": [
 		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "With a bit of force, you open the CABINET doors.",
+			"shouldDestroy": true,
+			"firstEntityId": 11,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 11,
+					"entityToAddId": 12
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "You see a KEYCHAIN inside the CABINET.",
+					"entitiesToAddIds": [13],
+					"targetRoomId": 1
+				}
+			]
+		},
+		{
+			"type": "GO",
+			"description": "Upon entering the Storage Room, you hear many footsteps outside and the noise of someone being dragged around.",
+			"shouldDestroy": true,
+			"firstEntityId": 2,
+			"secondEntityId": 1,
+			"effects": [
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [20]
+				}
+			]
+		},
+		{
+			"type": "GO",
+			"description": "You notice the MAN is now gone.",
+			"shouldDestroy": true,
+			"firstEntityId": 1,
+			"secondEntityId": 2,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN sees you swinging the SHOVEL at him and dodges the hit.",
+			"shouldDestroy": false,
+			"firstEntityId": 23,
+			"secondEntityId": 18,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You consider stabbing the MAN with the SCREWDRIVER, but then realize you don't want to murder anyone.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 18,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You consider stabbing the defenseless MAN with the SCREWDRIVER but choose not to.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 19,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN is unconscious, there's no need to hit him with a SHOVEL.",
+			"shouldDestroy": false,
+			"firstEntityId": 23,
+			"secondEntityId": 20,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN is unconscious, there is absolutely no reason to stab him with a SCREWDRIVER.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 20,
+			"effects": []
+		},
+		
+		
+		
+		
+		{
+			"type": "ITEM_USE",
+			"description": "You give the WHISKEY bottle to the MAN. He just takes it and remains standing in front of the door.",
+			"shouldDestroy": true,
+			"firstEntityId": 45,
+			"secondEntityId": 18,
+			"effects": [
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [45]
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You throw a handfull of FLOUR towards the MAN's face.",
+			"shouldDestroy": true,
+			"firstEntityId": 31,
+			"secondEntityId": 18,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The MAN remains standing but is blinded and trying to clear the FLOUR out of his eyes.",
+					"entityToRemoveId": 18,
+					"entityToAddId": 19
+				},
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [31]
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the SHOVEL to hit the MAN on the head and he falls to the ground. He is not bleeding and seems to still be breathing. Well played.",
+			"shouldDestroy": true,
+			"firstEntityId": 23,
+			"secondEntityId": 19,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 19,
+					"entityToAddId": 20
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 15
+				}
+			]
+		},
+		
+		
+		
+		
+		{
 			"type": "GO",
 			"description": "You hear a voice coming from the Dining Room saying: 'Go to the exit'",
 			"shouldDestroy": true,
