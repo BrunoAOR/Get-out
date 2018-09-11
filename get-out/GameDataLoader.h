@@ -42,11 +42,8 @@ private:
 	bool loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& effects, int actionIndex);
 	ActionEffect* loadActionEffect(const Json& jsonEffect, ActionEffectType effectType, int actionIndex, int effectIndex);
 
-	void hardcodedMethod(EntityFactory* entityFactory, ActionFactory* actionFactory);
-
 	std::string m_welcomeMessage;
 	std::string m_exitMessage;
-
 	EntityFactory* m_entityFactory = nullptr;
 	ActionFactory* m_actionFactory = nullptr;
 };
