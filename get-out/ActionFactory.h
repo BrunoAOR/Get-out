@@ -21,7 +21,7 @@ public:
 
 	void close();
 
-	Action* createAction(ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, int firstEntityId, int secondEntityId = -1);
+	Action* createAction(ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, int firstEntityId, int secondEntityId = -1);
 	
 	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr) const;
 
@@ -29,7 +29,7 @@ public:
 
 private:
 	std::list<Action*> m_actions;
-	EntityFactory* m_entityFactory;
+	EntityFactory* m_entityFactory = nullptr;
 };
 
 

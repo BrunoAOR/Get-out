@@ -1,13 +1,11 @@
 #ifndef H_INSTRUCTION_TYPE
 #define H_INSTRUCTION_TYPE
 
-#include <vector>
 #include <string>
 
 
 enum class InstructionType
 {
-	_UNDEFINED,
 	ERROR,
 	QUIT,
 	HELP,
@@ -23,8 +21,7 @@ enum class InstructionType
 };
 
 
-std::vector<std::string> getInstructionTypeNames();
-InstructionType getInstructionFromString(const std::string& s);
+InstructionType getInstructionFromString(const std::string& text);
 std::string getStringFromInstruction(InstructionType instructionType);
 std::string getInstructionPreposition(InstructionType instructionType);
 unsigned int getInstructionExpectedLength(InstructionType instructionType);

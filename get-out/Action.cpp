@@ -1,7 +1,6 @@
 #include "Action.h"
 
 #include <assert.h>
-#include "World.h"
 #include "ActionEffect.h"
 #include "ActionType.h"
 #include "EntityType.h"
@@ -11,14 +10,14 @@
 #include "Room.h"
 
 
-Action::Action(ActionFactory* actionFactory, ActionType type, const std::string& description, std::vector<ActionEffect*> effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
+Action::Action(ActionFactory* actionFactory, ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
 	: m_actionFactory(actionFactory), m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
 {
 	assert(m_actionFactory);
 	switch (type)
 	{
 	case ActionType::GO:
-		assert(m_firstEntity || m_secondEntity && m_firstEntity ? m_firstEntity->getType() == EntityType::ROOM : true && m_secondEntity ? m_secondEntity->getType() == EntityType::ROOM : true);
+		assert((m_firstEntity || m_secondEntity) && (m_firstEntity ? m_firstEntity->getType() == EntityType::ROOM : true) && (m_secondEntity ? m_secondEntity->getType() == EntityType::ROOM : true));
 		break;
 	case ActionType::TAKE:
 		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && !m_secondEntity);
@@ -55,19 +54,19 @@ ActionType Action::getActionType() const
 }
 
 
-std::string Action::getDescription() const
+const std::string& Action::getDescription() const
 {
 	return m_description;
 }
 
 
-const Entity * Action::getFirstEntity() const
+const Entity* Action::getFirstEntity() const
 {
 	return m_firstEntity;
 }
 
 
-const Entity * Action::getSecondEntity() const
+const Entity* Action::getSecondEntity() const
 {
 	return m_secondEntity;
 }
@@ -79,9 +78,10 @@ void Action::performAction()
 	for (ActionEffect* effect : m_effects)
 	{
 		effect->doEffect();
-		if (effect->getEffectDescription() != "")
+		const std::string& effectDescription = effect->getEffectDescription();
+		if (effectDescription != "")
 		{
-			message += "\n" + effect->getEffectDescription();
+			message += "\n" + effectDescription;
 		}
 	}
 	if (message != "")

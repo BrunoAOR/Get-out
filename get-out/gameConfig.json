@@ -1,0 +1,1107 @@
+{
+	"messages": {
+		"welcomeMessage": "\n  GET OUT\n\nDeveloped by Bruno Ortiz\nA game based on the text adventure Zork\n\nUse the HELP command to learn how to play\nNote: You may find it useful to draw a map as you go.\n\n--------------------------------------------------\n\nYou find yourself in an unfamiliar place, uncertain of where you are or how you got there.\nYou can see a door on the southern side of the room and hear some noises coming from the other side.",
+		"exitMessage": "Thanks for playing GET OUT!"
+	},
+	"entityInfos": {
+		"rooms": [
+			{
+				"id": 1,
+				"name": "Storage Room",
+				"description": "A small storage room.",
+				"isDark": true
+			},
+			{
+				"id": 2,
+				"name": "Garden",
+				"description": "A fairly small garden with beautiful roses.",
+				"isDark": false	
+			},
+			{
+				"id": 3,
+				"name": "Tool Shed",
+				"description": "A dirty shed.",
+				"isDark": false
+			},
+			{
+				"id": 4,
+				"name": "Kitchen",
+				"description": "A very clean, but fairly empty kitchen.",
+				"isDark": false
+			},
+			{
+				"id": 5,
+				"name": "Empty Room",
+				"description": "An empty room with nothing special in it.",
+				"isDark": false
+			},
+			{
+				"id": 6,
+				"name": "Office",
+				"description": "A nice office with fancy looking wooden walls.",
+				"isDark": false
+			},
+			{
+				"id": 7,
+				"name": "Dining Room",
+				"description": "A room with a long dining table in the middle.",
+				"isDark": true
+			},
+			{
+				"id": 8,
+				"name": "Main Hall",
+				"description": "A big hall without much to see in it.",
+				"isDark": true
+			},
+			{
+				"id": 9,
+				"name": "Trophy Room",
+				"description": "A room that contains prizes and trophies on the walls.",
+				"isDark": false
+			}
+		],
+		"exits": [
+			{
+				"id": 10,
+				"parentId": 1,
+				"name": "Storage Room TO Garden",
+				"description": "A rusted metal door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 2
+			},
+			{
+				"id": 15,
+				"parentId": 2,
+				"name": "Garden TO Storage Room",
+				"description": "A rusted metal door",
+				"direction": "W",
+				"isLocked": true,
+				"lockedDescription": "The MAN standing in front of the door pushes you away.",
+				"targetRoomId": 1
+			},
+			{
+				"id": 16,
+				"parentId": 2,
+				"name": "Garden TO Tool Shed",
+				"description": "A wooden door covered in moss",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 3
+			},
+			{
+				"id": 17,
+				"parentId": 2,
+				"name": "Garden TO Empty Room",
+				"description": "A wooden door with small glass panels on the top half",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 5
+			},
+			{
+				"id": 21,
+				"parentId": 3,
+				"name": "Tool Shed TO Garden",
+				"description": "A wooden door covered in moss",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 2
+			},
+			{
+				"id": 22,
+				"parentId": 3,
+				"name": "Tool Shed TO Office",
+				"description": "A fancy looking door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 6
+			},
+			{
+				"id": 25,
+				"parentId": 4,
+				"name": "Kitchen TO Empty Room",
+				"description": "A heavy looking wooden door",
+				"direction": "E",
+				"isLocked": true,
+				"lockedDescription": "The door is bolted shut.",
+				"targetRoomId": 5
+			},
+			{
+				"id": 26,
+				"parentId": 4,
+				"name": "Kitchen TO Dining Room",
+				"description": "A swing door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 7
+			},
+			{
+				"id": 36,
+				"parentId": 5,
+				"name": "Empty Room TO Kitchen",
+				"description": "A heavy looking wooden door",
+				"direction": "W",
+				"isLocked": true,
+				"lockedDescription": "The door is bolted shut.",
+				"targetRoomId": 4
+			},
+			{
+				"id": 37,
+				"parentId": 5,
+				"name": "Empty Room TO Garden",
+				"description": "A wooden door with small glass panels on the top half",
+				"direction": "N",
+				"isLocked": false,
+				"lockedDescription": "When you approach the door a big RAT is lured by the light from your flashlight and tries to bite you, so you step back.",
+				"targetRoomId": 2
+			},
+			{
+				"id": 38,
+				"parentId": 5,
+				"name": "Empty Room TO Main Hall",
+				"description": "A thick wooden door",
+				"direction": "S",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 41,
+				"parentId": 6,
+				"name": "Office TO Tool shed",
+				"description": "A fancy looking door",
+				"direction": "N",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 3
+			},
+			{
+				"id": 42,
+				"parentId": 6,
+				"name": "Office TO Trophy Room",
+				"description": "A red-painted door",
+				"direction": "S",
+				"isLocked": true,
+				"lockedDescription": "The door is locked by a LATCH",
+				"targetRoomId": 9
+			},
+			{
+				"id": 49,
+				"parentId": 7,
+				"name": "Dining Room TO Main Hall",
+				"description": "A carved wooden door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 50,
+				"parentId": 7,
+				"name": "Dining Room TO Kitchen",
+				"description": "A swing door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is blocked by a big angry DOG.",
+				"targetRoomId": 4
+			},
+			{
+				"id": 55,
+				"parentId": 8,
+				"name": "Main Hall TO Dining Room",
+				"description": "A carved wooden door",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 7
+			},
+			{
+				"id": 56,
+				"parentId": 8,
+				"name": "Main Hall TO Trophy Room",
+				"description": "A nicely decorated door",
+				"direction": "E",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 9
+			},
+			{
+				"id": 57,
+				"parentId": 8,
+				"name": "Main Hall TO Empty Room",
+				"description": "A thick wooden door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is locked.\nThere is a blue electronic screen next to the door displaying the word 'Closed'.",
+				"targetRoomId": 5
+			},
+			{
+				"id": 58,
+				"parentId": 8,
+				"name": "Main Hall TO END",
+				"description": "A heavy looking, tall door",
+				"direction": "S",
+				"isLocked": true,
+				"lockedDescription": "There is something keeping the door shut.",
+				"targetRoomId": 8
+			},
+			{
+				"id": 63,
+				"parentId": 9,
+				"name": "Trophy Room TO Main Hall",
+				"description": "A nicely decorated door",
+				"direction": "W",
+				"isLocked": false,
+				"lockedDescription": "",
+				"targetRoomId": 8
+			},
+			{
+				"id": 64,
+				"parentId": 9,
+				"name": "Trophy Room TO Office",
+				"description": "A red-painted door",
+				"direction": "N",
+				"isLocked": true,
+				"lockedDescription": "The door is locked from the other side.",
+				"targetRoomId": 6
+			}
+		],
+		"interactables": [
+			{
+				"id": 11,
+				"parentId": 1,
+				"name": "CABINET",
+				"description": "A metal CABINET hangs from the wall",
+				"inspectDescription": "The CABINET doors are closed.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 12,
+				"parentId": -1,
+				"name": "CABINET",
+				"description": "A metal CABINET hangs from the wall",
+				"inspectDescription": "The CABINET doors are opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 18,
+				"parentId": 2,
+				"name": "MAN",
+				"description": "An old MAN stands in from of the western exit",
+				"inspectDescription": "The MAN doesn't seem to be going anywhere.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 19,
+				"parentId": -1,
+				"name": "MAN",
+				"description": "The old MAN is still standing in front of the door",
+				"inspectDescription": "The MAN is trying to clear the flour from his eyes.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 20,
+				"parentId": -1,
+				"name": "MAN",
+				"description": "An old MAN lying on the ground",
+				"inspectDescription": "The MAN seems to be unconscious.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 27,
+				"parentId": 4,
+				"name": "CUPBOARD",
+				"description": "A large CUPBOARD with glass doors",
+				"inspectDescription": "The CUPBOARD doors are closed shut but you can see a FLASHLIGHT and a bag of FLOUR inside.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 28,
+				"parentId": -1,
+				"name": "CUPBOARD",
+				"description": "A large CUPBOARD with broken glass doors",
+				"inspectDescription": "The CUPBOARD doors are still closed but the glass panes are broken.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 32,
+				"parentId": 4,
+				"name": "DRAWERS",
+				"description": "A group of DRAWERS next to the sink",
+				"inspectDescription": "The DRAWERS are closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 33,
+				"parentId": -1,
+				"name": "DRAWERS",
+				"description": "A group of DRAWERS next to the sink",
+				"inspectDescription": "The DRAWERS are closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 39,
+				"parentId": 5,
+				"name": "RAT",
+				"description": "A big RAT rests next to the northern door.",
+				"inspectDescription": "The RAT doesn't look very friendly.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 43,
+				"parentId": 6,
+				"name": "LATCH",
+				"description": "A LATCH keeping the southern door locked",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 44,
+				"parentId": -1,
+				"name": "LATCH",
+				"description": "An opened LATCH",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 46,
+				"parentId": 6,
+				"name": "DRAWER",
+				"description": "A DRAWER that is very slightly opened but stuck",
+				"inspectDescription": "You can see something shiny inside the DRAWER",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 47,
+				"parentId": -1,
+				"name": "DRAWER",
+				"description": "An opened DRAWER",
+				"inspectDescription": "The DRAWER edge is slightly damaged.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 51,
+				"parentId": 7,
+				"name": "DOG",
+				"description": "A big angry DOG stands in front of the north door",
+				"inspectDescription": "The DOG seems to be really, really angry.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 52,
+				"parentId": -1,
+				"name": "DOG",
+				"description": "A big happy DOG lies down next to the north door",
+				"inspectDescription": "The DOG seems to be really, really happy.",
+				"isVisibleInDark": true
+			},
+			{
+				"id": 59,
+				"parentId": 8,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door",
+				"inspectDescription": "The LOCK is labeled 'ABC'.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 60,
+				"parentId": -1,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door, the first part is already opened",
+				"inspectDescription": "The LOCK is labeled 'ABC', the first part is already opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 61,
+				"parentId": -1,
+				"name": "LOCK",
+				"description": "A triple LOCK on the south door, only the third part remains locked",
+				"inspectDescription": "The LOCK is labeled 'ABC', only the third part remains locked.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 66,
+				"parentId": 9,
+				"name": "BAG",
+				"description": "A fabric BAG closed with a simple knot",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 67,
+				"parentId": -1,
+				"name": "BAG",
+				"description": "An opened fabric BAG",
+				"inspectDescription": "",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 70,
+				"parentId": 9,
+				"name": "PANEL",
+				"description": "A small blue PANEL hangs from the wall",
+				"inspectDescription": "The PANEL door is closed.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 71,
+				"parentId": -1,
+				"name": "PANEL",
+				"description": "A small blue PANEL hangs from the wall",
+				"inspectDescription": "The PANEL door is opened.",
+				"isVisibleInDark": false
+			},
+			{
+				"id": 72,
+				"parentId": -1,
+				"name": "KEYHOLE",
+				"description": "A blue KEYHOLE in the back wall of the PANEL",
+				"inspectDescription": "The KEYHOLE seems to be part of some electronic circuitry.",
+				"isVisibleInDark": false
+			}
+		],
+		"items": [
+			{
+				"id": 13,
+				"parentId": -1,
+				"name": "KEYCHAIN",
+				"description": "A shiny KEYCHAIN",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 14,
+				"parentId": 13,
+				"name": "KEY_C",
+				"description": "A small key labeled KEY_C",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 23,
+				"parentId": 3,
+				"name": "SHOVEL",
+				"description": "A small, worn out SHOVEL",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 24,
+				"parentId": 3,
+				"name": "SCREWDRIVER",
+				"description": "A standard Phillips SCREWDRIVER",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 29,
+				"parentId": -1,
+				"name": "FLASHLIGHT",
+				"description": "A small led FLASHLIGHT without batteries",
+				"inspectDescription": "The FLASHLIGHT looks brand new but is not working.",
+				"isVisibleInDark": true,
+				"hasLight": false
+			},
+			{
+				"id": 30,
+				"parentId": -1,
+				"name": "FLASHLIGHT",
+				"description": "A small and powerful led FLASHLIGHT",
+				"inspectDescription": "The FLASHLIGHT looks brand new.",
+				"isVisibleInDark": true,
+				"hasLight": true
+			},
+			{
+				"id": 31,
+				"parentId": -1,
+				"name": "FLOUR",
+				"description": "A bag of FLOUR",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 34,
+				"parentId": -1,
+				"name": "PAN",
+				"description": "A big PAN",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 35,
+				"parentId": -1,
+				"name": "POT",
+				"description": "A very small POT",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 40,
+				"parentId": 5,
+				"name": "BALL",
+				"description": "A small stress BALL",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 45,
+				"parentId": 6,
+				"name": "WHISKEY",
+				"description": "A WHISKEY bottle",
+				"inspectDescription": "The WHISKEY bottle is still sealed.",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 48,
+				"parentId": -1,
+				"name": "KEY_A",
+				"description": "A small key labeled KEY_A",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 53,
+				"parentId": 7,
+				"name": "KEY_B",
+				"description": "A small key labeled KEY_B",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 54,
+				"parentId": 7,
+				"name": "BLUE_KEY",
+				"description": "A small BLUE_KEY",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 62,
+				"parentId": 8,
+				"name": "POTATO",
+				"description": "A beautiful POTATO",
+				"inspectDescription": "The POTATO is very bright.",
+				"isVisibleInDark": true,
+				"hasLight": false
+			},
+			{
+				"id": 65,
+				"parentId": 9,
+				"name": "TROPHY",
+				"description": "A heavy-looking, mid-sized TROPHY",
+				"inspectDescription": "The TROPHY has an unreadable inscription.",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 68,
+				"parentId": -1,
+				"name": "BONE",
+				"description": "A dog toy shaped like a BONE",
+				"inspectDescription": "",
+				"isVisibleInDark": false,
+				"hasLight": false
+			},
+			{
+				"id": 69,
+				"parentId": -1,
+				"name": "BATTERIES",
+				"description": "A couple of standard BATTERIES",
+				"inspectDescription": "The BATTERIES look brand new and are very shiny.",
+				"isVisibleInDark": true,
+				"hasLight": false
+			}
+		],
+		"player": {
+			"id": 0,
+			"parentId": -1,
+			"maxItems": 2,
+			"startingRoomId": 8
+		}
+	},
+	"actions": [
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "With a bit of force, you open the CABINET doors.",
+			"shouldDestroy": true,
+			"firstEntityId": 11,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 11,
+					"entityToAddId": 12
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "You see a KEYCHAIN inside the CABINET.",
+					"entitiesToAddIds": [13],
+					"targetRoomId": 1
+				}
+			]
+		},
+		{
+			"type": "GO",
+			"description": "Upon entering the Storage Room, you hear many footsteps outside and the noise of someone being dragged around.",
+			"shouldDestroy": true,
+			"firstEntityId": 2,
+			"secondEntityId": 1,
+			"effects": [
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [20]
+				}
+			]
+		},
+		{
+			"type": "GO",
+			"description": "You notice the MAN is now gone.",
+			"shouldDestroy": true,
+			"firstEntityId": 1,
+			"secondEntityId": 2,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN sees you swinging the SHOVEL at him and dodges the hit.",
+			"shouldDestroy": false,
+			"firstEntityId": 23,
+			"secondEntityId": 18,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You consider stabbing the MAN with the SCREWDRIVER, but then realize you don't want to murder anyone.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 18,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You consider stabbing the defenseless MAN with the SCREWDRIVER but choose not to.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 19,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN is unconscious, there's no need to hit him with a SHOVEL.",
+			"shouldDestroy": false,
+			"firstEntityId": 23,
+			"secondEntityId": 20,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "The MAN is unconscious, there is absolutely no reason to stab him with a SCREWDRIVER.",
+			"shouldDestroy": false,
+			"firstEntityId": 24,
+			"secondEntityId": 20,
+			"effects": []
+		},
+		
+		
+		
+		
+		{
+			"type": "ITEM_USE",
+			"description": "You give the WHISKEY bottle to the MAN. He just takes it and remains standing in front of the door.",
+			"shouldDestroy": true,
+			"firstEntityId": 45,
+			"secondEntityId": 18,
+			"effects": [
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [45]
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You throw a handfull of FLOUR towards the MAN's face.",
+			"shouldDestroy": true,
+			"firstEntityId": 31,
+			"secondEntityId": 18,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The MAN remains standing but is blinded and trying to clear the FLOUR out of his eyes.",
+					"entityToRemoveId": 18,
+					"entityToAddId": 19
+				},
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [31]
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the SHOVEL to hit the MAN on the head and he falls to the ground. He is not bleeding and seems to still be breathing. Well played.",
+			"shouldDestroy": true,
+			"firstEntityId": 23,
+			"secondEntityId": 19,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 19,
+					"entityToAddId": 20
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 15
+				}
+			]
+		},
+		
+		
+		
+		
+		{
+			"type": "GO",
+			"description": "You hear a voice coming from the Dining Room saying: 'Go to the exit'",
+			"shouldDestroy": true,
+			"firstEntityId": 7,
+			"secondEntityId": 4,
+			"effects": []
+		},
+		{
+			"type": "GO",
+			"description": "There's no one around anymore. Who said those words?",
+			"shouldDestroy": true,
+			"firstEntityId": 4,
+			"secondEntityId": 7,
+			"effects": []
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You try to open the CUPBOARD, but the doors just won't move. You may need a more drastic approach about those glass doors.",
+			"shouldDestroy": false,
+			"firstEntityId": 27,
+			"secondEntityId": -1,
+			"effects": []
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You swing the TROPHY at the CUPBOARD glass doors and they shatter.",
+			"shouldDestroy": true,
+			"firstEntityId": 65,
+			"secondEntityId": 27,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 27,
+					"entityToAddId": 28
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [29, 31],
+					"targetRoomId": 4
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the BATTERIES in the FLASHLIGHT.",
+			"shouldDestroy": true,
+			"firstEntityId": 69,
+			"secondEntityId": 29,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The flashlight now emits a fairly bright light that will allow you to see in the dark.",
+					"entityToRemoveId": 29,
+					"entityToAddId": 30
+				},
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 69,
+					"containerId": 30
+				},
+				{
+					"type": "LOCK_EXIT",
+					"description": "",
+					"exitToLockId": 37
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You open all of the DRAWERS and only find a big PAN and a very small POT.",
+			"shouldDestroy": true,
+			"firstEntityId": 32,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 32,
+					"entityToAddId": 33
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [34, 35],
+					"targetRoomId": 4
+				}
+			]
+		},
+		{
+			"type": "TAKE",
+			"description": "",
+			"shouldDestroy": false,
+			"firstEntityId": 30,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "LOCK_EXIT",
+					"description": "",
+					"exitToLockId": 37
+				}
+			]
+		},
+		{
+			"type": "DROP",
+			"description": "",
+			"shouldDestroy": false,
+			"firstEntityId": 30,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 37
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You pull on the LATCH to open it.",
+			"shouldDestroy": true,
+			"firstEntityId": 43,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 43,
+					"entityToAddId": 44
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 42
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 64
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the SCREWDRIVER to force the DRAWER open.",
+			"shouldDestroy": true,
+			"firstEntityId": 24,
+			"secondEntityId": 46,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 46,
+					"entityToAddId": 47
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "You can see a small key labeled KEY_A.",
+					"entitiesToAddIds": [48],
+					"targetRoomId": 6
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the KEY_A in the KEYCHAIN.",
+			"shouldDestroy": true,
+			"firstEntityId": 48,
+			"secondEntityId": 13,
+			"effects": [
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 48,
+					"containerId": 13 
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "Slowly, you give the BONE to the big DOG.",
+			"shouldDestroy": true,
+			"firstEntityId": 68,
+			"secondEntityId": 51,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "The DOG stops being angry and moves aside with the BONE in his mouth.",
+					"entityToRemoveId": 51,
+					"entityToAddId": 52
+				},
+				{
+					"type": "REMOVE_ENTITIES",
+					"description": "",
+					"entitiesToRemoveIds": [68]
+				},
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 50
+				}
+			]
+		},
+		{
+			"type": "ITEM_PUT",
+			"description": "You placed the KEY_B in the KEYCHAIN.",
+			"shouldDestroy": true,
+			"firstEntityId": 53,
+			"secondEntityId": 13,
+			"effects": [
+				{
+					"type": "PLACE_ITEM_IN_ITEM",
+					"description": "",
+					"itemId": 53,
+					"containerId": 13 
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the KEY_A to open the first part of the triple LOCK.",
+			"shouldDestroy": true,
+			"firstEntityId": 48,
+			"secondEntityId": 59,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 59,
+					"entityToAddId": 60
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the KEY_B to open the second part of the triple LOCK.",
+			"shouldDestroy": true,
+			"firstEntityId": 53,
+			"secondEntityId": 60,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 60,
+					"entityToAddId": 61
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the KEY_C to open the final part of the triple LOCK.",
+			"shouldDestroy": true,
+			"firstEntityId": 14,
+			"secondEntityId": 61,
+			"effects": [
+				{
+					"type": "GAME_END",
+					"description": "\n\nAs you remove the heavy triple lock from the door, you can hear footsteps on the other side.\nYou quickly open the door and are blinded by a very bright white light.\nWhile trying to adjust to the extreme lighting, you feel a needle in your neck.\nAs you fall down to the ground, fainting, you hear a rather high-pitched voice saying:\n'THE EXIT IS A LIE'.\n\n...\n\nWell, you finished the game.\nIt's probably not the ending you expected, but at least you have some closure now."
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You undo the knot, open the BAG and find some BATTERIES and a dog toy shaped like a BONE inside.",
+			"shouldDestroy": true,
+			"firstEntityId": 66,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 66,
+					"entityToAddId": 67
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [68, 69],
+					"targetRoomId": 9
+				}
+			]
+		},
+		{
+			"type": "INTERACTABLE_OPEN",
+			"description": "You open the PANEL door and see a blue KEYHOLE in the back wall.",
+			"shouldDestroy": true,
+			"firstEntityId": 70,
+			"secondEntityId": -1,
+			"effects": [
+				{
+					"type": "REPLACE_ENTITY",
+					"description": "",
+					"entityToRemoveId": 70,
+					"entityToAddId": 71
+				},
+				{
+					"type": "ADD_ENTITIES",
+					"description": "",
+					"entitiesToAddIds": [72],
+					"targetRoomId": 9
+				}
+			]
+		},
+		{
+			"type": "ITEM_USE",
+			"description": "You use the BLUE_KEY on the blue KEYHOLE and hear a loud clicking noise coming from elsewhere.",
+			"shouldDestroy": true,
+			"firstEntityId": 54,
+			"secondEntityId": 72,
+			"effects": [
+				{
+					"type": "UNLOCK_EXIT",
+					"description": "",
+					"exitToUnlockId": 57
+				}
+			]
+		}
+	]
+}

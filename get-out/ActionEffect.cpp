@@ -12,7 +12,7 @@ ActionEffect::~ActionEffect()
 }
 
 
-std::string ActionEffect::getEffectDescription() const
+const std::string& ActionEffect::getEffectDescription() const
 {
 	return m_description;
 }

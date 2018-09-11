@@ -3,19 +3,12 @@
 #include "globals.h"
 
 
-std::vector<std::string> getDirectionNames()
+Direction getDirectionFromString(const std::string& text)
 {
-	static std::vector<std::string> namesList{ "NORTH", "SOUTH", "EAST", "WEST" };
-	return namesList;
-}
-
-
-Direction getDirectionFromString(const std::string & s)
-{
-	if (caselessEquals(s, "N") || caselessEquals(s, "NORTH")) return Direction::N;
-	if (caselessEquals(s, "S") || caselessEquals(s, "SOUTH")) return Direction::S;
-	if (caselessEquals(s, "E") || caselessEquals(s, "EAST")) return Direction::E;
-	if (caselessEquals(s, "W") || caselessEquals(s, "WEST")) return Direction::W;
+	if (caselessEquals(text, "N") || caselessEquals(text, "NORTH")) return Direction::N;
+	if (caselessEquals(text, "S") || caselessEquals(text, "SOUTH")) return Direction::S;
+	if (caselessEquals(text, "E") || caselessEquals(text, "EAST")) return Direction::E;
+	if (caselessEquals(text, "W") || caselessEquals(text, "WEST")) return Direction::W;
 	return Direction::_UNDEFINED;
 }
 

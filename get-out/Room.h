@@ -13,7 +13,7 @@ enum class Direction;
 class Room :
 	public Entity
 {	
-	friend Entity * EntityFactory::createEntity(EntityInfo);
+	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
 	Room(int id, const std::string& name, const std::string& description, bool isDark);
 	virtual ~Room();
@@ -24,7 +24,7 @@ public:
 
 	Exit* getExit(Direction direction);
 	std::string getDescriptionInDarkness() const;
-	Entity* getChildInDarkness(const std::string& entityName, bool searchInChildren = false);
+	Entity* getChildInDarkness(const std::string& entityName, bool searchInChildren = false) const;
 
 	// Entity overrides
 	virtual std::string getDescription() const override;

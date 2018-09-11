@@ -32,10 +32,10 @@ void EntityFactory::close()
 }
 
 
-Entity * EntityFactory::createEntity(EntityInfo info)
+Entity* EntityFactory::createEntity(EntityInfo info)
 {
 	assert(m_entitiesById.count(info.id) == 0);
-	Entity * entity = nullptr;
+	Entity* entity = nullptr;
 	switch (info.type)
 	{
 	case EntityType::PLAYER:
@@ -46,10 +46,10 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 		break;
 	}
 	case EntityType::ITEM:
-		entity = new Item(info.id, info.name, info.description, info.item.inspectDescription, info.item.isVisibleInDark, info.item.hasLight);
+		entity = new Item(info.id, info.name, info.description, info.aditionalDescription, info.item.isVisibleInDark, info.item.hasLight);
 		break;
 	case EntityType::INTERACTABLE:
-		entity = new Interactable(info.id, info.name, info.description, info.interactable.inspectDescription, info.interactable.isVisibleInDark);
+		entity = new Interactable(info.id, info.name, info.description, info.aditionalDescription, info.interactable.isVisibleInDark);
 		break;
 	case EntityType::ROOM:
 		entity = new Room(info.id, info.name, info.description, info.room.isDark);
@@ -58,11 +58,10 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 	{
 		Entity* targetRoom = getEntity(info.exit.targetRoomId);
 		assert(targetRoom && targetRoom->getType() == EntityType::ROOM);
-		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.exit.lockedDescription, static_cast<Room*>(targetRoom));
-		break; 
-	}
-	default:
+		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.aditionalDescription, static_cast<Room*>(targetRoom));
 		break;
+	}
+
 	}
 	if (entity != nullptr)
 	{
@@ -79,7 +78,7 @@ Entity * EntityFactory::createEntity(EntityInfo info)
 }
 
 
-Entity * EntityFactory::getEntity(int id) const
+Entity* EntityFactory::getEntity(int id) const
 {
 	if (m_entitiesById.count(id) != 0)
 	{

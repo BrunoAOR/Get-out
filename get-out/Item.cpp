@@ -54,7 +54,7 @@ bool Item::hasLight() const
 }
 
 
-bool Item::canAddChild(const Entity * child) const
+bool Item::canAddChild(const Entity* child) const
 {
 	return child->getType() == EntityType::ITEM;
 }

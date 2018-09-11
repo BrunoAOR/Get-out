@@ -11,7 +11,7 @@ class EffectAddEntitiesToRoom :
 	public ActionEffect
 {
 public:
-	EffectAddEntitiesToRoom(const std::string& effectDescription, std::vector<Entity*> entitiesToAdd, Room* targetRoom);
+	EffectAddEntitiesToRoom(const std::string& effectDescription, const std::vector<Entity*>& entitiesToAdd, Room* targetRoom);
 	~EffectAddEntitiesToRoom();
 
 	// Inherited via ActionEffect

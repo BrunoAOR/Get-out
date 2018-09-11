@@ -1,7 +1,6 @@
 #ifndef H_DIRECTION
 #define H_DIRECTION
 
-#include <vector>
 #include <string>
 
 
@@ -14,8 +13,7 @@ enum class Direction
 	W
 };
 
-std::vector<std::string> getDirectionNames();
-Direction getDirectionFromString(const std::string& s);
+Direction getDirectionFromString(const std::string& text);
 std::string getStringFromDirection(Direction direction);
 
 

@@ -19,7 +19,7 @@ Room::~Room()
 }
 
 
-Exit * Room::getExit(Direction direction)
+Exit* Room::getExit(Direction direction)
 {
 	for (Exit* exit : m_exits)
 	{
@@ -72,36 +72,44 @@ std::string Room::getDescriptionInDarkness() const
 }
 
 
-Entity * Room::getChildInDarkness(const std::string & entityName, bool searchInChildren)
+Entity* Room::getChildInDarkness(const std::string& entityName, bool searchInChildren) const
 {
+	Entity* queryChild = nullptr;
+
 	if (!m_isDark)
 	{
-		return getChild(entityName, searchInChildren);
+		queryChild = getChild(entityName, searchInChildren);
 	}
-
-	for (Entity* child : m_children)
+	else
 	{
-		if (child->isVisibleInDark())
+
+		for (Entity* child : m_children)
 		{
-			if (caselessEquals(child->getName(), entityName))
+			if (child->isVisibleInDark())
 			{
-				return child;
-			}
-			if (searchInChildren)
-			{
-				Entity* childFound = child->getChild(entityName, true);
-				if (childFound)
+				if (caselessEquals(child->getName(), entityName))
 				{
-					return childFound;
+					queryChild = child;
+					break;
+				}
+				if (searchInChildren)
+				{
+					Entity* childFound = child->getChild(entityName, true);
+					if (childFound)
+					{
+						queryChild = childFound;
+						break;
+					}
 				}
 			}
 		}
 	}
-	return nullptr;
+
+	return queryChild;
 }
 
 
-bool Room::canAddChild(const Entity * child) const
+bool Room::canAddChild(const Entity* child) const
 {
 	return child->getType() == EntityType::EXIT
 		|| child->getType() == EntityType::ITEM
@@ -109,7 +117,7 @@ bool Room::canAddChild(const Entity * child) const
 }
 
 
-void Room::addChild(Entity * child)
+void Room::addChild(Entity* child)
 {
 	if (child->getType() == EntityType::EXIT)
 	{
@@ -127,7 +135,7 @@ void Room::addChild(Entity * child)
 }
 
 
-void Room::removeChild(const Entity * entity)
+void Room::removeChild(const Entity* entity)
 {
 	if (entity->getType() == EntityType::EXIT)
 	{

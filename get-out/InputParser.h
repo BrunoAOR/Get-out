@@ -12,11 +12,11 @@ public:
 	InputParser();
 	~InputParser();
 
-	Instruction* parse(const std::string& userInput) const;
+	Instruction parse(const std::string& userInput) const;
 
 private:
 	std::vector<std::string> parseToVector(const std::string& userInput) const;
-	bool checkInputValidity(const std::vector<std::string>& input, Instruction* instruction) const;
+	Instruction parseToInstruction(const std::vector<std::string>& input) const;
 };
 
 
