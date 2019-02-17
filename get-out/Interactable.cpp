@@ -3,8 +3,8 @@
 #include "EntityType.h"
 
 
-Interactable::Interactable(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark)
-	: Entity(id, EntityType::INTERACTABLE, name, description, isVisibleInDark), m_inspectDescription(inspectDescription), m_isVisibleInDark(isVisibleInDark)
+Interactable::Interactable(int aId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark)
+	: Entity(aId, EntityType::INTERACTABLE, aName, aDescription, aIsVisibleInDark), mInspectDescription(aInspectDescription), mIsVisibleInDark(aIsVisibleInDark)
 {
 }
 
@@ -16,24 +16,24 @@ Interactable::~Interactable()
 
 std::string Interactable::getDetailedDescription() const
 {
-	std::string description = m_inspectDescription;
-	if (description == "")
+	std::string lDescription = mInspectDescription;
+	if (lDescription == "")
 	{
-		description = "There is nothing special about the " + m_name + ".";
+		lDescription = "There is nothing special about the " + mName + ".";
 	}
-	if (m_children.size() > 0)
+	if (mChildren.size() > 0)
 	{
-		description += "\nThe " + m_name + " contains:";
-		for (auto child : m_children)
+		lDescription += "\nThe " + mName + " contains:";
+		for (auto lChild : mChildren)
 		{
-			description += "\n    - " + child->getDescription();
+			lDescription += "\n    - " + lChild->getDescription();
 		}
 	}
-	return description;
+	return lDescription;
 }
 
 
-bool Interactable::canAddChild(const Entity* child) const
+bool Interactable::canAddChild(const Entity* aChild) const
 {
-	return child->getType() == EntityType::ITEM;
+	return aChild->getType() == EntityType::ITEM;
 }

@@ -7,23 +7,23 @@
 #include "globals.h"
 
 
-Room::Room(int id, const std::string& name, const std::string& description, bool isDark)
-	: Entity(id, EntityType::ROOM, name, description, true), m_isDark(isDark)
+Room::Room(int aId, const std::string& aName, const std::string& aDescription, bool aIsDark)
+	: Entity(aId, EntityType::ROOM, aName, aDescription, true), mIsDark(aIsDark)
 {
 }
 
 
 Room::~Room()
 {
-	m_exits.clear();
+	mExits.clear();
 }
 
 
-Exit* Room::getExit(Direction direction)
+Exit* Room::getExit(Direction aDirection)
 {
-	for (Exit* exit : m_exits)
+	for (Exit* exit : mExits)
 	{
-		if (exit->getDirection() == direction)
+		if (exit->getDirection() == aDirection)
 		{
 			return exit;
 		}
@@ -34,70 +34,70 @@ Exit* Room::getExit(Direction direction)
 
 std::string Room::getDescription() const
 {
-	std::string description = m_name + "\n" + m_description;
-	description += "\nIn the room you find the following:";
-	for (Exit* exit : m_exits)
+	std::string lDescription = mName + "\n" + mDescription;
+	lDescription += "\nIn the room you find the following:";
+	for (Exit* lExit : mExits)
 	{
-		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection());
+		lDescription += "\n  " + lExit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(lExit)->getDirection());
 	}
-	for (Entity* child : m_children)
+	for (Entity* lChild : mChildren)
 	{
-		description += "\n  " + child->getDescription();
+		lDescription += "\n  " + lChild->getDescription();
 	}
-	return description;
+	return lDescription;
 }
 
 
 std::string Room::getDescriptionInDarkness() const
 {
-	if (!m_isDark)
+	if (!mIsDark)
 	{
 		return getDescription();
 	}
 
-	std::string description = m_name + "\n" + m_description;
-	description += "\nThe room is almost in full darkness, but you can identify the following things:";
-	for (Exit* exit : m_exits)
+	std::string lDescription = mName + "\n" + mDescription;
+	lDescription += "\nThe room is almost in full darkness, but you can identify the following things:";
+	for (Exit* lExit : mExits)
 	{
-		description += "\n  " + exit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(exit)->getDirection());
+		lDescription += "\n  " + lExit->getDescription() + " to the " + getStringFromDirection(static_cast<Exit*>(lExit)->getDirection());
 	}
-	for (Entity* child : m_children)
+	for (Entity* lChild : mChildren)
 	{
-		if (child->isVisibleInDark())
+		if (lChild->isVisibleInDark())
 		{
-			description += "\n  " + child->getDescription();
+			lDescription += "\n  " + lChild->getDescription();
 		}
 	}
-	return description;
+	return lDescription;
 }
 
 
-Entity* Room::getChildInDarkness(const std::string& entityName, bool searchInChildren) const
+Entity* Room::getChildInDarkness(const std::string& aEntityName, bool aSearchInChildren) const
 {
-	Entity* queryChild = nullptr;
+	Entity* lQueryChild = nullptr;
 
-	if (!m_isDark)
+	if (!mIsDark)
 	{
-		queryChild = getChild(entityName, searchInChildren);
+		lQueryChild = getChild(aEntityName, aSearchInChildren);
 	}
 	else
 	{
 
-		for (Entity* child : m_children)
+		for (Entity* lChild : mChildren)
 		{
-			if (child->isVisibleInDark())
+			if (lChild->isVisibleInDark())
 			{
-				if (caselessEquals(child->getName(), entityName))
+				if (caselessEquals(lChild->getName(), aEntityName))
 				{
-					queryChild = child;
+					lQueryChild = lChild;
 					break;
 				}
-				if (searchInChildren)
+				if (aSearchInChildren)
 				{
-					Entity* childFound = child->getChild(entityName, true);
-					if (childFound)
+					Entity* lChildFound = lChild->getChild(aEntityName, true);
+					if (lChildFound)
 					{
-						queryChild = childFound;
+						lQueryChild = lChildFound;
 						break;
 					}
 				}
@@ -105,53 +105,53 @@ Entity* Room::getChildInDarkness(const std::string& entityName, bool searchInChi
 		}
 	}
 
-	return queryChild;
+	return lQueryChild;
 }
 
 
-bool Room::canAddChild(const Entity* child) const
+bool Room::canAddChild(const Entity* aChild) const
 {
-	return child->getType() == EntityType::EXIT
-		|| child->getType() == EntityType::ITEM
-		|| child->getType() == EntityType::INTERACTABLE;
+	return aChild->getType() == EntityType::EXIT
+		|| aChild->getType() == EntityType::ITEM
+		|| aChild->getType() == EntityType::INTERACTABLE;
 }
 
 
-void Room::addChild(Entity* child)
+void Room::addChild(Entity* aChild)
 {
-	if (child->getType() == EntityType::EXIT)
+	if (aChild->getType() == EntityType::EXIT)
 	{
-		Exit* newExit = static_cast<Exit*>(child);
-		for (Exit* exit : m_exits)
+		Exit* lNewExit = static_cast<Exit*>(aChild);
+		for (Exit* lExit : mExits)
 		{
-			assert(exit->getDirection() != newExit->getDirection());
+			assert(lExit->getDirection() != lNewExit->getDirection());
 		}
-		m_exits.push_back(static_cast<Exit*>(child));
+		mExits.push_back(static_cast<Exit*>(aChild));
 	}
 	else
 	{
-		m_children.push_back(child);
+		mChildren.push_back(aChild);
 	}
 }
 
 
-void Room::removeChild(const Entity* entity)
+void Room::removeChild(const Entity* aEntity)
 {
-	if (entity->getType() == EntityType::EXIT)
+	if (aEntity->getType() == EntityType::EXIT)
 	{
-		const Exit* exit = static_cast<const Exit*>(entity);
-		auto it = std::find(m_exits.begin(), m_exits.end(), exit);
-		if (it != m_exits.end())
+		const Exit* lExit = static_cast<const Exit*>(aEntity);
+		auto lIt = std::find(mExits.begin(), mExits.end(), lExit);
+		if (lIt != mExits.end())
 		{
-			m_exits.erase(it);
+			mExits.erase(lIt);
 		}
 	}
 	else
 	{
-		auto it = std::find(m_children.begin(), m_children.end(), entity);
-		if (it != m_children.end())
+		auto lIt = std::find(mChildren.begin(), mChildren.end(), aEntity);
+		if (lIt != mChildren.end())
 		{
-			m_children.erase(it);
+			mChildren.erase(lIt);
 		}
 	}
 }

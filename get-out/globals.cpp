@@ -5,40 +5,40 @@
 #include <windows.h>
 
 
-bool isGameEndRequested = false;
+bool gIsGameEndRequested = false;
 
 
-void consoleLog(const std::string& message)
+void consoleLog(const std::string& aMessage)
 {
-	if (message.length() == 0)
+	if (aMessage.length() == 0)
 	{
 		return;
 	}
-	std::cout << "\n*****\n" << message << "\n*****\n\n";
+	std::cout << "\n*****\n" << aMessage << "\n*****\n\n";
 }
 
 
-void consoleLog(char character)
+void consoleLog(char aCharacter)
 {
-	std::cout << character;
+	std::cout << aCharacter;
 }
 
 
-void outputLog(const char* file, int line, const char* format, ...)
+void outputLog(const char* aFile, int aLine, const char* aFormat, ...)
 {
-	static char tmp_string[4096];
-	static char tmp_string2[4096];
+	static char lTtmp_string[4096];
+	static char lTmp_string2[4096];
 	static va_list  ap;
 	// Construct the string from variable arguments
-	va_start(ap, format);
-	vsprintf_s(tmp_string, 4096, format, ap);
+	va_start(ap, aFormat);
+	vsprintf_s(lTtmp_string, 4096, aFormat, ap);
 	va_end(ap);
-	sprintf_s(tmp_string2, 4096, "--%s(%d)\n----%s\n", file, line, tmp_string);
-	OutputDebugString(tmp_string2);
+	sprintf_s(lTmp_string2, 4096, "--%s(%d)\n----%s\n", aFile, aLine, lTtmp_string);
+	OutputDebugString(lTmp_string2);
 }
 
 
-bool caselessEquals(const std::string& s1, const std::string& s2)
+bool caselessEquals(const std::string& aS1, const std::string& aS2)
 {
-	return _stricmp(s1.c_str(), s2.c_str()) == 0;
+	return _stricmp(aS1.c_str(), aS2.c_str()) == 0;
 }

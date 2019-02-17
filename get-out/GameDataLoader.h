@@ -15,37 +15,37 @@ using Json = nlohmann::json;
 class GameDataLoader
 {
 public:
-	GameDataLoader(EntityFactory* entityFactory, ActionFactory* actionFactory);
+	GameDataLoader(EntityFactory* aEntityFactory, ActionFactory* aActionFactory);
 	~GameDataLoader();
 	GameDataLoader(const GameDataLoader& source) = delete;
 	GameDataLoader operator=(const GameDataLoader& source) = delete;
 
-	Player* loadGameData(const char* path);
+	Player* loadGameData(const char* aPath);
 	const std::string& getWelcomeMessage() const;
 	const std::string& getExitMessage() const;
 
 private:
 	using entityLoaderFunc = bool(GameDataLoader::*)(const Json&, std::vector<EntityInfo>&);
 
-	Json loadJson(const char* path);
-	bool loadMessages(const Json& json);
+	Json loadJson(const char* aPath);
+	bool loadMessages(const Json& aJson);
 	
-	Player* loadAndCreateEntities(const Json& json);
-	bool loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderfunc);
-	bool loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos);
-	bool loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos);
-	bool loadInteractableInfos(const Json& jsonInteractables, std::vector<EntityInfo>& entityInfos);
-	bool loadItemInfos(const Json& jsonItems, std::vector<EntityInfo>& entityInfos);
+	Player* loadAndCreateEntities(const Json& aJson);
+	bool loadEntitiesByKey(const Json& aJonEntityInfos, std::vector<EntityInfo>& aInOutEntityInfos, const std::string& aKey, entityLoaderFunc aLoaderfunc);
+	bool loadRoomInfos(const Json& aJsonRooms, std::vector<EntityInfo>& aInOutEntityInfos);
+	bool loadExitInfos(const Json& aJsonExits, std::vector<EntityInfo>& aInOutEntityInfos);
+	bool loadInteractableInfos(const Json& aJsonInteractables, std::vector<EntityInfo>& aInOutEntityInfos);
+	bool loadItemInfos(const Json& aJsonItems, std::vector<EntityInfo>& aInOutEntityInfos);
 
-	bool loadAndCreateActions(const Json& jsonActions);
-	bool loadAction(const Json& jsonAction, int actionIndex);
-	bool loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& effects, int actionIndex);
-	ActionEffect* loadActionEffect(const Json& jsonEffect, ActionEffectType effectType, int actionIndex, int effectIndex);
+	bool loadAndCreateActions(const Json& aJsonActions);
+	bool loadAction(const Json& aJsonAction, int aActionIndex);
+	bool loadActionEffects(const Json& aJsonEffects, std::vector<ActionEffect*>& aInOutEffects, int aActionIndex);
+	ActionEffect* loadActionEffect(const Json& aJsonEffect, ActionEffectType aEffectType, int aActionIndex, int aEffectIndex);
 
-	std::string m_welcomeMessage;
-	std::string m_exitMessage;
-	EntityFactory* m_entityFactory = nullptr;
-	ActionFactory* m_actionFactory = nullptr;
+	std::string mWelcomeMessage;
+	std::string mExitMessage;
+	EntityFactory* mEntityFactory = nullptr;
+	ActionFactory* mActionFactory = nullptr;
 };
 
 

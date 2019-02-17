@@ -24,65 +24,65 @@ EntityFactory::~EntityFactory()
 
 void EntityFactory::close()
 {
-	for (auto entry : m_entitiesById)
+	for (auto lEntry : mEntitiesById)
 	{
-		delete entry.second;
+		delete lEntry.second;
 	}
-	m_entitiesById.clear();
+	mEntitiesById.clear();
 }
 
 
-Entity* EntityFactory::createEntity(EntityInfo info)
+Entity* EntityFactory::createEntity(EntityInfo aInfo)
 {
-	assert(m_entitiesById.count(info.id) == 0);
-	Entity* entity = nullptr;
-	switch (info.type)
+	assert(mEntitiesById.count(aInfo.mId) == 0);
+	Entity* lEntity = nullptr;
+	switch (aInfo.mType)
 	{
 	case EntityType::PLAYER:
 	{
-		Entity* startingRoom = getEntity(info.player.startingRoomId);
-		assert(startingRoom && startingRoom->getType() == EntityType::ROOM);
-		entity = new Player(info.id, info.name, info.description, info.player.maxItems, static_cast<Room*>(startingRoom));
+		Entity* lStartingRoom = getEntity(aInfo.mPlayer.mStartingRoomId);
+		assert(lStartingRoom && lStartingRoom->getType() == EntityType::ROOM);
+		lEntity = new Player(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mPlayer.mMaxItems, static_cast<Room*>(lStartingRoom));
 		break;
 	}
 	case EntityType::ITEM:
-		entity = new Item(info.id, info.name, info.description, info.aditionalDescription, info.item.isVisibleInDark, info.item.hasLight);
+		lEntity = new Item(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mAditionalDescription, aInfo.mItem.mIsVisibleInDark, aInfo.mItem.mHasLight);
 		break;
 	case EntityType::INTERACTABLE:
-		entity = new Interactable(info.id, info.name, info.description, info.aditionalDescription, info.interactable.isVisibleInDark);
+		lEntity = new Interactable(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mAditionalDescription, aInfo.mInteractable.mIsVisibleInDark);
 		break;
 	case EntityType::ROOM:
-		entity = new Room(info.id, info.name, info.description, info.room.isDark);
+		lEntity = new Room(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mRoom.mIsDark);
 		break;
 	case EntityType::EXIT:
 	{
-		Entity* targetRoom = getEntity(info.exit.targetRoomId);
-		assert(targetRoom && targetRoom->getType() == EntityType::ROOM);
-		entity = new Exit(info.id, info.name, info.description, info.exit.direction, info.exit.isLocked, info.aditionalDescription, static_cast<Room*>(targetRoom));
+		Entity* lTargetRoom = getEntity(aInfo.mExit.mTargetRoomId);
+		assert(lTargetRoom && lTargetRoom->getType() == EntityType::ROOM);
+		lEntity = new Exit(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mExit.mDirection, aInfo.mExit.mIsLocked, aInfo.mAditionalDescription, static_cast<Room*>(lTargetRoom));
 		break;
 	}
 
 	}
-	if (entity != nullptr)
+	if (lEntity != nullptr)
 	{
-		if (info.parentId >= 0)
+		if (aInfo.mParentId >= 0)
 		{
-			Entity* parent = getEntity(info.parentId);
-			assert(parent);
-			bool success = entity->setParent(parent);
-			assert(success);
+			Entity* lParent = getEntity(aInfo.mParentId);
+			assert(lParent);
+			bool lSuccess = lEntity->setParent(lParent);
+			assert(lSuccess);
 		}
-		m_entitiesById[info.id] = entity;
+		mEntitiesById[aInfo.mId] = lEntity;
 	}
-	return entity;
+	return lEntity;
 }
 
 
-Entity* EntityFactory::getEntity(int id) const
+Entity* EntityFactory::getEntity(int aId) const
 {
-	if (m_entitiesById.count(id) != 0)
+	if (mEntitiesById.count(aId) != 0)
 	{
-		return m_entitiesById.at(id);
+		return mEntitiesById.at(aId);
 	}
 	return nullptr;
 }

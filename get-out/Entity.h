@@ -11,12 +11,12 @@ class Entity
 {
 	friend void EntityFactory::close();
 protected:
-	Entity(int id, EntityType type, const std::string& name, const std::string& description, bool isVisibleInDark);
+	Entity(int aId, EntityType aType, const std::string& aName, const std::string& aDescription, bool aIsVisibleInDark);
 	virtual ~Entity() = 0;
 
 public:
-	Entity(const Entity& source) = delete;
-	Entity& operator=(const Entity& source) = delete;
+	Entity(const Entity& aSource) = delete;
+	Entity& operator=(const Entity& aSource) = delete;
 
 	// Getters and setters
 	EntityType getType() const;
@@ -25,23 +25,23 @@ public:
 	bool isVisibleInDark() const;
 	virtual std::string getDetailedDescription() const;
 
-	bool hasChild(Entity* entity) const;
-	Entity* getChild(const std::string& entityName, bool searchInChildren=false) const;
+	bool hasChild(Entity* aEntity) const;
+	Entity* getChild(const std::string& aEntityName, bool aSearchInChildren=false) const;
 	Entity* getParent() const;
-	bool setParent(Entity* parent);
+	bool setParent(Entity* aParent);
 
 protected:
-	int m_id;
-	EntityType m_type;
-	std::string m_name;
-	std::string m_description;
-	bool m_isVisibleInDark;
-	Entity* m_parent = nullptr;
-	std::vector<Entity*> m_children;
+	int mId;
+	EntityType mType;
+	std::string mName;
+	std::string mDescription;
+	bool mIsVisibleInDark;
+	Entity* mParent = nullptr;
+	std::vector<Entity*> mChildren;
 
-	virtual bool canAddChild(const Entity* child) const;
-	virtual void addChild(Entity* child);
-	virtual void removeChild(const Entity* entity);
+	virtual bool canAddChild(const Entity* aChild) const;
+	virtual void addChild(Entity* aChild);
+	virtual void removeChild(const Entity* aEntity);
 };
 
 

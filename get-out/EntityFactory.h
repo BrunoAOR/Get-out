@@ -11,16 +11,16 @@ class EntityFactory
 public:
 	EntityFactory();
 	~EntityFactory();
-	EntityFactory(const EntityFactory& source) = delete;
-	EntityFactory& operator=(const EntityFactory& source) = delete;
+	EntityFactory(const EntityFactory& aSource) = delete;
+	EntityFactory& operator=(const EntityFactory& aSource) = delete;
 
 	void close();
 
-	Entity* createEntity(EntityInfo info);
-	Entity* getEntity(int id) const;
+	Entity* createEntity(EntityInfo aInfo);
+	Entity* getEntity(int aId) const;
 
 private:
-	std::map<int, Entity*> m_entitiesById;
+	std::map<int, Entity*> mEntitiesById;
 };
 
 

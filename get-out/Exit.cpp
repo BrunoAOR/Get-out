@@ -4,10 +4,10 @@
 #include "EntityType.h"
 
 
-Exit::Exit(int id, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, Room * targetRoom)
-	: Entity(id, EntityType::EXIT, name, description, true), m_direction(direction), m_isLocked(isLocked), m_lockedDescription(lockedDescription), m_targetRoom(targetRoom)
+Exit::Exit(int aId, const std::string& aName, const std::string& aDescription, Direction aDirection, bool aIsLocked, const std::string& aLockedDescription, Room* aTargetRoom)
+	: Entity(aId, EntityType::EXIT, aName, aDescription, true), mDirection(aDirection), mIsLocked(aIsLocked), mLockedDescription(aLockedDescription), mTargetRoom(aTargetRoom)
 {
-	assert(m_targetRoom);
+	assert(mTargetRoom);
 }
 
 
@@ -18,41 +18,41 @@ Exit::~Exit()
 
 Direction Exit::getDirection() const
 {
-	return m_direction;
+	return mDirection;
 }
 
 
 bool Exit::isLocked() const
 {
-	return m_isLocked;
+	return mIsLocked;
 }
 
 
 std::string Exit::getLockedDescription() const
 {
-	return m_lockedDescription;
+	return mLockedDescription;
 }
 
 
 Room* Exit::getTargetRoom() const
 {
-	return m_targetRoom;
+	return mTargetRoom;
 }
 
 
 void Exit::lock()
 {
-	m_isLocked = true;
+	mIsLocked = true;
 }
 
 
 void Exit::unlock()
 {
-	m_isLocked = false;
+	mIsLocked = false;
 }
 
 
-bool Exit::canAddChild(const Entity* child) const
+bool Exit::canAddChild(const Entity* aChild) const
 {
 	return false;
 }

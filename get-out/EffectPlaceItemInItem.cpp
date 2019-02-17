@@ -4,10 +4,10 @@
 #include "Item.h"
 
 
-EffectPlaceItemInItem::EffectPlaceItemInItem(const std::string& effectDescription, Item* item, Item* container)
-	: ActionEffect(effectDescription), m_item(item), m_container(container)
+EffectPlaceItemInItem::EffectPlaceItemInItem(const std::string& aEffectDescription, Item* aItem, Item* aContainer)
+	: ActionEffect(aEffectDescription), mItem(aItem), mContainer(aContainer)
 {
-	assert(m_item && m_container);
+	assert(mItem && mContainer);
 }
 
 
@@ -18,6 +18,6 @@ EffectPlaceItemInItem::~EffectPlaceItemInItem()
 
 void EffectPlaceItemInItem::doEffect() const
 {
-	bool success = m_item->setParent(m_container);
-	assert(success);
+	bool lSuccess = mItem->setParent(mContainer);
+	assert(lSuccess);
 }

@@ -9,44 +9,44 @@ enum class Direction;
 struct EntityInfo
 {
 public:
-	static EntityInfo createPlayerInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, int maxItems, int startingRoomId);
-	static EntityInfo createRoomInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, bool isDark);
-	static EntityInfo createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, int targetRoomId);
-	static EntityInfo createItemInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark, bool hasLight = false);
-	static EntityInfo createInteractableInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark);
+	static EntityInfo createPlayerInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, int aMaxItems, int aStartingRoomId);
+	static EntityInfo createRoomInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, bool aIsDark);
+	static EntityInfo createExitInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, Direction aDirection, bool aIsLocked, const std::string& aLockedDescription, int aTargetRoomId);
+	static EntityInfo createItemInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark, bool aHasLight = false);
+	static EntityInfo createInteractableInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark);
 
-	int id;
-	EntityType type;
-	int parentId;
-	std::string name;
-	std::string description;
-	std::string aditionalDescription;
+	int mId;
+	EntityType mType;
+	int mParentId;
+	std::string mName;
+	std::string mDescription;
+	std::string mAditionalDescription;
 	union
 	{
 		struct
 		{
-			int maxItems;
-			int startingRoomId;
-		} player;
+			int mMaxItems;
+			int mStartingRoomId;
+		} mPlayer;
 		struct
 		{
-			bool isDark;
-		} room;
+			bool mIsDark;
+		} mRoom;
 		struct
 		{
-			Direction direction;
-			bool isLocked;
-			int targetRoomId;
-		} exit;
+			Direction mDirection;
+			bool mIsLocked;
+			int mTargetRoomId;
+		} mExit;
 		struct
 		{
-			bool isVisibleInDark;
-			bool hasLight;
-		} item;
+			bool mIsVisibleInDark;
+			bool mHasLight;
+		} mItem;
 		struct
 		{
-			bool isVisibleInDark;
-		} interactable;
+			bool mIsVisibleInDark;
+		} mInteractable;
 	};
 };
 

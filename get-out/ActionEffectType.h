@@ -16,7 +16,7 @@ enum class ActionEffectType
 	UNLOCK_EXIT
 };
 
-ActionEffectType getActionEffectTypeFromString(const std::string& text);
+ActionEffectType getActionEffectTypeFromString(const std::string& aText);
 
 
 #endif // !H_ACTION_EFFECT_TYPE

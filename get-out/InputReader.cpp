@@ -16,47 +16,47 @@ InputReader::~InputReader()
 
 std::string InputReader::getInput()
 {
-	if (m_shouldClear)
+	if (mShouldClear)
 	{
-		m_shouldClear = false;
-		m_input.clear();
+		mShouldClear = false;
+		mInput.clear();
 		consoleLog('>');
 		consoleLog(' ');
 	}
 
 	if (_kbhit())
 	{
-		char key = _getch();
+		char lKey = _getch();
 
 		// Handle forbidden characters (any non-alphanumeric) and special sequences (like arrows, function keys, home, end, etc...)
-		if (!isAllowed(key))
+		if (!isAllowed(lKey))
 		{
-			handleInvalidKeys(key);
+			handleInvalidKeys(lKey);
 		}
 		// Handle backspace
-		else if (key == '\b')
+		else if (lKey == '\b')
 		{
-			if (m_input.length() > 0) {
-				m_input.pop_back();
+			if (mInput.length() > 0) {
+				mInput.pop_back();
 				consoleLog('\b');
 				consoleLog(' ');
 				consoleLog('\b');
 			}
 		}
-		// Handle any key other than Enter
-		else if (key != '\r')
+		// Handle any lKey other than Enter
+		else if (lKey != '\r')
 		{
-			m_input.push_back(key);
-			consoleLog(key);
+			mInput.push_back(lKey);
+			consoleLog(lKey);
 		}
-		// Handle Enter key
+		// Handle Enter lKey
 		else
 		{
-			if (m_input.length() > 0)
+			if (mInput.length() > 0)
 			{
-				m_shouldClear = true;
+				mShouldClear = true;
 				consoleLog('\n');
-				return m_input;
+				return mInput;
 			}
 		}
 	}
@@ -75,47 +75,47 @@ bool InputReader::getEnter() const
 }
 
 
-void InputReader::handleInvalidKeys(char key) const
+void InputReader::handleInvalidKeys(char aKey) const
 {
-	std::string message = "INPUT: Ignoring special character/sequence: ";
+	std::string lMessage = "INPUT: Ignoring special character/sequence: ";
 
 	// Drop all chars after invalid character (if present)
-	bool allCharsCaptured = false;
-	while (!allCharsCaptured)
+	bool lAllCharsCaptured = false;
+	while (!lAllCharsCaptured)
 	{
-		if (key == '\0')
+		if (aKey == '\0')
 		{
-			message.append("[NUL (code: 0)]");
+			lMessage.append("[NUL (code: 0)]");
 		}
-		else if (key == '%')
+		else if (aKey == '%')
 		{
-			message.append("[%% (code: 37)]");
+			lMessage.append("[%% (code: 37)]");
 		}
 		else
 		{
-			message += "[" + std::string(1, key) + " (code: " + std::to_string((int)key) + ")]";
+			lMessage += "[" + std::string(1, aKey) + " (code: " + std::to_string((int)aKey) + ")]";
 		}
 
 		if (_kbhit())
 		{
-			message += " + ";
-			key = _getch();
+			lMessage += " + ";
+			aKey = _getch();
 		}
 		else
 		{
-			allCharsCaptured = true;
+			lAllCharsCaptured = true;
 		}
 	}
 
-	message += "!";
-	OutputLog(message.c_str());
+	lMessage += "!";
+	OutputLog(lMessage.c_str());
 }
 
 
-bool InputReader::isAllowed(char c) const
+bool InputReader::isAllowed(char aChar) const
 {
 	// Allowed characters are those within the basic ASCII table, alphanumeric, backspace, return, space and underscore
-	return c > 0
-		&& c < 128
-		&& (isalnum(c) || c == '\b' || c == '\r' || c == ' ' || c == '_');
+	return aChar > 0
+		&& aChar < 128
+		&& (isalnum(aChar) || aChar == '\b' || aChar == '\r' || aChar == ' ' || aChar == '_');
 }

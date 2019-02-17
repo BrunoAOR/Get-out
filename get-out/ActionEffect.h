@@ -7,14 +7,14 @@
 class ActionEffect
 {
 public:
-	ActionEffect(const std::string& effectDescription);
+	ActionEffect(const std::string& aEffectDescription);
 	virtual ~ActionEffect();
 
 	const std::string& getEffectDescription() const;
 	virtual void doEffect() const = 0;
 
 private:
-	std::string m_description;
+	std::string mDescription;
 };
 
 

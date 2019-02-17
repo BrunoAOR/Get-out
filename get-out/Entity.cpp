@@ -5,8 +5,8 @@
 #include "globals.h"
 
 
-Entity::Entity(int id, EntityType type, const std::string& name, const std::string& description, bool isVisibleInDark)
-	: m_id(id), m_type(type), m_name(name), m_description(description), m_isVisibleInDark(isVisibleInDark)
+Entity::Entity(int aId, EntityType aType, const std::string& aName, const std::string& aDescription, bool aIsVisibleInDark)
+	: mId(aId), mType(aType), mName(aName), mDescription(aDescription), mIsVisibleInDark(aIsVisibleInDark)
 {
 }
 
@@ -18,39 +18,39 @@ Entity::~Entity()
 
 EntityType Entity::getType() const
 {
-	return m_type;
+	return mType;
 }
 
 
 const std::string& Entity::getName() const
 {
-	return m_name;
+	return mName;
 }
 
 
 std::string Entity::getDescription() const
 {
-	return m_description;
+	return mDescription;
 }
 
 
 bool Entity::isVisibleInDark() const
 {
-	return m_isVisibleInDark;
+	return mIsVisibleInDark;
 }
 
 
 std::string Entity::getDetailedDescription() const
 {
-	return "There is nothing special about the " + m_name + ".";
+	return "There is nothing special about the " + mName + ".";
 }
 
 
-bool Entity::hasChild(Entity* entity) const
+bool Entity::hasChild(Entity* aEntity) const
 {
-	for (Entity* child : m_children)
+	for (Entity* lChild : mChildren)
 	{
-		if (child == entity)
+		if (lChild == aEntity)
 		{
 			return true;
 		}
@@ -59,76 +59,76 @@ bool Entity::hasChild(Entity* entity) const
 }
 
 
-Entity* Entity::getChild(const std::string& entityName, bool searchInChildren) const
+Entity* Entity::getChild(const std::string& aEntityName, bool aSearchInChildren) const
 {
-	Entity* queryChild = nullptr;
+	Entity* lQueryChild = nullptr;
 
-	for (Entity* child : m_children)
+	for (Entity* lChild : mChildren)
 	{
-		if (caselessEquals(child->m_name, entityName))
+		if (caselessEquals(lChild->mName, aEntityName))
 		{
-			queryChild = child;
+			lQueryChild = lChild;
 			break;
 		}
-		if (searchInChildren)
+		if (aSearchInChildren)
 		{
-			Entity* childFound = child->getChild(entityName, true);
-			if (childFound)
+			Entity* lChildFound = lChild->getChild(aEntityName, true);
+			if (lChildFound)
 			{
-				queryChild = childFound;
+				lQueryChild = lChildFound;
 				break;
 			}
 		}
 	}
 
-	return queryChild;
+	return lQueryChild;
 }
 
 
 Entity* Entity::getParent() const
 {
-	return m_parent;
+	return mParent;
 }
 
 
-bool Entity::setParent(Entity * parent)
+bool Entity::setParent(Entity* aParent)
 {
-	if (m_parent == parent)
+	if (mParent == aParent)
 	{
 		return true;
 	}
-	if (m_parent != nullptr)
+	if (mParent != nullptr)
 	{
-		m_parent->removeChild(this);
-		m_parent = nullptr;
+		mParent->removeChild(this);
+		mParent = nullptr;
 	}
-	if (parent != nullptr)
+	if (aParent != nullptr)
 	{
-		assert(parent->canAddChild(this));
-		parent->addChild(this);
-		m_parent = parent;
+		assert(aParent->canAddChild(this));
+		aParent->addChild(this);
+		mParent = aParent;
 	}
 	return true;
 }
 
 
-bool Entity::canAddChild(const Entity* child) const
+bool Entity::canAddChild(const Entity* aChild) const
 {
 	return false;
 }
 
 
-void Entity::addChild(Entity* child)
+void Entity::addChild(Entity* aChild)
 {
-	m_children.push_back(child);
+	mChildren.push_back(aChild);
 }
 
 
-void Entity::removeChild(const Entity* entity)
+void Entity::removeChild(const Entity* aEntity)
 {
-	auto it = std::find(m_children.begin(), m_children.end(), entity);
-	if (it != m_children.end())
+	auto lIt = std::find(mChildren.begin(), mChildren.end(), aEntity);
+	if (lIt != mChildren.end())
 	{
-		m_children.erase(it);
+		mChildren.erase(lIt);
 	}
 }

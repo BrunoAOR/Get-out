@@ -3,8 +3,8 @@
 #include "EntityType.h"
 
 
-Item::Item(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark, bool hasLight)
-	: Entity(id, EntityType::ITEM, name, description, isVisibleInDark), m_inspectDescription(inspectDescription), m_hasLight(hasLight)
+Item::Item(int aId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark, bool aHasLight)
+	: Entity(aId, EntityType::ITEM, aName, aDescription, aIsVisibleInDark), mInspectDescription(aInspectDescription), mHasLight(aHasLight)
 {
 }
 
@@ -16,45 +16,45 @@ Item::~Item()
 
 std::string Item::getDescription() const
 {
-	std::string description = m_description;
-	if (m_children.size() > 0)
+	std::string lDescription = mDescription;
+	if (mChildren.size() > 0)
 	{
-		description += " which contains:";
-		for (auto child : m_children)
+		lDescription += " which contains:";
+		for (auto lChild : mChildren)
 		{
-			description += "\n    - " + child->getDescription();
+			lDescription += "\n    - " + lChild->getDescription();
 		}
 	}
-	return description;
+	return lDescription;
 }
 
 
 std::string Item::getDetailedDescription() const
 {
-	std::string description = m_inspectDescription;
-	if (description == "")
+	std::string lDescription = mInspectDescription;
+	if (lDescription == "")
 	{
-		description = "There is nothing special about the " + m_name + ".";
+		lDescription = "There is nothing special about the " + mName + ".";
 	}
-	if (m_children.size() > 0)
+	if (mChildren.size() > 0)
 	{
-		description += "\nThe " + m_name + " contains:";
-		for (auto child : m_children)
+		lDescription += "\nThe " + mName + " contains:";
+		for (auto lChild : mChildren)
 		{
-			description += "\n    - " + child->getDescription();
+			lDescription += "\n    - " + lChild->getDescription();
 		}
 	}
-	return description;
+	return lDescription;
 }
 
 
 bool Item::hasLight() const
 {
-	return m_hasLight;
+	return mHasLight;
 }
 
 
-bool Item::canAddChild(const Entity* child) const
+bool Item::canAddChild(const Entity* aChild) const
 {
-	return child->getType() == EntityType::ITEM;
+	return aChild->getType() == EntityType::ITEM;
 }

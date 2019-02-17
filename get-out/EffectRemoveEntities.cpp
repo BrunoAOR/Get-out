@@ -3,8 +3,8 @@
 #include "Entity.h"
 
 
-EffectRemoveEntities::EffectRemoveEntities(const std::string& effectDescription, const std::vector<Entity*>& entitiesToRemove)
-	: ActionEffect(effectDescription), m_entitiesToRemove(entitiesToRemove)
+EffectRemoveEntities::EffectRemoveEntities(const std::string& aEffectDescription, const std::vector<Entity*>& aEntitiesToRemove)
+	: ActionEffect(aEffectDescription), mEntitiesToRemove(aEntitiesToRemove)
 {
 }
 
@@ -16,8 +16,8 @@ EffectRemoveEntities::~EffectRemoveEntities()
 
 void EffectRemoveEntities::doEffect() const
 {
-	for (Entity* entity : m_entitiesToRemove)
+	for (Entity* lEntity : mEntitiesToRemove)
 	{
-		entity->setParent(nullptr);
+		lEntity->setParent(nullptr);
 	}
 }

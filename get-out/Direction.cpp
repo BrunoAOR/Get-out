@@ -3,19 +3,19 @@
 #include "globals.h"
 
 
-Direction getDirectionFromString(const std::string& text)
+Direction getDirectionFromString(const std::string& aText)
 {
-	if (caselessEquals(text, "N") || caselessEquals(text, "NORTH")) return Direction::N;
-	if (caselessEquals(text, "S") || caselessEquals(text, "SOUTH")) return Direction::S;
-	if (caselessEquals(text, "E") || caselessEquals(text, "EAST")) return Direction::E;
-	if (caselessEquals(text, "W") || caselessEquals(text, "WEST")) return Direction::W;
+	if (caselessEquals(aText, "N") || caselessEquals(aText, "NORTH")) return Direction::N;
+	if (caselessEquals(aText, "S") || caselessEquals(aText, "SOUTH")) return Direction::S;
+	if (caselessEquals(aText, "E") || caselessEquals(aText, "EAST")) return Direction::E;
+	if (caselessEquals(aText, "W") || caselessEquals(aText, "WEST")) return Direction::W;
 	return Direction::_UNDEFINED;
 }
 
 
-std::string getStringFromDirection(Direction direction)
+std::string getStringFromDirection(Direction aDirection)
 {
-	switch (direction)
+	switch (aDirection)
 	{
 	case Direction::N:	return "NORTH";
 	case Direction::S:	return "SOUTH";

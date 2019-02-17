@@ -13,10 +13,10 @@
 #include "globals.h"
 
 
-Player::Player(int id, const std::string& name, const std::string& description, int maxItems, Room* startingRoom)
-	: Entity(id, EntityType::PLAYER, name, description, true), m_maxItems(maxItems), m_location(startingRoom)
+Player::Player(int aId, const std::string& aName, const std::string& aDescription, int aMaxItems, Room* aStartingRoom)
+	: Entity(aId, EntityType::PLAYER, aName, aDescription, true), mMaxItems(aMaxItems), mLocation(aStartingRoom)
 {
-	assert(m_maxItems > 0 && m_location);
+	assert(mMaxItems > 0 && mLocation);
 }
 
 
@@ -25,16 +25,16 @@ Player::~Player()
 }
 
 
-void Player::setActionFactory(ActionFactory* actionFactory)
+void Player::setActionFactory(ActionFactory* aActionFactory)
 {
-	assert(actionFactory);
-	m_actionFactory = actionFactory;
+	assert(aActionFactory);
+	mActionFactory = aActionFactory;
 }
 
 
-void Player::executeInstruction(const Instruction& instruction)
+void Player::executeInstruction(const Instruction& aInstruction)
 {
-	switch (instruction.instructionType)
+	switch (aInstruction.mInstructionType)
 	{
 	case InstructionType::LOOK:
 		look();
@@ -43,396 +43,396 @@ void Player::executeInstruction(const Instruction& instruction)
 		inventory();
 		break;
 	case InstructionType::GO:
-		go(instruction);
+		go(aInstruction);
 		break;
 	case InstructionType::TAKE:
-		take(instruction);
+		take(aInstruction);
 		break;
 	case InstructionType::DROP:
-		drop(instruction);
+		drop(aInstruction);
 		break;
 	case InstructionType::INSPECT:
-		inspect(instruction);
+		inspect(aInstruction);
 		break;
 	case InstructionType::OPEN:
-		open(instruction);
+		open(aInstruction);
 		break;
 	case InstructionType::USE:
-		use(instruction);
+		use(aInstruction);
 		break;
 	case InstructionType::PUT:
-		put(instruction);
+		put(aInstruction);
 		break;
 	default:
-		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(instruction.instructionType));
+		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(aInstruction.mInstructionType));
 		assert(false);
 		break;
 	}
 }
 
 
-bool Player::canAddChild(const Entity* child) const
+bool Player::canAddChild(const Entity* aChild) const
 {
-	assert(child);
-	return child->getType() == EntityType::ITEM;
+	assert(aChild);
+	return aChild->getType() == EntityType::ITEM;
 }
 
 
-void Player::addChild(Entity* child)
+void Player::addChild(Entity* aChild)
 {
-	assert(canAddChild(child));
-	Entity::addChild(child);
+	assert(canAddChild(aChild));
+	Entity::addChild(aChild);
 	updateLightStatus();
 }
 
 
-void Player::removeChild(const Entity* entity)
+void Player::removeChild(const Entity* aEntity)
 {
-	assert(entity);
-	Entity::removeChild(entity);
+	assert(aEntity);
+	Entity::removeChild(aEntity);
 	updateLightStatus();
 }
 
 
 void Player::look() const
 {
-	if (m_hasLight)
+	if (mHasLight)
 	{
-		consoleLog(m_location->getDescription());
+		consoleLog(mLocation->getDescription());
 	}
 	else
 	{
-		consoleLog(m_location->getDescriptionInDarkness());
+		consoleLog(mLocation->getDescriptionInDarkness());
 	}
 }
 
 
 void Player::inventory() const
 {
-	if (m_children.size() == 0)
+	if (mChildren.size() == 0)
 	{
 		consoleLog("You are currently not holding any items.");
 	}
 	else
 	{
-		std::string message = "You have the following items in hand:";
-		for (Entity* item : m_children)
+		std::string lMessage = "You have the following items in hand:";
+		for (Entity* lItem : mChildren)
 		{
-			message += "\n  " + item->getDescription();
+			lMessage += "\n  " + lItem->getDescription();
 		}
-		consoleLog(message);
+		consoleLog(lMessage);
 	}
 }
 
 
-bool Player::go(const Instruction& instruction)
+bool Player::go(const Instruction& aInstruction)
 {
-	bool success;
-	// Ask room if there's an exit in that direction -> Room::getExit
+	bool lSuccess;
+	// Ask room if there's an lExit in that lDirection -> Room::getExit
 
-	Direction direction = getDirectionFromString(instruction.param1);
-	if (direction == Direction::_UNDEFINED)
+	Direction lDirection = getDirectionFromString(aInstruction.mParam1);
+	if (lDirection == Direction::_UNDEFINED)
 	{
-		consoleLog(instruction.param1 + " doesn't seem to be a valid direction to go to.");
-		success = false;
+		consoleLog(aInstruction.mParam1 + " doesn't seem to be a valid direction to go to.");
+		lSuccess = false;
 	}
-	else if (Exit* exit = m_location->getExit(direction))
+	else if (Exit* lExit = mLocation->getExit(lDirection))
 	{
-		if (exit->isLocked())
+		if (lExit->isLocked())
 		{
-			consoleLog(exit->getLockedDescription());
-			success = false;
+			consoleLog(lExit->getLockedDescription());
+			lSuccess = false;
 		}
 		else
 		{
-			// So there is an exit and it's unlocked...
+			// So there is an lExit and it's unlocked...
 			// Move to that room
-			Room* previousRoom = m_location;
-			m_location = exit->getTargetRoom();
-			consoleLog("You are now in the " + m_location->getName() + ".");
+			Room* lPreviousRoom = mLocation;
+			mLocation = lExit->getTargetRoom();
+			consoleLog("You are now in the " + mLocation->getName() + ".");
 
 			// Perform actions if available
-			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, previousRoom, m_location))
+			if (Action* lGoAction = mActionFactory->getAction(ActionType::GO, lPreviousRoom, mLocation))
 			{
-				// previousRoom to newRoom motion
-				goAction->performAction();
+				// lPreviousRoom to newRoom motion
+				lGoAction->performAction();
 			}
-			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, previousRoom, nullptr))
+			if (Action* lGoAction = mActionFactory->getAction(ActionType::GO, lPreviousRoom, nullptr))
 			{
-				// previousRoom exit
-				goAction->performAction();
+				// lPreviousRoom lExit
+				lGoAction->performAction();
 			}
-			if (Action* goAction = m_actionFactory->getAction(ActionType::GO, nullptr, m_location))
+			if (Action* lGoAction = mActionFactory->getAction(ActionType::GO, nullptr, mLocation))
 			{
 				// newRoom entry
-				goAction->performAction();
+				lGoAction->performAction();
 			}
-			success = true;
+			lSuccess = true;
 		}
 	}
 	else
 	{
-		consoleLog("You can't go " + getStringFromDirection(direction) + " from here.");
-		success = false;
+		consoleLog("You can't go " + getStringFromDirection(lDirection) + " from here.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::take(const Instruction& instruction)
+bool Player::take(const Instruction& aInstruction)
 {
-	bool success;
+	bool lSuccess;
 	// Must check that type == Item && there’s room in children (inheritted from Entity)
 
-	Entity* target = nullptr;
-	// Try to get an Entity with the requested name from the room.	
-	if (target = m_hasLight ? m_location->getChild(instruction.param1) : m_location->getChildInDarkness(instruction.param1))
+	Entity* lTarget = nullptr;
+	// Try to get an Entity with the requested aName from the room.	
+	if (lTarget = mHasLight ? mLocation->getChild(aInstruction.mParam1) : mLocation->getChildInDarkness(aInstruction.mParam1))
 	{
 		// Only items can be taken
-		if (target->getType() != EntityType::ITEM)
+		if (lTarget->getType() != EntityType::ITEM)
 		{
-			consoleLog("You can't take the " + target->getName() + ".");
-			success = false;
+			consoleLog("You can't take the " + lTarget->getName() + ".");
+			lSuccess = false;
 		}
-		else if (static_cast<int>(m_children.size()) < m_maxItems)
+		else if (static_cast<int>(mChildren.size()) < mMaxItems)
 		{
-			target->setParent(this);
-			consoleLog("You have taken the " + target->getName() + ".");
+			lTarget->setParent(this);
+			consoleLog("You have taken the " + lTarget->getName() + ".");
 			
 			// Perform action if available
-			if (Action* takeAction = m_actionFactory->getAction(ActionType::TAKE, target))
+			if (Action* lTakeAction = mActionFactory->getAction(ActionType::TAKE, lTarget))
 			{
-				takeAction->performAction();
+				lTakeAction->performAction();
 			}
-			success = true;
+			lSuccess = true;
 		}
 		else
 		{
-			consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + target->getName() + ".");
-			success = false;
+			consoleLog("You can't carry any more items. You only have two very tiny hands.\nDrop something if you wish to take the " + lTarget->getName() + ".");
+			lSuccess = false;
 		}
 	}
-	// Try to get an Entity within the children of the room's children to customize the message.
-	else if (target = m_hasLight ? m_location->getChild(instruction.param1, true) : m_location->getChildInDarkness(instruction.param1, true))
+	// Try to get an Entity within the children of the room's children to customize the lMessage.
+	else if (lTarget = mHasLight ? mLocation->getChild(aInstruction.mParam1, true) : mLocation->getChildInDarkness(aInstruction.mParam1, true))
 	{
-		consoleLog("You can't take the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
-		success = false;
+		consoleLog("You can't take the " + lTarget->getName() + " on its own, because it is within the " + lTarget->getParent()->getName() + ".");
+		lSuccess = false;
 	}
 	else
 	{
-		consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
-		success = false;
+		consoleLog("There doesn't seem to be anything called " + aInstruction.mParam1 + " in here.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::drop(const Instruction& instruction)
+bool Player::drop(const Instruction& aInstruction)
 {
-	bool success;
-	// Must check that target is in children
+	bool lSuccess;
+	// Must check that lTarget is in children
 
-	Entity* target = nullptr;
-	// Try to get an Entity with the requested name from the player's inventory (it will be an ITEM).
-	if (target = getChild(instruction.param1))
+	Entity* lTarget = nullptr;
+	// Try to get an Entity with the requested aName from the player's inventory (it will be an ITEM).
+	if (lTarget = getChild(aInstruction.mParam1))
 	{
-		target->setParent(m_location);
-		consoleLog("You have dropped the " + target->getName() + ".");
-		if (Action* dropAction = m_actionFactory->getAction(ActionType::DROP, target))
+		lTarget->setParent(mLocation);
+		consoleLog("You have dropped the " + lTarget->getName() + ".");
+		if (Action* lDropAction = mActionFactory->getAction(ActionType::DROP, lTarget))
 		{
-			dropAction->performAction();
+			lDropAction->performAction();
 		}
-		success = true;
+		lSuccess = true;
 	}
-	// Try to get an Entity within the children of the player's inventory to customize the message.
-	else if (target = getChild(instruction.param1, true))
+	// Try to get an Entity within the children of the player's inventory to customize the lMessage.
+	else if (lTarget = getChild(aInstruction.mParam1, true))
 	{
-		consoleLog("You can't drop the " + target->getName() + " on its own, because it is within the " + target->getParent()->getName() + ".");
-		success = false;
+		consoleLog("You can't drop the " + lTarget->getName() + " on its own, because it is within the " + lTarget->getParent()->getName() + ".");
+		lSuccess = false;
 	}
 	else
 	{
-		consoleLog("You don't have the " + instruction.param1 + " that you intend to drop.");
-		success = false;
+		consoleLog("You don't have the " + aInstruction.mParam1 + " that you intend to drop.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::inspect(const Instruction& instruction) const
+bool Player::inspect(const Instruction& aInstruction) const
 {
-	bool success;
+	bool lSuccess;
 	// Item or interactable
 	
-	Entity* target;
-	// Try to get an Entity* with the requested name from the palyer's inventory or the room.
-	target = getChild(instruction.param1, true);
-	if (!target)
+	Entity* lTarget;
+	// Try to get an Entity* with the requested aName from the palyer's inventory or the room.
+	lTarget = getChild(aInstruction.mParam1, true);
+	if (!lTarget)
 	{
-		target = m_hasLight ? m_location->getChild(instruction.param1, true) : m_location->getChildInDarkness(instruction.param1, true);
+		lTarget = mHasLight ? mLocation->getChild(aInstruction.mParam1, true) : mLocation->getChildInDarkness(aInstruction.mParam1, true);
 	}
 
-	if (target)
+	if (lTarget)
 	{
-		// Check if the target is an item or interactable
-		if (target->getType() != EntityType::ITEM && target->getType() != EntityType::INTERACTABLE)
+		// Check if the lTarget is an lItem or interactable
+		if (lTarget->getType() != EntityType::ITEM && lTarget->getType() != EntityType::INTERACTABLE)
 		{
-			consoleLog("You can't inspect the " + target->getName() + ".");
-			success = false;
+			consoleLog("You can't inspect the " + lTarget->getName() + ".");
+			lSuccess = false;
 		}
 		else
 		{
-			consoleLog(target->getDetailedDescription());
-			success = true;
+			consoleLog(lTarget->getDetailedDescription());
+			lSuccess = true;
 		}
 	}
 	else
 	{
-		consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
-		success = false;
+		consoleLog("There doesn't seem to be anything called " + aInstruction.mParam1 + " in here.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::open(const Instruction& instruction) const
+bool Player::open(const Instruction& aInstruction) const
 {
-	bool success;
+	bool lSuccess;
 	// Must check type & presence in room
 
-	// Try to get an Entity* with the requested name form the Room.
-	Entity* target = m_hasLight ? m_location->getChild(instruction.param1) : m_location->getChildInDarkness(instruction.param1);
-	if (target)
+	// Try to get an Entity* with the requested aName form the Room.
+	Entity* lTarget = mHasLight ? mLocation->getChild(aInstruction.mParam1) : mLocation->getChildInDarkness(aInstruction.mParam1);
+	if (lTarget)
 	{
-		// Try to get an InteractableOpen* with the requested Entity name from the World.
-		assert(m_actionFactory);
-		Action* interactableOpen = m_actionFactory->getAction(ActionType::INTERACTABLE_OPEN, target);
-		if (interactableOpen)
+		// Try to get an InteractableOpen* with the requested Entity aName from the World.
+		assert(mActionFactory);
+		Action* lInteractableOpen = mActionFactory->getAction(ActionType::INTERACTABLE_OPEN, lTarget);
+		if (lInteractableOpen)
 		{
-			interactableOpen->performAction();
-			success = true;
+			lInteractableOpen->performAction();
+			lSuccess = true;
 		}
 		else
 		{
-			consoleLog("You can't open the " + target->getName() + ".");
-			success = false;
+			consoleLog("You can't open the " + lTarget->getName() + ".");
+			lSuccess = false;
 		}
 	}
 	else
 	{
-		consoleLog("There doesn't seem to be anything called " + instruction.param1 + " in here.");
-		success = false;
+		consoleLog("There doesn't seem to be anything called " + aInstruction.mParam1 + " in here.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::use(const Instruction& instruction)
+bool Player::use(const Instruction& aInstruction)
 {
-	bool success;
-	// Must verify that item can be used in target (done by item internally)
+	bool lSuccess;
+	// Must verify that lItem can be used in lTarget (done by lItem internally)
 
-	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
-	Entity* item = getChild(instruction.param1, true);
-	if (item)
+	// Try to get an Entity* with the requested aName from the Inventory (will be an Item).
+	Entity* lItem = getChild(aInstruction.mParam1, true);
+	if (lItem)
 	{
-		// Try to get an Entity* with the requested name form the Room.
-		Entity* target = nullptr;
-		if (target = m_hasLight ? m_location->getChild(instruction.param2) : m_location->getChildInDarkness(instruction.param2))
+		// Try to get an Entity* with the requested aName form the Room.
+		Entity* lTarget = nullptr;
+		if (lTarget = mHasLight ? mLocation->getChild(aInstruction.mParam2) : mLocation->getChildInDarkness(aInstruction.mParam2))
 		{
-			success = false;
-			if (target->getType() == EntityType::INTERACTABLE)
+			lSuccess = false;
+			if (lTarget->getType() == EntityType::INTERACTABLE)
 			{
-				assert(m_actionFactory);
-				Action* itemUse = m_actionFactory->getAction(ActionType::ITEM_USE, item, target);
-				if (itemUse)
+				assert(mActionFactory);
+				Action* lItemUse = mActionFactory->getAction(ActionType::ITEM_USE, lItem, lTarget);
+				if (lItemUse)
 				{
-					itemUse->performAction();
-					success = true;
+					lItemUse->performAction();
+					lSuccess = true;
 				}
 			}
 			
-			if (!success)
+			if (!lSuccess)
 			{
-				consoleLog("You can't use the " + item->getName() + " on the " + target->getName() + ".");
+				consoleLog("You can't use the " + lItem->getName() + " on the " + lTarget->getName() + ".");
 			}
 		}
-		else if (target = getChild(instruction.param2, true))
+		else if (lTarget = getChild(aInstruction.mParam2, true))
 		{
-			consoleLog("You can't use the " + item->getName() + " on the " + target->getName() + ".");
-			success = false;
+			consoleLog("You can't use the " + lItem->getName() + " on the " + lTarget->getName() + ".");
+			lSuccess = false;
 		}
 		else
 		{
-			consoleLog("There doesn't seem to be anything called " + instruction.param2 + " in here.");
-			success = false;
+			consoleLog("There doesn't seem to be anything called " + aInstruction.mParam2 + " in here.");
+			lSuccess = false;
 		}
 	}
 	else
 	{
-		consoleLog("You don't have the " + instruction.param1 + " that you intend to use.");
-		success = false;
+		consoleLog("You don't have the " + aInstruction.mParam1 + " that you intend to use.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool Player::put(const Instruction& instruction)
+bool Player::put(const Instruction& lInstruction)
 {
-	bool success;
-	// Place an item inside another item (if allowed)
+	bool lSuccess;
+	// Place an lItem inside another lItem (if allowed)
 
-	// Try to get an Entity* with the requested name from the Inventory (will be an Item).
-	Entity* item = getChild(instruction.param1);
-	if (item)
+	// Try to get an Entity* with the requested aName from the Inventory (will be an Item).
+	Entity* lItem = getChild(lInstruction.mParam1);
+	if (lItem)
 	{
-		// Try to get a second Entity* with the requested name form the Inventory (will also be an item).
-		if (Entity* containerItem = getChild(instruction.param2))
+		// Try to get a second Entity* with the requested aName form the Inventory (will also be an lItem).
+		if (Entity* lContainerItem = getChild(lInstruction.mParam2))
 		{
-			assert(m_actionFactory);
-			Action* itemPut = m_actionFactory->getAction(ActionType::ITEM_PUT, item, containerItem);
-			if (itemPut)
+			assert(mActionFactory);
+			Action* lItemPut = mActionFactory->getAction(ActionType::ITEM_PUT, lItem, lContainerItem);
+			if (lItemPut)
 			{
-				itemPut->performAction();
-				success = true;
+				lItemPut->performAction();
+				lSuccess = true;
 			}
 			else
 			{
-				consoleLog("You can't put the " + item->getName() + " in the " + containerItem->getName() + ".");
-				success = false;
+				consoleLog("You can't put the " + lItem->getName() + " in the " + lContainerItem->getName() + ".");
+				lSuccess = false;
 			}
 		}
 		else
 		{
-			consoleLog("There is no " + instruction.param2 + " in your inventory to put the " + item->getName() + " into.");
-			success = false;
+			consoleLog("There is no " + lInstruction.mParam2 + " in your inventory to put the " + lItem->getName() + " into.");
+			lSuccess = false;
 		}
 	}
 	else
 	{
-		consoleLog("You don't have the " + instruction.param1 + " that you intend to put into something else.");
-		success = false;
+		consoleLog("You don't have the " + lInstruction.mParam1 + " that you intend to put into something else.");
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
 void Player::updateLightStatus()
 {
-	m_hasLight = false;
+	mHasLight = false;
 
-	for (Entity* item : m_children)
+	for (Entity* lItem : mChildren)
 	{
-		if ((static_cast<Item*>(item))->hasLight())
+		if ((static_cast<Item*>(lItem))->hasLight())
 		{
-			m_hasLight = true;
+			mHasLight = true;
 			break;
 		}
 	}

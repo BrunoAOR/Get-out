@@ -9,15 +9,15 @@ class EffectPlaceItemInItem :
 	public ActionEffect
 {
 public:
-	EffectPlaceItemInItem(const std::string& effectDescription, Item* item, Item* container);
+	EffectPlaceItemInItem(const std::string& aEffectDescription, Item* aItem, Item* aContainer);
 	~EffectPlaceItemInItem();
 
 	// Inherited via ActionEffect
 	virtual void doEffect() const override;
 
 private:
-	Item* m_item;
-	Item* m_container;
+	Item* mItem = nullptr;
+	Item* mContainer = nullptr;
 };
 
 

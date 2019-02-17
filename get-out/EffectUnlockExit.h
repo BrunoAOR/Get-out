@@ -9,14 +9,14 @@ class EffectUnlockExit :
 	public ActionEffect
 {
 public:
-	EffectUnlockExit(const std::string& effectDescription, Exit* exitToUnlock);
+	EffectUnlockExit(const std::string& aEffectDescription, Exit* aExitToUnlock);
 	~EffectUnlockExit();
 
 	// Inherited via ActionEffect
 	virtual void doEffect() const override;
 
 private:
-	Exit* m_exit;
+	Exit* mExit = nullptr;
 };
 
 

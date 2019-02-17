@@ -14,22 +14,22 @@ enum class ActionType;
 class ActionFactory
 {
 public:
-	ActionFactory(EntityFactory* entityFactory);
+	ActionFactory(EntityFactory* aEntityFactory);
 	~ActionFactory();
-	ActionFactory(const ActionFactory& source) = delete;
-	ActionFactory& operator=(const ActionFactory& source) = delete;
+	ActionFactory(const ActionFactory& aSource) = delete;
+	ActionFactory& operator=(const ActionFactory& aSource) = delete;
 
 	void close();
 
-	Action* createAction(ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, int firstEntityId, int secondEntityId = -1);
+	Action* createAction(ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId = -1);
 	
-	Action* getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity = nullptr) const;
+	Action* getAction(ActionType aActionType, const Entity* aFirstEntity, const Entity* aSecondEntity = nullptr) const;
 
-	void removeAction(Action* action);
+	void removeAction(Action* aAction);
 
 private:
-	std::list<Action*> m_actions;
-	EntityFactory* m_entityFactory = nullptr;
+	std::list<Action*> mActions;
+	EntityFactory* mEntityFactory = nullptr;
 };
 
 

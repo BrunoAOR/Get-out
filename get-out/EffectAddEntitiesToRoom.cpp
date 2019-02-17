@@ -5,10 +5,10 @@
 #include "globals.h"
 
 
-EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& effectDescription, const std::vector<Entity*>& entitiesToAdd, Room * targetRoom)
-	: ActionEffect(effectDescription), m_entitiesToAdd(entitiesToAdd), m_targetRoom(targetRoom)
+EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& aEffectDescription, const std::vector<Entity*>& aEntitiesToAdd, Room* aTargetRoom)
+	: ActionEffect(aEffectDescription), mEntitiesToAdd(aEntitiesToAdd), mTargetRoom(aTargetRoom)
 {
-	assert(m_targetRoom);
+	assert(mTargetRoom);
 }
 
 
@@ -19,12 +19,12 @@ EffectAddEntitiesToRoom::~EffectAddEntitiesToRoom()
 
 void EffectAddEntitiesToRoom::doEffect() const
 {
-	bool success = true;
-	for (Entity* entity : m_entitiesToAdd)
+	bool lSuccess = true;
+	for (Entity* lEntity : mEntitiesToAdd)
 	{
-		success &= entity->setParent(m_targetRoom);
+		lSuccess &= lEntity->setParent(mTargetRoom);
 	}
-	if (!success)
+	if (!lSuccess)
 	{
 		OutputLog("ERROR: Effect of type EffectAddEntitiesToRoom couldn't be properly applied!");
 		assert(false);

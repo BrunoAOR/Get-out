@@ -8,7 +8,7 @@ class EffectGameEnd :
 	public ActionEffect
 {
 public:
-	EffectGameEnd(const std::string& effectDescription);
+	EffectGameEnd(const std::string& aEffectDescription);
 	~EffectGameEnd();
 
 	// Inherited via ActionEffect

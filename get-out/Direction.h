@@ -13,8 +13,8 @@ enum class Direction
 	W
 };
 
-Direction getDirectionFromString(const std::string& text);
-std::string getStringFromDirection(Direction direction);
+Direction getDirectionFromString(const std::string& aText);
+std::string getStringFromDirection(Direction aDirection);
 
 
 #endif // !H_DIRECTION

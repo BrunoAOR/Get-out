@@ -12,43 +12,43 @@
 
 GameManager::GameManager()
 {
-	m_inputReader = new InputReader();
-	m_inputParser = new InputParser();
-	m_entityFactory = new EntityFactory();
-	m_actionFactory = new ActionFactory(m_entityFactory);
-	m_gameDataLoader = new GameDataLoader(m_entityFactory, m_actionFactory);
+	mInputReader = new InputReader();
+	mInputParser = new InputParser();
+	mEntityFactory = new EntityFactory();
+	mActionFactory = new ActionFactory(mEntityFactory);
+	mGameDataLoader = new GameDataLoader(mEntityFactory, mActionFactory);
 }
 
 
 GameManager::~GameManager()
 {
-	delete m_gameDataLoader;
-	m_gameDataLoader = nullptr; 
-	delete m_actionFactory;
-	m_actionFactory = nullptr;
-	delete m_entityFactory;
-	m_entityFactory = nullptr;
-	delete m_inputParser;
-	m_inputParser = nullptr;
-	delete m_inputReader;
-	m_inputReader = nullptr;
+	delete mGameDataLoader;
+	mGameDataLoader = nullptr; 
+	delete mActionFactory;
+	mActionFactory = nullptr;
+	delete mEntityFactory;
+	mEntityFactory = nullptr;
+	delete mInputParser;
+	mInputParser = nullptr;
+	delete mInputReader;
+	mInputReader = nullptr;
 }
 
 
 LoopStatus GameManager::init()
 {
-	m_player = m_gameDataLoader->loadGameData(CONFIG_FILE_PATH);
-	if (m_player)
+	mPlayer = mGameDataLoader->loadGameData(CONFIG_FILE_PATH);
+	if (mPlayer)
 	{
-		m_player->setActionFactory(m_actionFactory);
-		// After all the initialization, log the welcome message
-		consoleLog(m_gameDataLoader->getWelcomeMessage());
-		m_loopStatus = LoopStatus::CONTINUE;
+		mPlayer->setActionFactory(mActionFactory);
+		// After all the initialization, log the welcome lMessage
+		consoleLog(mGameDataLoader->getWelcomeMessage());
+		mLoopStatus = LoopStatus::CONTINUE;
 	}
 	else
 	{
 		consoleLog("An error occured while loading the game configuration file!\n(Press Enter to close the window)");
-		m_loopStatus = LoopStatus::INIT_ERROR;
+		mLoopStatus = LoopStatus::INIT_ERROR;
 	}
 	return LoopStatus::CONTINUE;
 }
@@ -57,19 +57,19 @@ LoopStatus GameManager::init()
 LoopStatus GameManager::update()
 {
 	// Adquire input and pass to World
-	if (m_loopStatus == LoopStatus::CONTINUE)
+	if (mLoopStatus == LoopStatus::CONTINUE)
 	{
-		processInput(m_inputReader->getInput());
-		if (m_loopStatus == LoopStatus::EXIT)
+		processInput(mInputReader->getInput());
+		if (mLoopStatus == LoopStatus::EXIT)
 		{
-			consoleLog(m_gameDataLoader->getExitMessage() + "\n(Press Enter to close the window)");
+			consoleLog(mGameDataLoader->getExitMessage() + "\n(Press Enter to close the window)");
 		}
 	}
 	else
 	{
-		if (m_inputReader->getEnter())
+		if (mInputReader->getEnter())
 		{
-			return m_loopStatus;
+			return mLoopStatus;
 		}
 	}
 	return LoopStatus::CONTINUE;
@@ -78,24 +78,24 @@ LoopStatus GameManager::update()
 
 LoopStatus GameManager::close()
 {
-	m_actionFactory->close();
-	m_entityFactory->close();
+	mActionFactory->close();
+	mEntityFactory->close();
 	return LoopStatus::EXIT;
 }
 
 
-LoopStatus GameManager::processInput(const std::string& userInput)
+LoopStatus GameManager::processInput(const std::string& aUserInput)
 {
-	if (userInput != "")
+	if (aUserInput != "")
 	{
-		Instruction instruction = m_inputParser->parse(userInput);
-		switch (instruction.instructionType)
+		Instruction lInstruction = mInputParser->parse(aUserInput);
+		switch (lInstruction.mInstructionType)
 		{
 		case InstructionType::ERROR:
-			consoleLog(instruction.param1);
+			consoleLog(lInstruction.mParam1);
 			break;
 		case InstructionType::QUIT:
-			m_loopStatus = LoopStatus::EXIT;
+			mLoopStatus = LoopStatus::EXIT;
 			break;
 		case InstructionType::HELP:
 			logHelpMessage();
@@ -109,35 +109,35 @@ LoopStatus GameManager::processInput(const std::string& userInput)
 		case InstructionType::OPEN:
 		case InstructionType::USE:
 		case InstructionType::PUT:
-			m_player->executeInstruction(instruction);
+			mPlayer->executeInstruction(lInstruction);
 			break;
 		}
 	}
 	// Check whether a GameEnd request has been made
-	if (m_loopStatus == LoopStatus::CONTINUE && isGameEndRequested)
+	if (mLoopStatus == LoopStatus::CONTINUE && gIsGameEndRequested)
 	{
-		m_loopStatus = LoopStatus::EXIT;
+		mLoopStatus = LoopStatus::EXIT;
 	}
-	return m_loopStatus;
+	return mLoopStatus;
 }
 
 void GameManager::logHelpMessage() const
 {
-	std::string message = "INFORMATION:\n";
-	message += "The commands that you can perform in the game and their effects are the following:\n\n";
-	message += "  HELP: Display this list of actions.\n";
-	message += "  QUIT: Quit the game.\n";
-	message += "  LOOK: Display a description of the room you are currently in and the items therein.\n";
-	message += "  INVENTORY: Display a description of the items you are currently holding.\n";
-	message += "  GO direction: Attempt to exit the current room towards the direction to enter another room.\n";
-	message += "                Valid directions are NORTH, SOUTH, EAST and WEST.\n";
-	message += "  TAKE item: Attempt to pick up an item and put it in your inventory.\n";
-	message += "  DROP item: Attempt to drop an item from your inventory.\n";
-	message += "  INSPECT item: Display a detailed description of the item.\n";
-	message += "  OPEN item: Attempt to open an item.\n";
-	message += "  USE item1 ON item2: Attempt to use the item1 on the item2.\n";
-	message += "  PUT item1 IN item2: Attempt to place item1 within item2.\n";
-	message += "                      Both items must be in your inventory for this action to succeed.\n";
-	message += "\nDo note that commands and item names are not case-sensitive,\nso you can freely type everything in lowercase if you want.";
-	consoleLog(message);
+	std::string lMessage = "INFORMATION:\n";
+	lMessage += "The commands that you can perform in the game and their effects are the following:\n\n";
+	lMessage += "  HELP: Display this list of actions.\n";
+	lMessage += "  QUIT: Quit the game.\n";
+	lMessage += "  LOOK: Display a description of the room you are currently in and the items therein.\n";
+	lMessage += "  INVENTORY: Display a description of the items you are currently holding.\n";
+	lMessage += "  GO direction: Attempt to exit the current room towards the direction to enter another room.\n";
+	lMessage += "                Valid directions are NORTH, SOUTH, EAST and WEST.\n";
+	lMessage += "  TAKE item: Attempt to pick up an item and put it in your inventory.\n";
+	lMessage += "  DROP item: Attempt to drop an item from your inventory.\n";
+	lMessage += "  INSPECT item: Display a detailed description of the item.\n";
+	lMessage += "  OPEN item: Attempt to open an item.\n";
+	lMessage += "  USE item1 ON item2: Attempt to use the item1 on the item2.\n";
+	lMessage += "  PUT item1 IN item2: Attempt to place item1 within item2.\n";
+	lMessage += "                      Both items must be in your inventory for this action to succeed.\n";
+	lMessage += "\nDo note that commands and item names are not case-sensitive,\nso you can freely type everything in lowercase if you want.";
+	consoleLog(lMessage);
 }

@@ -3,27 +3,27 @@
 #include "globals.h"
 
 
-InstructionType getInstructionFromString(const std::string& text)
+InstructionType getInstructionFromString(const std::string& aText)
 {
-	if (caselessEquals(text, "ERROR"))		return InstructionType::ERROR;
-	if (caselessEquals(text, "QUIT"))		return InstructionType::QUIT;
-	if (caselessEquals(text, "HELP"))		return InstructionType::HELP;
-	if (caselessEquals(text, "LOOK"))		return InstructionType::LOOK;
-	if (caselessEquals(text, "INVENTORY"))	return InstructionType::INVENTORY;
-	if (caselessEquals(text, "GO"))			return InstructionType::GO;
-	if (caselessEquals(text, "TAKE"))		return InstructionType::TAKE;
-	if (caselessEquals(text, "DROP"))		return InstructionType::DROP;
-	if (caselessEquals(text, "INSPECT"))	return InstructionType::INSPECT;
-	if (caselessEquals(text, "OPEN"))		return InstructionType::OPEN;
-	if (caselessEquals(text, "USE"))		return InstructionType::USE;
-	if (caselessEquals(text, "PUT"))		return InstructionType::PUT;
+	if (caselessEquals(aText, "ERROR"))		return InstructionType::ERROR;
+	if (caselessEquals(aText, "QUIT"))		return InstructionType::QUIT;
+	if (caselessEquals(aText, "HELP"))		return InstructionType::HELP;
+	if (caselessEquals(aText, "LOOK"))		return InstructionType::LOOK;
+	if (caselessEquals(aText, "INVENTORY"))	return InstructionType::INVENTORY;
+	if (caselessEquals(aText, "GO"))			return InstructionType::GO;
+	if (caselessEquals(aText, "TAKE"))		return InstructionType::TAKE;
+	if (caselessEquals(aText, "DROP"))		return InstructionType::DROP;
+	if (caselessEquals(aText, "INSPECT"))	return InstructionType::INSPECT;
+	if (caselessEquals(aText, "OPEN"))		return InstructionType::OPEN;
+	if (caselessEquals(aText, "USE"))		return InstructionType::USE;
+	if (caselessEquals(aText, "PUT"))		return InstructionType::PUT;
 	return InstructionType::ERROR;
 }
 
 
-std::string getStringFromInstruction(InstructionType instructionType)
+std::string getStringFromInstruction(InstructionType aInstructionType)
 {
-	switch (instructionType)
+	switch (aInstructionType)
 	{
 	case InstructionType::ERROR:		return "ERROR";
 	case InstructionType::QUIT:			return "QUIT";
@@ -42,9 +42,9 @@ std::string getStringFromInstruction(InstructionType instructionType)
 }
 
 
-std::string getInstructionPreposition(InstructionType instructionType)
+std::string getInstructionPreposition(InstructionType aInstructionType)
 {
-	switch (instructionType)
+	switch (aInstructionType)
 	{
 	case InstructionType::ERROR:		return "";
 	case InstructionType::QUIT:			return "";
@@ -63,9 +63,9 @@ std::string getInstructionPreposition(InstructionType instructionType)
 }
 
 
-unsigned int getInstructionExpectedLength(InstructionType instructionType)
+unsigned int getInstructionExpectedLength(InstructionType aInstructionType)
 {
-	switch (instructionType)
+	switch (aInstructionType)
 	{
 	case InstructionType::ERROR:		return 1;
 	case InstructionType::QUIT:			return 1;

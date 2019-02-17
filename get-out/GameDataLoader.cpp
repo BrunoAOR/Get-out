@@ -25,10 +25,10 @@
 #include "json.hpp"
 
 
-GameDataLoader::GameDataLoader(EntityFactory* entityFactory, ActionFactory* actionFactory)
-	:m_entityFactory(entityFactory), m_actionFactory(actionFactory)
+GameDataLoader::GameDataLoader(EntityFactory* aEntityFactory, ActionFactory* aActionFactory)
+	:mEntityFactory(aEntityFactory), mActionFactory(aActionFactory)
 {
-	assert(m_entityFactory && m_actionFactory);
+	assert(mEntityFactory && mActionFactory);
 }
 
 
@@ -37,27 +37,27 @@ GameDataLoader::~GameDataLoader()
 }
 
 
-Player* GameDataLoader::loadGameData(const char* path)
+Player* GameDataLoader::loadGameData(const char* aPath)
 {
-	Player* player = nullptr;
+	Player* lPlayer = nullptr;
 
-	Json json = loadJson(path);
-	if (!json.is_null())
+	Json lJson = loadJson(aPath);
+	if (!lJson.is_null())
 	{
-		if (loadMessages(json))
+		if (loadMessages(lJson))
 		{
-			player = loadAndCreateEntities(json);
-			if (player)
+			lPlayer = loadAndCreateEntities(lJson);
+			if (lPlayer)
 			{
-				if (loadAndCreateActions(json))
+				if (loadAndCreateActions(lJson))
 				{
-					OutputLog("INFO: Successfully loaded the game configuration data from %s", path);
+					OutputLog("INFO: Successfully loaded the game configuration data from %s", aPath);
 				}
 				else
 				{
 					// Clean Up
-					player = nullptr;
-					m_entityFactory->close();
+					lPlayer = nullptr;
+					mEntityFactory->close();
 					OutputLog("ERROR: Failed to load actions from the game configuration file!");
 				}
 			}
@@ -73,92 +73,92 @@ Player* GameDataLoader::loadGameData(const char* path)
 	}
 	else
 	{
-		OutputLog("ERROR: Failed to open the json file from %s", path);
+		OutputLog("ERROR: Failed to open the json file from %s", aPath);
 	}
 	
-	return player;
+	return lPlayer;
 }
 
 
-Json GameDataLoader::loadJson(const char* path)
+Json GameDataLoader::loadJson(const char* aPath)
 {
-	Json json;
+	Json lJson;
 
-	std::ifstream file(path);
-	if (file.good())
+	std::ifstream lFile(aPath);
+	if (lFile.good())
 	{
-		assert(file.good());
-		file >> json;
+		assert(lFile.good());
+		lFile >> lJson;
 	}
-	return json;
+	return lJson;
 }
 
 
-bool GameDataLoader::loadMessages(const Json& json)
+bool GameDataLoader::loadMessages(const Json& aJson)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	if (json.count("messages"))
+	if (aJson.count("messages"))
 	{
-		const Json& messages = json["messages"];
-		if (success && messages.count("welcomeMessage"))
+		const Json& messages = aJson["messages"];
+		if (lSuccess && messages.count("welcomeMessage"))
 		{
-			m_welcomeMessage = (messages["welcomeMessage"]).get<std::string>();
+			mWelcomeMessage = (messages["welcomeMessage"]).get<std::string>();
 		}
 		else
 		{
 			OutputLog("ERROR: The gameConfig file does not contain the key 'welcomeMessage' within 'messages'!");
-			success = false;
+			lSuccess = false;
 		}
 
-		if (success && messages.count("exitMessage"))
+		if (lSuccess && messages.count("exitMessage"))
 		{
-			m_exitMessage = (messages["exitMessage"]).get<std::string>();
+			mExitMessage = (messages["exitMessage"]).get<std::string>();
 		}
 		else
 		{
 			OutputLog("ERROR: The gameConfig file does not contain the key 'exitMessage' within 'messages'!");
-			success = false;
+			lSuccess = false;
 		}
 	}
 	else
 	{
 		OutputLog("ERROR: The gameConfig file does not contain the key 'messages'!");
-		success = false;
+		lSuccess = false;
 	}
-	return success;
+	return lSuccess;
 }
 
 
-Player* GameDataLoader::loadAndCreateEntities(const Json& json)
+Player* GameDataLoader::loadAndCreateEntities(const Json& aJson)
 {
-	Player* player = nullptr;
+	Player* lPlayer = nullptr;
 
-	if (json.count("entityInfos"))
+	if (aJson.count("entityInfos"))
 	{
-		std::vector<EntityInfo> entityInfos;
-		const Json& jsonEntityInfos = json["entityInfos"];
+		std::vector<EntityInfo> lEntityInfos;
+		const Json& lJsonEntityInfos = aJson["entityInfos"];
 		
-		bool success = loadEntitiesByKey(jsonEntityInfos, entityInfos, "rooms", &GameDataLoader::loadRoomInfos)
-			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "exits", &GameDataLoader::loadExitInfos)
-			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "interactables", &GameDataLoader::loadInteractableInfos)
-			&& loadEntitiesByKey(jsonEntityInfos, entityInfos, "items", &GameDataLoader::loadItemInfos);
+		bool lSuccess = loadEntitiesByKey(lJsonEntityInfos, lEntityInfos, "rooms", &GameDataLoader::loadRoomInfos)
+			&& loadEntitiesByKey(lJsonEntityInfos, lEntityInfos, "exits", &GameDataLoader::loadExitInfos)
+			&& loadEntitiesByKey(lJsonEntityInfos, lEntityInfos, "interactables", &GameDataLoader::loadInteractableInfos)
+			&& loadEntitiesByKey(lJsonEntityInfos, lEntityInfos, "items", &GameDataLoader::loadItemInfos);
 		
 		// Create all entities
-		if (success)
+		if (lSuccess)
 		{
-			for (EntityInfo& entityInfo : entityInfos)
+			for (EntityInfo& lEntityInfo : lEntityInfos)
 			{
-				m_entityFactory->createEntity(entityInfo);
+				mEntityFactory->createEntity(lEntityInfo);
 			}
 
-			if (jsonEntityInfos.count("player"))
+			if (lJsonEntityInfos.count("player"))
 			{
-				const Json& jsonPlayer = jsonEntityInfos["player"];
-				if (jsonPlayer.count("id") && jsonPlayer.count("parentId") && jsonPlayer.count("maxItems") && jsonPlayer.count("startingRoomId"))
+				const Json& lJsonPlayer = lJsonEntityInfos["player"];
+				if (lJsonPlayer.count("id") && lJsonPlayer.count("parentId") && lJsonPlayer.count("maxItems") && lJsonPlayer.count("startingRoomId"))
 				{
-					EntityInfo playerInfo = EntityInfo::createPlayerInfo(jsonPlayer["id"], EntityType::PLAYER, jsonPlayer["parentId"], "", "", jsonPlayer["maxItems"], jsonPlayer["startingRoomId"]);
-					player = static_cast<Player*>(m_entityFactory->createEntity(playerInfo));
+					EntityInfo lPlayerInfo = EntityInfo::createPlayerInfo(lJsonPlayer["id"], EntityType::PLAYER, lJsonPlayer["parentId"], "", "", lJsonPlayer["maxItems"], lJsonPlayer["startingRoomId"]);
+					lPlayer = static_cast<Player*>(mEntityFactory->createEntity(lPlayerInfo));
 				}
 				else
 				{
@@ -170,9 +170,9 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json)
 				OutputLog("ERROR: The gameConfig file does not contain the key 'player' within 'entityInfos'!");
 			}
 
-			if (!player)
+			if (!lPlayer)
 			{
-				m_entityFactory->close();
+				mEntityFactory->close();
 			}
 		}
 	}
@@ -181,70 +181,68 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& json)
 		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
 	}
 
-	return player;
+	return lPlayer;
 }
 
-bool GameDataLoader::loadEntitiesByKey(const Json& jsonEntityInfos, std::vector<EntityInfo>& entityInfos, const std::string& key, entityLoaderFunc loaderFunc)
+bool GameDataLoader::loadEntitiesByKey(const Json& aJsonEntityInfos, std::vector<EntityInfo>& aInOutEntityInfos, const std::string& aKey, entityLoaderFunc aLoaderFunc)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	if (jsonEntityInfos.count(key))
+	if (aJsonEntityInfos.count(aKey))
 	{
-		const Json& jsonRooms = jsonEntityInfos[key];
-		if (!((this->*loaderFunc)(jsonRooms, entityInfos)))
+		const Json& lJsonRooms = aJsonEntityInfos[aKey];
+		if (!((this->*aLoaderFunc)(lJsonRooms, aInOutEntityInfos)))
 		{
 			OutputLog("ERROR: Failed to load rooms from the game configuration file!");
-			success = false;
+			lSuccess = false;
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: The gameConfig file does not contain the key '%s' within 'entityInfos'!", key.c_str());
-		success = false;
+		OutputLog("ERROR: The gameConfig file does not contain the key '%s' within 'entityInfos'!", aKey.c_str());
+		lSuccess = false;
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool GameDataLoader::loadRoomInfos(const Json& jsonRooms, std::vector<EntityInfo>& entityInfos)
+bool GameDataLoader::loadRoomInfos(const Json& aJsonRooms, std::vector<EntityInfo>& aInOutEntityInfos)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	unsigned int roomsCount = jsonRooms.size();
-	for (unsigned int i = 0; i < roomsCount; ++i)
+	for (unsigned int i = 0, lRoomsCount = aJsonRooms.size(); i < lRoomsCount; ++i)
 	{
-		const Json& room = jsonRooms[i];
-		if (room.count("id") && room.count("name") && room.count("description") && room.count("isDark"))
+		const Json& lRoom = aJsonRooms[i];
+		if (lRoom.count("id") && lRoom.count("name") && lRoom.count("description") && lRoom.count("isDark"))
 		{
-			EntityInfo ei = EntityInfo::createRoomInfo(room["id"], EntityType::ROOM, -1, room["name"], room["description"], room["isDark"]);
-			entityInfos.push_back(ei);
+			EntityInfo lEntityInfo = EntityInfo::createRoomInfo(lRoom["id"], EntityType::ROOM, -1, lRoom["name"], lRoom["description"], lRoom["isDark"]);
+			aInOutEntityInfos.push_back(lEntityInfo);
 		}
 		else
 		{
 			OutputLog("ERROR: Room at index %i doesn't have all the required keys!", i);
-			success = false;
+			lSuccess = false;
 		}
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool GameDataLoader::loadExitInfos(const Json& jsonExits, std::vector<EntityInfo>& entityInfos)
+bool GameDataLoader::loadExitInfos(const Json& aJsonExits, std::vector<EntityInfo>& aInOutEntityInfos)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	unsigned int exitsCount = jsonExits.size();
-	for (unsigned int i = 0; i < exitsCount; ++i)
+	for (unsigned int i = 0, exitsCount = aJsonExits.size(); i < exitsCount; ++i)
 	{
-		const Json& exit = jsonExits[i];
-		if (exit.count("id") && exit.count("parentId") && exit.count("name") && exit.count("description") && exit.count("direction") && exit.count("isLocked") && exit.count("lockedDescription") && exit.count("targetRoomId"))
+		const Json& lExit = aJsonExits[i];
+		if (lExit.count("id") && lExit.count("parentId") && lExit.count("name") && lExit.count("description") && lExit.count("direction") && lExit.count("isLocked") && lExit.count("lockedDescription") && lExit.count("targetRoomId"))
 		{
-			if (getDirectionFromString(exit["direction"]) != Direction::_UNDEFINED)
+			if (getDirectionFromString(lExit["direction"]) != Direction::_UNDEFINED)
 			{
-				EntityInfo ei = EntityInfo::createExitInfo(exit["id"], EntityType::EXIT, exit["parentId"], exit["name"], exit["description"], getDirectionFromString(exit["direction"]), exit["isLocked"], exit["lockedDescription"], exit["targetRoomId"]);
-				entityInfos.push_back(ei);
+				EntityInfo lEntityInfo = EntityInfo::createExitInfo(lExit["id"], EntityType::EXIT, lExit["parentId"], lExit["name"], lExit["description"], getDirectionFromString(lExit["direction"]), lExit["isLocked"], lExit["lockedDescription"], lExit["targetRoomId"]);
+				aInOutEntityInfos.push_back(lEntityInfo);
 			}
 			else
 			{
@@ -254,75 +252,72 @@ bool GameDataLoader::loadExitInfos(const Json& jsonExits, std::vector<EntityInfo
 		else
 		{
 			OutputLog("ERROR: Exit at index %i doesn't have all the required keys!", i);
-			success = false;
+			lSuccess = false;
 		}
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool GameDataLoader::loadInteractableInfos(const Json& jsonInteractables, std::vector<EntityInfo>& entityInfos)
+bool GameDataLoader::loadInteractableInfos(const Json& aJsonInteractables, std::vector<EntityInfo>& aInOutEntityInfos)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	unsigned int interactablesCount = jsonInteractables.size();
-	for (unsigned int i = 0; i < interactablesCount; ++i)
+	for (unsigned int i = 0, lInteractablesCount = aJsonInteractables.size(); i < lInteractablesCount; ++i)
 	{
-		const Json& interactable = jsonInteractables[i];
-		if (interactable.count("id") && interactable.count("parentId") && interactable.count("name") && interactable.count("description") && interactable.count("inspectDescription") && interactable.count("isVisibleInDark"))
+		const Json& lInteractable = aJsonInteractables[i];
+		if (lInteractable.count("id") && lInteractable.count("parentId") && lInteractable.count("name") && lInteractable.count("description") && lInteractable.count("inspectDescription") && lInteractable.count("isVisibleInDark"))
 		{
-			EntityInfo ei = EntityInfo::createInteractableInfo(interactable["id"], EntityType::INTERACTABLE, interactable["parentId"], interactable["name"], interactable["description"], interactable["inspectDescription"], interactable["isVisibleInDark"]);
-			entityInfos.push_back(ei);
+			EntityInfo lEntityInfo = EntityInfo::createInteractableInfo(lInteractable["id"], EntityType::INTERACTABLE, lInteractable["parentId"], lInteractable["name"], lInteractable["description"], lInteractable["inspectDescription"], lInteractable["isVisibleInDark"]);
+			aInOutEntityInfos.push_back(lEntityInfo);
 		}
 		else
 		{
 			OutputLog("ERROR: Interactable at index %i doesn't have all the required keys!", i);
-			success = false;
+			lSuccess = false;
 		}
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool GameDataLoader::loadItemInfos(const Json& jsonItems, std::vector<EntityInfo>& entityInfos)
+bool GameDataLoader::loadItemInfos(const Json& aJsonItems, std::vector<EntityInfo>& aInOutEntityInfos)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	unsigned int itemsCount = jsonItems.size();
-	for (unsigned int i = 0; i < itemsCount; ++i)
+	for (unsigned int i = 0, lItemsCount = aJsonItems.size(); i < lItemsCount; ++i)
 	{
-		const Json& item = jsonItems[i];
-		if (item.count("id") && item.count("parentId") && item.count("name") && item.count("description") && item.count("inspectDescription") && item.count("isVisibleInDark") && item.count("hasLight"))
+		const Json& lItem = aJsonItems[i];
+		if (lItem.count("id") && lItem.count("parentId") && lItem.count("name") && lItem.count("description") && lItem.count("inspectDescription") && lItem.count("isVisibleInDark") && lItem.count("hasLight"))
 		{
-			EntityInfo ei = EntityInfo::createItemInfo(item["id"], EntityType::ITEM, item["parentId"], item["name"], item["description"], item["inspectDescription"], item["isVisibleInDark"], item["hasLight"]);
-			entityInfos.push_back(ei);
+			EntityInfo lEntityInfo = EntityInfo::createItemInfo(lItem["id"], EntityType::ITEM, lItem["parentId"], lItem["name"], lItem["description"], lItem["inspectDescription"], lItem["isVisibleInDark"], lItem["hasLight"]);
+			aInOutEntityInfos.push_back(lEntityInfo);
 		}
 		else
 		{
 			OutputLog("ERROR: Item at index %i doesn't have all the required keys!", i);
-			success = false;
+			lSuccess = false;
 		}
 	}
 
-	return success;
+	return lSuccess;
 }
 
-bool GameDataLoader::loadAndCreateActions(const Json& json)
+bool GameDataLoader::loadAndCreateActions(const Json& aJson)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	if (json.count("actions"))
+	if (aJson.count("actions"))
 	{
-		const Json& jsonActions = json["actions"];
-		unsigned int actionsCount = jsonActions.size();
-		for (unsigned int i = 0; i < actionsCount; ++i)
+		const Json& lJsonActions = aJson["actions"];
+		for (unsigned int i = 0, lActionsCount = lJsonActions.size(); i < lActionsCount; ++i)
 		{
-			const Json& action = jsonActions[i];
-			if (action.count("type") && action.count("description") && action.count("shouldDestroy") && action.count("firstEntityId") && action.count("secondEntityId") && action.count("effects"))
+			const Json& lAction = lJsonActions[i];
+			if (lAction.count("type") && lAction.count("description") && lAction.count("shouldDestroy") && lAction.count("firstEntityId") && lAction.count("secondEntityId") && lAction.count("effects"))
 			{
-				success &= loadAction(action, i);
+				lSuccess &= loadAction(lAction, i);
 			}
 			else
 			{
@@ -335,298 +330,295 @@ bool GameDataLoader::loadAndCreateActions(const Json& json)
 		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
 	}
 
-	if (!success)
+	if (!lSuccess)
 	{
-		m_actionFactory->close();
+		mActionFactory->close();
 	}
 
-	return success;
+	return lSuccess;
 }
 
-bool GameDataLoader::loadAction(const Json& jsonAction, int actionIndex)
+bool GameDataLoader::loadAction(const Json& aJsonAction, int aActionIndex)
 {
-	bool success = false;
+	bool lSuccess = false;
 
-	ActionType type = getActionTypeFromString(jsonAction["type"]);
-	if (type != ActionType::_UNDEFINED)
+	ActionType lActionType = getActionTypeFromString(aJsonAction["type"]);
+	if (lActionType != ActionType::_UNDEFINED)
 	{
 		// Load ActionEffects
-		std::vector<ActionEffect*> actionEffects;
-		success = loadActionEffects(jsonAction["effects"], actionEffects, actionIndex);
-		if (success)
+		std::vector<ActionEffect*> lActionEffects;
+		lSuccess = loadActionEffects(aJsonAction["effects"], lActionEffects, aActionIndex);
+		if (lSuccess)
 		{
-			m_actionFactory->createAction(type, jsonAction["description"], actionEffects, jsonAction["shouldDestroy"], jsonAction["firstEntityId"], jsonAction["secondEntityId"]);
+			mActionFactory->createAction(lActionType, aJsonAction["description"], lActionEffects, aJsonAction["shouldDestroy"], aJsonAction["firstEntityId"], aJsonAction["secondEntityId"]);
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: Action at index %i doesn't have a valid value for the key 'type'!", actionIndex);
+		OutputLog("ERROR: Action at index %i doesn't have a valid value for the key 'type'!", aActionIndex);
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-bool GameDataLoader::loadActionEffects(const Json& jsonEffects, std::vector<ActionEffect*>& actionEffects, int actionIndex)
+bool GameDataLoader::loadActionEffects(const Json& aJsonEffects, std::vector<ActionEffect*>& aInOutActionEffects, int aActionIndex)
 {
-	bool success = true;
+	bool lSuccess = true;
 
-	unsigned int effectsCount = jsonEffects.size();
-	for (unsigned int i = 0; i < effectsCount; ++i)
+	for (unsigned int i = 0, lEffectsCount = aJsonEffects.size(); i < lEffectsCount; ++i)
 	{
-		const Json& jsonEffect = jsonEffects[i];
-		if (jsonEffect.count("type") && jsonEffect.count("description"))
+		const Json& lJsonEffect = aJsonEffects[i];
+		if (lJsonEffect.count("type") && lJsonEffect.count("description"))
 		{
-			ActionEffectType effectType = getActionEffectTypeFromString(jsonEffect["type"]);
-			if (effectType != ActionEffectType::_UNDEFINED)
+			ActionEffectType aEffectType = getActionEffectTypeFromString(lJsonEffect["type"]);
+			if (aEffectType != ActionEffectType::_UNDEFINED)
 			{
-				ActionEffect* actionEffect = loadActionEffect(jsonEffect, effectType, actionIndex, i);
-				if (actionEffect)
+				ActionEffect* lActionEffect = loadActionEffect(lJsonEffect, aEffectType, aActionIndex, i);
+				if (lActionEffect)
 				{
-					actionEffects.push_back(actionEffect);
+					aInOutActionEffects.push_back(lActionEffect);
 				}
 				else
 				{
-					OutputLog("ERROR: Failed to load ActionEffect at index %i in Action at index %i!", i, actionIndex);
-					success = false;
+					OutputLog("ERROR: Failed to load ActionEffect at index %i in Action at index %i!", i, aActionIndex);
+					lSuccess = false;
 				}
 
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have a valid value for the key 'type'!", i, actionIndex);
-				success = false;
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have a valid value for the key 'type'!", i, aActionIndex);
+				lSuccess = false;
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", i, actionIndex);
-			success = false;
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", i, aActionIndex);
+			lSuccess = false;
 		}
 	}
 
 	// Clean Up after failure
-	if (!success)
+	if (!lSuccess)
 	{
-		for each (ActionEffect* actionEffect in actionEffects)
+		for each (ActionEffect* lActionEffect in aInOutActionEffects)
 		{
-			delete actionEffect;
+			delete lActionEffect;
 		}
-		actionEffects.clear();
+		aInOutActionEffects.clear();
 	}
 
-	return success;
+	return lSuccess;
 }
 
 
-ActionEffect* GameDataLoader::loadActionEffect(const Json& jsonEffect, ActionEffectType effectType, int actionIndex, int effectIndex)
+ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEffectType aEffectType, int aActionIndex, int aEffectIndex)
 {
-	assert(effectType != ActionEffectType::_UNDEFINED);
-	ActionEffect* actionEffect = nullptr;
+	assert(aEffectType != ActionEffectType::_UNDEFINED);
+	ActionEffect* lActionEffect = nullptr;
 
-	// Now we can switch over the action types and load them appropriately
-	switch (effectType)
+	// Now we can switch over the lAction types and load them appropriately
+	switch (aEffectType)
 	{
 
 	case ActionEffectType::ADD_ENTITIES:
 	{
-		if (jsonEffect.count("entitiesToAddIds") && jsonEffect.count("targetRoomId"))
+		if (aJsonEffect.count("entitiesToAddIds") && aJsonEffect.count("targetRoomId"))
 		{
-			bool success = true;
+			bool lSuccess = true;
 
-			const Json& entitiesToAddIds = jsonEffect["entitiesToAddIds"];
-			std::vector<Entity*> entitiesToAdd;
-			int entitiesCount = entitiesToAddIds.size();
-			for (int i = 0; i < entitiesCount; ++i)
+			const Json& lEntitiesToAddIds = aJsonEffect["entitiesToAddIds"];
+			std::vector<Entity*> lEntitiesToAdd;
+			for (int i = 0, lEntitiesCount = lEntitiesToAddIds.size(); i < lEntitiesCount; ++i)
 			{
-				Entity* entity = m_entityFactory->getEntity(entitiesToAddIds[i]);
-				if (entity)
+				Entity* lEntity = mEntityFactory->getEntity(lEntitiesToAddIds[i]);
+				if (lEntity)
 				{
-					entitiesToAdd.push_back(entity);
+					lEntitiesToAdd.push_back(lEntity);
 				}
 				else
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", effectIndex, actionIndex, i);
-					success = false;
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
+					lSuccess = false;
 				}
 			}
 
-			Room* targetRoom = static_cast<Room*>(m_entityFactory->getEntity(jsonEffect["targetRoomId"]));
-			if (!targetRoom)
+			Room* lTargetRoom = static_cast<Room*>(mEntityFactory->getEntity(aJsonEffect["targetRoomId"]));
+			if (!lTargetRoom)
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'targetRoomId' that does't point to any existing Room!", effectIndex, actionIndex);
-				success = false;
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'targetRoomId' that does't point to any existing Room!", aEffectIndex, aActionIndex);
+				lSuccess = false;
 			}
 
-			if (success)
+			if (lSuccess)
 			{
 				// We continue
-				actionEffect = new EffectAddEntitiesToRoom(jsonEffect["description"], entitiesToAdd, targetRoom);
+				lActionEffect = new EffectAddEntitiesToRoom(aJsonEffect["description"], lEntitiesToAdd, lTargetRoom);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	case ActionEffectType::GAME_END:
 	{
-		std::string description = jsonEffect["description"];
-		actionEffect = new EffectGameEnd(description);
+		std::string lDescription = aJsonEffect["description"];
+		lActionEffect = new EffectGameEnd(lDescription);
 		break;
 	}
 
 	case ActionEffectType::LOCK_EXIT:
 	{
-		if (jsonEffect.count("exitToLockId"))
+		if (aJsonEffect.count("exitToLockId"))
 		{
-			Exit* exitToLock = static_cast<Exit*>(m_entityFactory->getEntity(jsonEffect["exitToLockId"]));
-			if (exitToLock)
+			Exit* lExitToLock = static_cast<Exit*>(mEntityFactory->getEntity(aJsonEffect["exitToLockId"]));
+			if (lExitToLock)
 			{
-				actionEffect = new EffectLockExit(jsonEffect["description"], exitToLock);
+				lActionEffect = new EffectLockExit(aJsonEffect["description"], lExitToLock);
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToLockId' that does't point to any existing Exit!", effectIndex, actionIndex);
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToLockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	case ActionEffectType::PLACE_ITEM_IN_ITEM:
 	{
-		if (jsonEffect.count("itemId") && jsonEffect.count("containerId"))
+		if (aJsonEffect.count("itemId") && aJsonEffect.count("containerId"))
 		{
-			Item* item = static_cast<Item*>(m_entityFactory->getEntity(jsonEffect["itemId"]));
-			Item* container = static_cast<Item*>(m_entityFactory->getEntity(jsonEffect["containerId"]));
-			if (item && container)
+			Item* lItem = static_cast<Item*>(mEntityFactory->getEntity(aJsonEffect["itemId"]));
+			Item* lContainer = static_cast<Item*>(mEntityFactory->getEntity(aJsonEffect["containerId"]));
+			if (lItem && lContainer)
 			{
-				actionEffect = new EffectPlaceItemInItem(jsonEffect["description"], item, container);
+				lActionEffect = new EffectPlaceItemInItem(aJsonEffect["description"], lItem, lContainer);
 			}
 			else
 			{
-				if (!item)
+				if (!lItem)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'itemId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'itemId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
-				if (!container)
+				if (!lContainer)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'containerId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'containerId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	case ActionEffectType::REMOVE_ENTITIES:
 	{
-		if (jsonEffect.count("entitiesToRemoveIds"))
+		if (aJsonEffect.count("entitiesToRemoveIds"))
 		{
-			bool success = true;
+			bool lSuccess = true;
 
-			const Json& entitiesToRemoveIds = jsonEffect["entitiesToRemoveIds"];
-			std::vector<Entity*> entitiesToRemove;
-			int entitiesCount = entitiesToRemoveIds.size();
-			for (int i = 0; i < entitiesCount; ++i)
+			const Json& lEntitiesToRemoveIds = aJsonEffect["entitiesToRemoveIds"];
+			std::vector<Entity*> lEntitiesToRemove;
+			for (unsigned int i = 0, lEntitiesCount = lEntitiesToRemoveIds.size(); i < lEntitiesCount; ++i)
 			{
-				Entity* entity = m_entityFactory->getEntity(entitiesToRemoveIds[i]);
-				if (entity)
+				Entity* lEntity = mEntityFactory->getEntity(lEntitiesToRemoveIds[i]);
+				if (lEntity)
 				{
-					entitiesToRemove.push_back(entity);
+					lEntitiesToRemove.push_back(lEntity);
 				}
 				else
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", effectIndex, actionIndex, i);
-					success = false;
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
+					lSuccess = false;
 				}
 			}
 
-			if (success)
+			if (lSuccess)
 			{
 				// We continue
-				actionEffect = new EffectRemoveEntities(jsonEffect["description"], entitiesToRemove);
+				lActionEffect = new EffectRemoveEntities(aJsonEffect["description"], lEntitiesToRemove);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	case ActionEffectType::REPLACE_ENTITY:
 	{
-		if (jsonEffect.count("entityToRemoveId") && jsonEffect.count("entityToAddId"))
+		if (aJsonEffect.count("entityToRemoveId") && aJsonEffect.count("entityToAddId"))
 		{
-			Entity* entityToRemove = m_entityFactory->getEntity(jsonEffect["entityToRemoveId"]);
-			Entity* entityToAdd = m_entityFactory->getEntity(jsonEffect["entityToAddId"]);
-			if (entityToRemove && entityToAdd)
+			Entity* lEntityToRemove = mEntityFactory->getEntity(aJsonEffect["entityToRemoveId"]);
+			Entity* lEntityToAdd = mEntityFactory->getEntity(aJsonEffect["entityToAddId"]);
+			if (lEntityToRemove && lEntityToAdd)
 			{
-				actionEffect = new EffectReplaceEntity(jsonEffect["description"], entityToRemove, entityToAdd);
+				lActionEffect = new EffectReplaceEntity(aJsonEffect["description"], lEntityToRemove, lEntityToAdd);
 			}
 			else
 			{
-				if (!entityToRemove)
+				if (!lEntityToRemove)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
-				if (!entityToAdd)
+				if (!lEntityToAdd)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", effectIndex, actionIndex);
+					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	case ActionEffectType::UNLOCK_EXIT:
 	{
-		if (jsonEffect.count("exitToUnlockId"))
+		if (aJsonEffect.count("exitToUnlockId"))
 		{
-			Exit* exitToUnlock = static_cast<Exit*>(m_entityFactory->getEntity(jsonEffect["exitToUnlockId"]));
-			if (exitToUnlock)
+			Exit* lExitToUnlock = static_cast<Exit*>(mEntityFactory->getEntity(aJsonEffect["exitToUnlockId"]));
+			if (lExitToUnlock)
 			{
-				actionEffect = new EffectUnlockExit(jsonEffect["description"], exitToUnlock);
+				lActionEffect = new EffectUnlockExit(aJsonEffect["description"], lExitToUnlock);
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToUnlockId' that does't point to any existing Exit!", effectIndex, actionIndex);
+				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToUnlockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", effectIndex, actionIndex);
+			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
 
 	}
 
-	return actionEffect;
+	return lActionEffect;
 }
 
 
 const std::string& GameDataLoader::getWelcomeMessage() const
 {
-	return m_welcomeMessage;
+	return mWelcomeMessage;
 }
 
 
 const std::string& GameDataLoader::getExitMessage() const
 {
-	return m_exitMessage;
+	return mExitMessage;
 }

@@ -15,7 +15,7 @@ enum class ActionType
 	ITEM_PUT
 };
 
-ActionType getActionTypeFromString(const std::string& text);
+ActionType getActionTypeFromString(const std::string& aText);
 
 
 #endif // !H_ACTION_TYPE

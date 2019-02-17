@@ -15,28 +15,28 @@ class Room :
 {	
 	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
-	Room(int id, const std::string& name, const std::string& description, bool isDark);
+	Room(int aId, const std::string& aName, const std::string& aDescription, bool aIsDark);
 	virtual ~Room();
 
 public:
-	Room(const Room& source) = delete;
-	Room& operator=(const Room& source) = delete;
+	Room(const Room& aSource) = delete;
+	Room& operator=(const Room& aSource) = delete;
 
-	Exit* getExit(Direction direction);
+	Exit* getExit(Direction aDirection);
 	std::string getDescriptionInDarkness() const;
-	Entity* getChildInDarkness(const std::string& entityName, bool searchInChildren = false) const;
+	Entity* getChildInDarkness(const std::string& aEntityName, bool aSearchInChildren = false) const;
 
 	// Entity overrides
 	virtual std::string getDescription() const override;
 
 private:
-	bool m_isDark;
-	std::vector<Exit*> m_exits;
+	bool mIsDark;
+	std::vector<Exit*> mExits;
 
 	// Entity overrides
-	virtual bool canAddChild(const Entity* child) const override;
-	virtual void addChild(Entity* child) override;
-	virtual void removeChild(const Entity* entity) override;
+	virtual bool canAddChild(const Entity* aChild) const override;
+	virtual void addChild(Entity* aChild) override;
+	virtual void removeChild(const Entity* aEntity) override;
 };
 
 

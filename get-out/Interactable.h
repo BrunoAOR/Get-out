@@ -10,22 +10,22 @@ class Interactable :
 {
 	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
-	Interactable(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false);
+	Interactable(int aId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark = false);
 	virtual ~Interactable();
 
 public:
-	Interactable(const Interactable& source) = delete;
-	Interactable& operator=(const Interactable& source) = delete;
+	Interactable(const Interactable& aSource) = delete;
+	Interactable& operator=(const Interactable& aSource) = delete;
 
 	// Entity overrides
 	virtual std::string getDetailedDescription() const override;
 
 private:
-	std::string m_inspectDescription;
-	bool m_isVisibleInDark;
+	std::string mInspectDescription;
+	bool mIsVisibleInDark;
 
 	// Entity overrides
-	virtual bool canAddChild(const Entity* child) const override;
+	virtual bool canAddChild(const Entity* aChild) const override;
 };
 
 

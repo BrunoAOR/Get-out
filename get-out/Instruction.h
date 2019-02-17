@@ -8,9 +8,9 @@ enum class InstructionType;
 struct Instruction
 {
 public:
-	InstructionType instructionType;
-	std::string param1;
-	std::string param2;
+	InstructionType mInstructionType;
+	std::string mParam1;
+	std::string mParam2;
 };
 
 

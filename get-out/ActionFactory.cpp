@@ -8,16 +8,16 @@
 class Entity;
 
 
-ActionFactory::ActionFactory(EntityFactory* entityFactory)
-	: m_entityFactory(entityFactory)
+ActionFactory::ActionFactory(EntityFactory* aEntityFactory)
+	: mEntityFactory(aEntityFactory)
 {
-	assert(m_entityFactory);
+	assert(mEntityFactory);
 }
 
 
 ActionFactory::~ActionFactory()
 {
-	if (m_actions.size() > 0)
+	if (mActions.size() > 0)
 	{
 		close();
 	}
@@ -26,56 +26,56 @@ ActionFactory::~ActionFactory()
 
 void ActionFactory::close()
 {
-	for (Action* action : m_actions)
+	for (Action* lAction : mActions)
 	{
-		delete action;
+		delete lAction;
 	}
-	m_actions.clear();
+	mActions.clear();
 }
 
 
-Action* ActionFactory::createAction(ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, int firstEntityId, int secondEntityId)
+Action* ActionFactory::createAction(ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId)
 {
-	Entity* firstEntity = nullptr;
-	if (firstEntityId >= 0)
+	Entity* lFirstEntity = nullptr;
+	if (aFirstEntityId >= 0)
 	{
-		firstEntity = m_entityFactory->getEntity(firstEntityId);
-		assert(firstEntity);
+		lFirstEntity = mEntityFactory->getEntity(aFirstEntityId);
+		assert(lFirstEntity);
 	}
-	Entity* secondEntity = nullptr;
-	if (secondEntityId >= 0)
+	Entity* lSecondEntity = nullptr;
+	if (aSecondEntityId >= 0)
 	{
-		secondEntity = m_entityFactory->getEntity(secondEntityId);
-		assert(secondEntity);
+		lSecondEntity = mEntityFactory->getEntity(aSecondEntityId);
+		assert(lSecondEntity);
 	}
-	Action* action = new Action(this, type, description, effects, shouldDestroy, firstEntity, secondEntity);
-	m_actions.push_back(action);
-	return action;
+	Action* lAction = new Action(this, aType, aDescription, aEffects, aShouldDestroy, lFirstEntity, lSecondEntity);
+	mActions.push_back(lAction);
+	return lAction;
 }
 
 
-Action* ActionFactory::getAction(ActionType actionType, const Entity* firstEntity, const Entity* secondEntity) const
+Action* ActionFactory::getAction(ActionType aActionType, const Entity* lFirstEntity, const Entity* aSecondEntity) const
 {
-	if (firstEntity == nullptr && secondEntity == nullptr)
+	if (lFirstEntity == nullptr && aSecondEntity == nullptr)
 	{
 		return nullptr;
 	}
 
-	for (auto action : m_actions)
+	for (auto lAction : mActions)
 	{
-		if (actionType == action->getActionType() && firstEntity == action->getFirstEntity() && secondEntity == action->getSecondEntity())
+		if (aActionType == lAction->getActionType() && lFirstEntity == lAction->getFirstEntity() && aSecondEntity == lAction->getSecondEntity())
 		{
-			return action;
+			return lAction;
 		}
 	}
 	return nullptr;
 }
 
 
-void ActionFactory::removeAction(Action* action)
+void ActionFactory::removeAction(Action* lAction)
 {
-	auto it = std::find(m_actions.begin(), m_actions.end(), action);
-	assert(it != m_actions.end());
-	m_actions.erase(it);
-	delete action;
+	auto lIt = std::find(mActions.begin(), mActions.end(), lAction);
+	assert(lIt != mActions.end());
+	mActions.erase(lIt);
+	delete lAction;
 }

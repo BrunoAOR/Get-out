@@ -4,10 +4,10 @@
 #include "Exit.h"
 
 
-EffectLockExit::EffectLockExit(const std::string& effectDescription, Exit* exitToLock)
-	: ActionEffect(effectDescription), m_exit(exitToLock)
+EffectLockExit::EffectLockExit(const std::string& aEffectDescription, Exit* aExitToLock)
+	: ActionEffect(aEffectDescription), mExit(aExitToLock)
 {
-	assert(m_exit);
+	assert(mExit);
 }
 
 
@@ -17,5 +17,5 @@ EffectLockExit::~EffectLockExit()
 
 void EffectLockExit::doEffect() const
 {
-	m_exit->lock();
+	mExit->lock();
 }

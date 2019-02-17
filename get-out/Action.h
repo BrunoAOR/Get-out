@@ -14,9 +14,9 @@ class Action
 {
 	friend Action* ActionFactory::createAction(ActionType, const std::string&, const std::vector<ActionEffect*>&, bool, int, int);
 	friend void ActionFactory::close();
-	friend void ActionFactory::removeAction(Action* action);
+	friend void ActionFactory::removeAction(Action*);
 private:
-	Action(ActionFactory* actionFactory, ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, Entity* firstEntity, Entity* secondEntity = nullptr);
+	Action(ActionFactory* aActionFactory, ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, Entity* aFirstEntity, Entity* aSecondEntity = nullptr);
 	~Action();
 
 public:
@@ -27,13 +27,13 @@ public:
 	void performAction();
 
 private:
-	ActionType m_type;
-	std::string m_description;
-	std::vector<ActionEffect*> m_effects;
-	bool m_shouldDestroy;
-	Entity* m_firstEntity = nullptr;
-	Entity* m_secondEntity = nullptr;
-	ActionFactory* m_actionFactory = nullptr;
+	ActionType mType;
+	std::string mDescription;
+	std::vector<ActionEffect*> mEffects;
+	bool mShouldDestroy;
+	Entity* mFirstEntity = nullptr;
+	Entity* mSecondEntity = nullptr;
+	ActionFactory* mActionFactory = nullptr;
 };
 
 

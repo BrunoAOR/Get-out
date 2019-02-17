@@ -10,29 +10,29 @@
 #include "Room.h"
 
 
-Action::Action(ActionFactory* actionFactory, ActionType type, const std::string& description, const std::vector<ActionEffect*>& effects, bool shouldDestroy, Entity * firstEntity, Entity * secondEntity)
-	: m_actionFactory(actionFactory), m_type(type), m_description(description), m_effects(effects), m_shouldDestroy(shouldDestroy), m_firstEntity(firstEntity), m_secondEntity(secondEntity)
+Action::Action(ActionFactory* aActionFactory, ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, Entity * aFirstEntity, Entity * aSecondEntity)
+	: mActionFactory(aActionFactory), mType(aType), mDescription(aDescription), mEffects(aEffects), mShouldDestroy(aShouldDestroy), mFirstEntity(aFirstEntity), mSecondEntity(aSecondEntity)
 {
-	assert(m_actionFactory);
-	switch (type)
+	assert(mActionFactory);
+	switch (aType)
 	{
 	case ActionType::GO:
-		assert((m_firstEntity || m_secondEntity) && (m_firstEntity ? m_firstEntity->getType() == EntityType::ROOM : true) && (m_secondEntity ? m_secondEntity->getType() == EntityType::ROOM : true));
+		assert((mFirstEntity || mSecondEntity) && (mFirstEntity ? mFirstEntity->getType() == EntityType::ROOM : true) && (mSecondEntity ? mSecondEntity->getType() == EntityType::ROOM : true));
 		break;
 	case ActionType::TAKE:
-		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && !m_secondEntity);
+		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
 		break;
 	case ActionType::DROP:
-		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && !m_secondEntity);
+		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
 		break;
 	case ActionType::INTERACTABLE_OPEN:
-		assert(m_firstEntity && m_firstEntity->getType() == EntityType::INTERACTABLE && !m_secondEntity);
+		assert(mFirstEntity && mFirstEntity->getType() == EntityType::INTERACTABLE && !mSecondEntity);
 		break;
 	case ActionType::ITEM_USE:
-		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && m_secondEntity && m_secondEntity->getType() == EntityType::INTERACTABLE);
+		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::INTERACTABLE);
 		break;
 	case ActionType::ITEM_PUT:
-		assert(m_firstEntity && m_firstEntity->getType() == EntityType::ITEM && m_secondEntity && m_secondEntity->getType() == EntityType::ITEM);
+		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::ITEM);
 		break;
 	}
 }
@@ -40,56 +40,56 @@ Action::Action(ActionFactory* actionFactory, ActionType type, const std::string&
 
 Action::~Action()
 {
-	for (auto effect : m_effects)
+	for (auto lEffect : mEffects)
 	{
-		delete effect;
+		delete lEffect;
 	}
-	m_effects.clear();
+	mEffects.clear();
 }
 
 
 ActionType Action::getActionType() const
 {
-	return m_type;
+	return mType;
 }
 
 
 const std::string& Action::getDescription() const
 {
-	return m_description;
+	return mDescription;
 }
 
 
 const Entity* Action::getFirstEntity() const
 {
-	return m_firstEntity;
+	return mFirstEntity;
 }
 
 
 const Entity* Action::getSecondEntity() const
 {
-	return m_secondEntity;
+	return mSecondEntity;
 }
 
 
 void Action::performAction()
 {
-	std::string message = m_description;
-	for (ActionEffect* effect : m_effects)
+	std::string lMessage = mDescription;
+	for (ActionEffect* lEffect : mEffects)
 	{
-		effect->doEffect();
-		const std::string& effectDescription = effect->getEffectDescription();
-		if (effectDescription != "")
+		lEffect->doEffect();
+		const std::string& lEffectDescription = lEffect->getEffectDescription();
+		if (lEffectDescription != "")
 		{
-			message += "\n" + effectDescription;
+			lMessage += "\n" + lEffectDescription;
 		}
 	}
-	if (message != "")
+	if (lMessage != "")
 	{
-		consoleLog(message);
+		consoleLog(lMessage);
 	}
-	if (m_shouldDestroy)
+	if (mShouldDestroy)
 	{
-		m_actionFactory->removeAction(this);
+		mActionFactory->removeAction(this);
 	}
 }

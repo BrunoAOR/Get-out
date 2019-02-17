@@ -21,10 +21,10 @@ enum class InstructionType
 };
 
 
-InstructionType getInstructionFromString(const std::string& text);
-std::string getStringFromInstruction(InstructionType instructionType);
-std::string getInstructionPreposition(InstructionType instructionType);
-unsigned int getInstructionExpectedLength(InstructionType instructionType);
+InstructionType getInstructionFromString(const std::string& aText);
+std::string getStringFromInstruction(InstructionType aInstructionType);
+std::string getInstructionPreposition(InstructionType aInstructionType);
+unsigned int getInstructionExpectedLength(InstructionType aInstructionType);
 
 
 #endif // !H_INSTRUCTION_TYPE

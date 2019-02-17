@@ -17,23 +17,23 @@ class GameManager
 public:
 	GameManager();
 	~GameManager();
-	GameManager(const GameManager& source) = delete;
-	GameManager& operator= (const GameManager& source) = delete;
+	GameManager(const GameManager& aSource) = delete;
+	GameManager& operator= (const GameManager& aSource) = delete;
 
 	LoopStatus init();
 	LoopStatus update();
 	LoopStatus close();
 
 private:
-	Player* m_player = nullptr;
-	InputReader * m_inputReader = nullptr;
-	InputParser* m_inputParser = nullptr;
-	EntityFactory* m_entityFactory = nullptr;
-	ActionFactory* m_actionFactory = nullptr;
-	GameDataLoader* m_gameDataLoader = nullptr;
-	LoopStatus m_loopStatus = LoopStatus::CONTINUE;
+	Player* mPlayer = nullptr;
+	InputReader * mInputReader = nullptr;
+	InputParser* mInputParser = nullptr;
+	EntityFactory* mEntityFactory = nullptr;
+	ActionFactory* mActionFactory = nullptr;
+	GameDataLoader* mGameDataLoader = nullptr;
+	LoopStatus mLoopStatus = LoopStatus::CONTINUE;
 
-	LoopStatus processInput(const std::string& userInput);
+	LoopStatus processInput(const std::string& aUserInput);
 	void logHelpMessage() const;
 };
 

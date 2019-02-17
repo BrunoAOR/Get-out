@@ -10,12 +10,12 @@ class Item :
 {
 	friend Entity* EntityFactory::createEntity(EntityInfo);
 private:
-	Item(int id, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark = false, bool hasLight = false);
+	Item(int aId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark = false, bool aHasLight = false);
 	virtual ~Item();
 
 public:
-	Item(const Item& source) = delete;
-	Item& operator=(const Item& source) = delete;
+	Item(const Item& aSource) = delete;
+	Item& operator=(const Item& aSource) = delete;
 
 	// Entity overrides
 	virtual std::string getDescription() const override;
@@ -24,11 +24,11 @@ public:
 	bool hasLight() const;
 
 private:
-	std::string m_inspectDescription;
-	bool m_hasLight;
+	std::string mInspectDescription;
+	bool mHasLight;
 
 	// Entity overrides
-	virtual bool canAddChild(const Entity* child) const override;
+	virtual bool canAddChild(const Entity* aChild) const override;
 };
 
 

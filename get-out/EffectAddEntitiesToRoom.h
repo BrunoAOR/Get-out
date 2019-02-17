@@ -11,15 +11,15 @@ class EffectAddEntitiesToRoom :
 	public ActionEffect
 {
 public:
-	EffectAddEntitiesToRoom(const std::string& effectDescription, const std::vector<Entity*>& entitiesToAdd, Room* targetRoom);
+	EffectAddEntitiesToRoom(const std::string& aEffectDescription, const std::vector<Entity*>& aEntitiesToAdd, Room* aTargetRoom);
 	~EffectAddEntitiesToRoom();
 
 	// Inherited via ActionEffect
 	virtual void doEffect() const override;
 
 private:
-	std::vector<Entity*> m_entitiesToAdd;
-	Room* m_targetRoom = nullptr;
+	std::vector<Entity*> mEntitiesToAdd;
+	Room* mTargetRoom = nullptr;
 };
 
 

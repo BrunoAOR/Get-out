@@ -17,12 +17,12 @@ enum class LoopStatus
 };
 
 
-extern bool isGameEndRequested;
+extern bool gIsGameEndRequested;
 
-void consoleLog(const std::string& message);
-void consoleLog(char character);
-void outputLog(const char* file, int line, const char* format, ...);
-bool caselessEquals(const std::string& s1, const std::string& s2);
+void consoleLog(const std::string& aMessage);
+void consoleLog(char aCharacter);
+void outputLog(const char* aFile, int aLine, const char* aFormat, ...);
+bool caselessEquals(const std::string& aS1, const std::string& aS2);
 
 
 #endif // !H_GLOBALS

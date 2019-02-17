@@ -10,14 +10,14 @@ class EffectLockExit :
 	public ActionEffect
 {
 public:
-	EffectLockExit(const std::string& effectDescription, Exit* exitToLock);
+	EffectLockExit(const std::string& aEffectDescription, Exit* aExitToLock);
 	~EffectLockExit();
 
 	// Inherited via ActionEffect
 	virtual void doEffect() const override;
 
 private:
-	Exit* m_exit;
+	Exit* mExit = nullptr;
 };
 
 

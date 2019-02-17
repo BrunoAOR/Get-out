@@ -1,48 +1,48 @@
 #include "EntityInfo.h"
 
 
-EntityInfo EntityInfo::createPlayerInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, int maxItems, int startingRoomId)
+EntityInfo EntityInfo::createPlayerInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, int aMaxItems, int aStartingRoomId)
 {
-	EntityInfo info{ id, type, parentId, name, description };
-	info.player.maxItems = maxItems;
-	info.player.startingRoomId = startingRoomId;
-	return info;
+	EntityInfo lInfo{ aId, aType, aParentId, aName, aDescription };
+	lInfo.mPlayer.mMaxItems = aMaxItems;
+	lInfo.mPlayer.mStartingRoomId = aStartingRoomId;
+	return lInfo;
 }
 
 
-EntityInfo EntityInfo::createRoomInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, bool isDark)
+EntityInfo EntityInfo::createRoomInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, bool aIsDark)
 {
-	EntityInfo info{ id, type, parentId, name, description };
-	info.room.isDark = isDark;
-	return info;
+	EntityInfo lInfo{ aId, aType, aParentId, aName, aDescription };
+	lInfo.mRoom.mIsDark = aIsDark;
+	return lInfo;
 }
 
 
-EntityInfo EntityInfo::createExitInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, Direction direction, bool isLocked, const std::string& lockedDescription, int targetRoomId)
+EntityInfo EntityInfo::createExitInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, Direction aDirection, bool aIsLocked, const std::string& aLockedDescription, int aTargetRoomId)
 {
-	EntityInfo info{ id, type, parentId, name, description };
-	info.exit.direction = direction;
-	info.exit.isLocked = isLocked;
-	info.aditionalDescription = lockedDescription;
-	info.exit.targetRoomId = targetRoomId;
-	return info;
+	EntityInfo lInfo{ aId, aType, aParentId, aName, aDescription };
+	lInfo.mExit.mDirection = aDirection;
+	lInfo.mExit.mIsLocked = aIsLocked;
+	lInfo.mAditionalDescription = aLockedDescription;
+	lInfo.mExit.mTargetRoomId = aTargetRoomId;
+	return lInfo;
 }
 
 
-EntityInfo EntityInfo::createItemInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark, bool hasLight)
+EntityInfo EntityInfo::createItemInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark, bool aHasLight)
 {
-	EntityInfo info{ id, type, parentId, name, description };
-	info.aditionalDescription = inspectDescription;
-	info.item.isVisibleInDark = isVisibleInDark;
-	info.item.hasLight = hasLight;
-	return info;
+	EntityInfo lInfo{ aId, aType, aParentId, aName, aDescription };
+	lInfo.mAditionalDescription = aInspectDescription;
+	lInfo.mItem.mIsVisibleInDark = aIsVisibleInDark;
+	lInfo.mItem.mHasLight = aHasLight;
+	return lInfo;
 }
 
 
-EntityInfo EntityInfo::createInteractableInfo(int id, EntityType type, int parentId, const std::string& name, const std::string& description, const std::string& inspectDescription, bool isVisibleInDark)
+EntityInfo EntityInfo::createInteractableInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, const std::string& aInspectDescription, bool aIsVisibleInDark)
 {
-	EntityInfo info{ id, type, parentId, name, description };
-	info.aditionalDescription = inspectDescription;
-	info.interactable.isVisibleInDark = isVisibleInDark;
-	return info;
+	EntityInfo lInfo{ aId, aType, aParentId, aName, aDescription };
+	lInfo.mAditionalDescription = aInspectDescription;
+	lInfo.mInteractable.mIsVisibleInDark = aIsVisibleInDark;
+	return lInfo;
 }

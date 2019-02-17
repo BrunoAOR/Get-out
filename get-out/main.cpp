@@ -4,31 +4,31 @@
 
 int main()
 {
-	LoopStatus loopStatus = LoopStatus::CONTINUE;
+	LoopStatus lLoopStatus = LoopStatus::CONTINUE;
 
 	// Start-up Application
 	OutputLog("INFO: App will initiate.");
-	GameManager app;
-	loopStatus = app.init();
+	GameManager lApp;
+	lLoopStatus = lApp.init();
 
-	if (loopStatus == LoopStatus::CONTINUE)
+	if (lLoopStatus == LoopStatus::CONTINUE)
 	{
 		OutputLog("INFO: App will update.");
 	}
-	while (loopStatus == LoopStatus::CONTINUE)
+	while (lLoopStatus == LoopStatus::CONTINUE)
 	{
-		loopStatus = app.update();
+		lLoopStatus = lApp.update();
 	}
 
 	// Close-up Application
-	if (loopStatus == LoopStatus::EXIT)
+	if (lLoopStatus == LoopStatus::EXIT)
 	{
 		OutputLog("INFO: User requested App closure.");
 		OutputLog("INFO: App will close.");
-		loopStatus = app.close();
+		lLoopStatus = lApp.close();
 	}
 
-	switch (loopStatus)
+	switch (lLoopStatus)
 	{
 	case LoopStatus::INIT_ERROR:
 		OutputLog("ERROR: App failed at initiation!");
@@ -40,7 +40,7 @@ int main()
 		OutputLog("ERROR: App failed while closing!");
 		break;
 	case LoopStatus::CONTINUE:
-		// We shouldn't hit this point if loopStatus is Continue
+		// We shouldn't hit this point if lLoopStatus is Continue
 		OutputLog("ERROR: Main loop aborted!");
 		break;
 	case LoopStatus::EXIT:
@@ -50,5 +50,5 @@ int main()
 		break;
 	}
 
-	return !(loopStatus == LoopStatus::EXIT);
+	return !(lLoopStatus == LoopStatus::EXIT);
 }

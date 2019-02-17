@@ -9,15 +9,15 @@ class EffectReplaceEntity :
 	public ActionEffect
 {
 public:
-	EffectReplaceEntity(const std::string& effectDescription, Entity* entityToRemove, Entity* entityToAdd);
+	EffectReplaceEntity(const std::string& aEffectDescription, Entity* aEntityToRemove, Entity* aEntityToAdd);
 	~EffectReplaceEntity();
 
 	// Inherited via ActionEffect
 	virtual void doEffect() const override;
 
 private:
-	Entity* m_entityToRemove = nullptr;
-	Entity* m_entityToAdd = nullptr;
+	Entity* mEntityToRemove = nullptr;
+	Entity* mEntityToAdd = nullptr;
 };
 
 
