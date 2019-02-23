@@ -1,6 +1,6 @@
 #include "Action.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "ActionEffect.h"
 #include "ActionType.h"
 #include "EntityType.h"
@@ -13,26 +13,26 @@
 Action::Action(ActionFactory* aActionFactory, ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, Entity * aFirstEntity, Entity * aSecondEntity)
 	: mActionFactory(aActionFactory), mType(aType), mDescription(aDescription), mEffects(aEffects), mShouldDestroy(aShouldDestroy), mFirstEntity(aFirstEntity), mSecondEntity(aSecondEntity)
 {
-	assert(mActionFactory);
+	ASSERT(mActionFactory);
 	switch (aType)
 	{
 	case ActionType::GO:
-		assert((mFirstEntity || mSecondEntity) && (mFirstEntity ? mFirstEntity->getType() == EntityType::ROOM : true) && (mSecondEntity ? mSecondEntity->getType() == EntityType::ROOM : true));
+		ASSERT((mFirstEntity || mSecondEntity) && (mFirstEntity ? mFirstEntity->getType() == EntityType::ROOM : true) && (mSecondEntity ? mSecondEntity->getType() == EntityType::ROOM : true));
 		break;
 	case ActionType::TAKE:
-		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
+		ASSERT(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
 		break;
 	case ActionType::DROP:
-		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
+		ASSERT(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && !mSecondEntity);
 		break;
 	case ActionType::INTERACTABLE_OPEN:
-		assert(mFirstEntity && mFirstEntity->getType() == EntityType::INTERACTABLE && !mSecondEntity);
+		ASSERT(mFirstEntity && mFirstEntity->getType() == EntityType::INTERACTABLE && !mSecondEntity);
 		break;
 	case ActionType::ITEM_USE:
-		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::INTERACTABLE);
+		ASSERT(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::INTERACTABLE);
 		break;
 	case ActionType::ITEM_PUT:
-		assert(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::ITEM);
+		ASSERT(mFirstEntity && mFirstEntity->getType() == EntityType::ITEM && mSecondEntity && mSecondEntity->getType() == EntityType::ITEM);
 		break;
 	}
 }

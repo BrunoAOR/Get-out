@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "EntityType.h"
 #include "globals.h"
 
@@ -104,7 +104,7 @@ bool Entity::setParent(Entity* aParent)
 	}
 	if (aParent != nullptr)
 	{
-		assert(aParent->canAddChild(this));
+		ASSERT(aParent->canAddChild(this));
 		aParent->addChild(this);
 		mParent = aParent;
 	}
@@ -114,18 +114,21 @@ bool Entity::setParent(Entity* aParent)
 
 bool Entity::canAddChild(const Entity* aChild) const
 {
+	ASSERT(aChild);
 	return false;
 }
 
 
 void Entity::addChild(Entity* aChild)
 {
+	ASSERT(aChild);
 	mChildren.push_back(aChild);
 }
 
 
 void Entity::removeChild(const Entity* aEntity)
 {
+	ASSERT(aEntity);
 	auto lIt = std::find(mChildren.begin(), mChildren.end(), aEntity);
 	if (lIt != mChildren.end())
 	{

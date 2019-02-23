@@ -1,6 +1,6 @@
 #include "ActionFactory.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "Action.h"
 #include "EntityFactory.h"
 #include "Entity.h"
@@ -11,7 +11,7 @@ class Entity;
 ActionFactory::ActionFactory(EntityFactory* aEntityFactory)
 	: mEntityFactory(aEntityFactory)
 {
-	assert(mEntityFactory);
+	ASSERT(mEntityFactory);
 }
 
 
@@ -40,13 +40,13 @@ Action* ActionFactory::createAction(ActionType aType, const std::string& aDescri
 	if (aFirstEntityId >= 0)
 	{
 		lFirstEntity = mEntityFactory->getEntity(aFirstEntityId);
-		assert(lFirstEntity);
+		ASSERT(lFirstEntity);
 	}
 	Entity* lSecondEntity = nullptr;
 	if (aSecondEntityId >= 0)
 	{
 		lSecondEntity = mEntityFactory->getEntity(aSecondEntityId);
-		assert(lSecondEntity);
+		ASSERT(lSecondEntity);
 	}
 	Action* lAction = new Action(this, aType, aDescription, aEffects, aShouldDestroy, lFirstEntity, lSecondEntity);
 	mActions.push_back(lAction);
@@ -74,8 +74,11 @@ Action* ActionFactory::getAction(ActionType aActionType, const Entity* lFirstEnt
 
 void ActionFactory::removeAction(Action* lAction)
 {
+	ASSERT(lAction);
 	auto lIt = std::find(mActions.begin(), mActions.end(), lAction);
-	assert(lIt != mActions.end());
-	mActions.erase(lIt);
-	delete lAction;
+	if (lIt != mActions.end())
+	{
+		mActions.erase(lIt);
+		delete lAction;
+	}
 }

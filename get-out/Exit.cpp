@@ -1,13 +1,13 @@
 #include "Exit.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "EntityType.h"
 
 
 Exit::Exit(int aId, const std::string& aName, const std::string& aDescription, Direction aDirection, bool aIsLocked, const std::string& aLockedDescription, Room* aTargetRoom)
 	: Entity(aId, EntityType::EXIT, aName, aDescription, true), mDirection(aDirection), mIsLocked(aIsLocked), mLockedDescription(aLockedDescription), mTargetRoom(aTargetRoom)
 {
-	assert(mTargetRoom);
+	ASSERT(mTargetRoom);
 }
 
 

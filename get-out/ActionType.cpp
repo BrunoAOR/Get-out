@@ -5,7 +5,7 @@
 
 ActionType getActionTypeFromString(const std::string& aText)
 {
-	if (caselessEquals(aText, "GO"))					return ActionType::GO;
+	if (caselessEquals(aText, "GO"))				return ActionType::GO;
 	if (caselessEquals(aText, "TAKE"))				return ActionType::TAKE;
 	if (caselessEquals(aText, "DROP"))				return ActionType::DROP;
 	if (caselessEquals(aText, "INTERACTABLE_OPEN"))	return ActionType::INTERACTABLE_OPEN;

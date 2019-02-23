@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "Action.h"
 #include "ActionType.h"
 #include "Direction.h"
@@ -16,7 +16,7 @@
 Player::Player(int aId, const std::string& aName, const std::string& aDescription, int aMaxItems, Room* aStartingRoom)
 	: Entity(aId, EntityType::PLAYER, aName, aDescription, true), mMaxItems(aMaxItems), mLocation(aStartingRoom)
 {
-	assert(mMaxItems > 0 && mLocation);
+	ASSERT(mMaxItems > 0 && mLocation);
 }
 
 
@@ -27,7 +27,7 @@ Player::~Player()
 
 void Player::setActionFactory(ActionFactory* aActionFactory)
 {
-	assert(aActionFactory);
+	ASSERT(aActionFactory);
 	mActionFactory = aActionFactory;
 }
 
@@ -64,8 +64,8 @@ void Player::executeInstruction(const Instruction& aInstruction)
 		put(aInstruction);
 		break;
 	default:
-		OutputLog("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(aInstruction.mInstructionType));
-		assert(false);
+		OUTPUT_LOG("ERROR: Missing implementation for player instruction of type %s.", getStringFromInstruction(aInstruction.mInstructionType));
+		ASSERT(false);
 		break;
 	}
 }
@@ -73,14 +73,14 @@ void Player::executeInstruction(const Instruction& aInstruction)
 
 bool Player::canAddChild(const Entity* aChild) const
 {
-	assert(aChild);
+	ASSERT(aChild);
 	return aChild->getType() == EntityType::ITEM;
 }
 
 
 void Player::addChild(Entity* aChild)
 {
-	assert(canAddChild(aChild));
+	ASSERT(canAddChild(aChild));
 	Entity::addChild(aChild);
 	updateLightStatus();
 }
@@ -88,7 +88,7 @@ void Player::addChild(Entity* aChild)
 
 void Player::removeChild(const Entity* aEntity)
 {
-	assert(aEntity);
+	ASSERT(aEntity);
 	Entity::removeChild(aEntity);
 	updateLightStatus();
 }
@@ -309,7 +309,7 @@ bool Player::open(const Instruction& aInstruction) const
 	if (lTarget)
 	{
 		// Try to get an InteractableOpen* with the requested Entity aName from the World.
-		assert(mActionFactory);
+		ASSERT(mActionFactory);
 		Action* lInteractableOpen = mActionFactory->getAction(ActionType::INTERACTABLE_OPEN, lTarget);
 		if (lInteractableOpen)
 		{
@@ -348,7 +348,7 @@ bool Player::use(const Instruction& aInstruction)
 			lSuccess = false;
 			if (lTarget->getType() == EntityType::INTERACTABLE)
 			{
-				assert(mActionFactory);
+				ASSERT(mActionFactory);
 				Action* lItemUse = mActionFactory->getAction(ActionType::ITEM_USE, lItem, lTarget);
 				if (lItemUse)
 				{
@@ -395,7 +395,7 @@ bool Player::put(const Instruction& lInstruction)
 		// Try to get a second Entity* with the requested aName form the Inventory (will also be an lItem).
 		if (Entity* lContainerItem = getChild(lInstruction.mParam2))
 		{
-			assert(mActionFactory);
+			ASSERT(mActionFactory);
 			Action* lItemPut = mActionFactory->getAction(ActionType::ITEM_PUT, lItem, lContainerItem);
 			if (lItemPut)
 			{

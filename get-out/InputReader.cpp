@@ -108,7 +108,7 @@ void InputReader::handleInvalidKeys(char aKey) const
 	}
 
 	lMessage += "!";
-	OutputLog(lMessage.c_str());
+	OUTPUT_LOG(lMessage.c_str());
 }
 
 

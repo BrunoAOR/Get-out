@@ -1,7 +1,7 @@
 #include "GameDataLoader.h"
 
-#include <assert.h>
 #include <fstream>
+#include "globals.h"
 #include "ActionEffect.h"
 #include "ActionEffectType.h"
 #include "ActionFactory.h"
@@ -28,7 +28,7 @@
 GameDataLoader::GameDataLoader(EntityFactory* aEntityFactory, ActionFactory* aActionFactory)
 	:mEntityFactory(aEntityFactory), mActionFactory(aActionFactory)
 {
-	assert(mEntityFactory && mActionFactory);
+	ASSERT(mEntityFactory && mActionFactory);
 }
 
 
@@ -51,29 +51,29 @@ Player* GameDataLoader::loadGameData(const char* aPath)
 			{
 				if (loadAndCreateActions(lJson))
 				{
-					OutputLog("INFO: Successfully loaded the game configuration data from %s", aPath);
+					OUTPUT_LOG("INFO: Successfully loaded the game configuration data from %s", aPath);
 				}
 				else
 				{
 					// Clean Up
 					lPlayer = nullptr;
 					mEntityFactory->close();
-					OutputLog("ERROR: Failed to load actions from the game configuration file!");
+					OUTPUT_LOG("ERROR: Failed to load actions from the game configuration file!");
 				}
 			}
 			else
 			{
-				OutputLog("ERROR: Failed to load entities from the game configuration file!");
+				OUTPUT_LOG("ERROR: Failed to load entities from the game configuration file!");
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: Failed to load messages from the game configuration file!");
+			OUTPUT_LOG("ERROR: Failed to load messages from the game configuration file!");
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: Failed to open the json file from %s", aPath);
+		OUTPUT_LOG("ERROR: Failed to open the json file from %s", aPath);
 	}
 	
 	return lPlayer;
@@ -87,7 +87,6 @@ Json GameDataLoader::loadJson(const char* aPath)
 	std::ifstream lFile(aPath);
 	if (lFile.good())
 	{
-		assert(lFile.good());
 		lFile >> lJson;
 	}
 	return lJson;
@@ -107,7 +106,7 @@ bool GameDataLoader::loadMessages(const Json& aJson)
 		}
 		else
 		{
-			OutputLog("ERROR: The gameConfig file does not contain the key 'welcomeMessage' within 'messages'!");
+			OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'welcomeMessage' within 'messages'!");
 			lSuccess = false;
 		}
 
@@ -117,13 +116,13 @@ bool GameDataLoader::loadMessages(const Json& aJson)
 		}
 		else
 		{
-			OutputLog("ERROR: The gameConfig file does not contain the key 'exitMessage' within 'messages'!");
+			OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'exitMessage' within 'messages'!");
 			lSuccess = false;
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: The gameConfig file does not contain the key 'messages'!");
+		OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'messages'!");
 		lSuccess = false;
 	}
 	return lSuccess;
@@ -162,12 +161,12 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& aJson)
 				}
 				else
 				{
-					OutputLog("ERROR: Player doesn't have all the required keys!");
+					OUTPUT_LOG("ERROR: Player doesn't have all the required keys!");
 				}
 			}
 			else
 			{
-				OutputLog("ERROR: The gameConfig file does not contain the key 'player' within 'entityInfos'!");
+				OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'player' within 'entityInfos'!");
 			}
 
 			if (!lPlayer)
@@ -178,7 +177,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& aJson)
 	}
 	else
 	{
-		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
+		OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
 	}
 
 	return lPlayer;
@@ -193,13 +192,13 @@ bool GameDataLoader::loadEntitiesByKey(const Json& aJsonEntityInfos, std::vector
 		const Json& lJsonRooms = aJsonEntityInfos[aKey];
 		if (!((this->*aLoaderFunc)(lJsonRooms, aInOutEntityInfos)))
 		{
-			OutputLog("ERROR: Failed to load rooms from the game configuration file!");
+			OUTPUT_LOG("ERROR: Failed to load rooms from the game configuration file!");
 			lSuccess = false;
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: The gameConfig file does not contain the key '%s' within 'entityInfos'!", aKey.c_str());
+		OUTPUT_LOG("ERROR: The gameConfig file does not contain the key '%s' within 'entityInfos'!", aKey.c_str());
 		lSuccess = false;
 	}
 
@@ -221,7 +220,7 @@ bool GameDataLoader::loadRoomInfos(const Json& aJsonRooms, std::vector<EntityInf
 		}
 		else
 		{
-			OutputLog("ERROR: Room at index %i doesn't have all the required keys!", i);
+			OUTPUT_LOG("ERROR: Room at index %i doesn't have all the required keys!", i);
 			lSuccess = false;
 		}
 	}
@@ -246,12 +245,12 @@ bool GameDataLoader::loadExitInfos(const Json& aJsonExits, std::vector<EntityInf
 			}
 			else
 			{
-				OutputLog("ERROR: Exit at index %i doesn't have a valid value for the key 'direction'!", i);
+				OUTPUT_LOG("ERROR: Exit at index %i doesn't have a valid value for the key 'direction'!", i);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: Exit at index %i doesn't have all the required keys!", i);
+			OUTPUT_LOG("ERROR: Exit at index %i doesn't have all the required keys!", i);
 			lSuccess = false;
 		}
 	}
@@ -274,7 +273,7 @@ bool GameDataLoader::loadInteractableInfos(const Json& aJsonInteractables, std::
 		}
 		else
 		{
-			OutputLog("ERROR: Interactable at index %i doesn't have all the required keys!", i);
+			OUTPUT_LOG("ERROR: Interactable at index %i doesn't have all the required keys!", i);
 			lSuccess = false;
 		}
 	}
@@ -297,7 +296,7 @@ bool GameDataLoader::loadItemInfos(const Json& aJsonItems, std::vector<EntityInf
 		}
 		else
 		{
-			OutputLog("ERROR: Item at index %i doesn't have all the required keys!", i);
+			OUTPUT_LOG("ERROR: Item at index %i doesn't have all the required keys!", i);
 			lSuccess = false;
 		}
 	}
@@ -321,13 +320,13 @@ bool GameDataLoader::loadAndCreateActions(const Json& aJson)
 			}
 			else
 			{
-				OutputLog("ERROR: Action at index %i doesn't have all the required keys!", i);
+				OUTPUT_LOG("ERROR: Action at index %i doesn't have all the required keys!", i);
 			}
 		}
 	}
 	else
 	{
-		OutputLog("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
+		OUTPUT_LOG("ERROR: The gameConfig file does not contain the key 'entityInfos'!");
 	}
 
 	if (!lSuccess)
@@ -355,7 +354,7 @@ bool GameDataLoader::loadAction(const Json& aJsonAction, int aActionIndex)
 	}
 	else
 	{
-		OutputLog("ERROR: Action at index %i doesn't have a valid value for the key 'type'!", aActionIndex);
+		OUTPUT_LOG("ERROR: Action at index %i doesn't have a valid value for the key 'type'!", aActionIndex);
 	}
 
 	return lSuccess;
@@ -381,20 +380,20 @@ bool GameDataLoader::loadActionEffects(const Json& aJsonEffects, std::vector<Act
 				}
 				else
 				{
-					OutputLog("ERROR: Failed to load ActionEffect at index %i in Action at index %i!", i, aActionIndex);
+					OUTPUT_LOG("ERROR: Failed to load ActionEffect at index %i in Action at index %i!", i, aActionIndex);
 					lSuccess = false;
 				}
 
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have a valid value for the key 'type'!", i, aActionIndex);
+				OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have a valid value for the key 'type'!", i, aActionIndex);
 				lSuccess = false;
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", i, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", i, aActionIndex);
 			lSuccess = false;
 		}
 	}
@@ -415,7 +414,7 @@ bool GameDataLoader::loadActionEffects(const Json& aJsonEffects, std::vector<Act
 
 ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEffectType aEffectType, int aActionIndex, int aEffectIndex)
 {
-	assert(aEffectType != ActionEffectType::_UNDEFINED);
+	ASSERT(aEffectType != ActionEffectType::_UNDEFINED);
 	ActionEffect* lActionEffect = nullptr;
 
 	// Now we can switch over the lAction types and load them appropriately
@@ -439,7 +438,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 				}
 				else
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
 					lSuccess = false;
 				}
 			}
@@ -447,7 +446,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			Room* lTargetRoom = static_cast<Room*>(mEntityFactory->getEntity(aJsonEffect["targetRoomId"]));
 			if (!lTargetRoom)
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'targetRoomId' that does't point to any existing Room!", aEffectIndex, aActionIndex);
+				OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'targetRoomId' that does't point to any existing Room!", aEffectIndex, aActionIndex);
 				lSuccess = false;
 			}
 
@@ -459,7 +458,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
@@ -482,12 +481,12 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToLockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
+				OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToLockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
@@ -506,17 +505,17 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			{
 				if (!lItem)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'itemId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'itemId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 				if (!lContainer)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'containerId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'containerId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
@@ -538,7 +537,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 				}
 				else
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entitiesToAdd' at index %i that does't point to any existing Entity!", aEffectIndex, aActionIndex, i);
 					lSuccess = false;
 				}
 			}
@@ -551,7 +550,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
@@ -570,17 +569,17 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			{
 				if (!lEntityToRemove)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToRemoveId' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 				if (!lEntityToAdd)
 				{
-					OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
+					OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'entityToAdd' that doesn't point to any existing Entity!", aEffectIndex, aActionIndex);
 				}
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}
@@ -596,12 +595,12 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			}
 			else
 			{
-				OutputLog("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToUnlockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
+				OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i has a value for key 'exitToUnlockId' that does't point to any existing Exit!", aEffectIndex, aActionIndex);
 			}
 		}
 		else
 		{
-			OutputLog("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
+			OUTPUT_LOG("ERROR: ActionEffect at index %i in Action at index %i doesn't have all the required keys!", aEffectIndex, aActionIndex);
 		}
 		break;
 	}

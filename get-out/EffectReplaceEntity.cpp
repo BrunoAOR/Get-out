@@ -1,13 +1,13 @@
 #include "EffectReplaceEntity.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "Entity.h"
 
 
 EffectReplaceEntity::EffectReplaceEntity(const std::string& aEffectDescription, Entity* aEntityToRemove, Entity* aEntityToAdd)
 	: ActionEffect(aEffectDescription), mEntityToRemove(aEntityToRemove), mEntityToAdd(aEntityToAdd)
 {
-	assert(mEntityToRemove && mEntityToAdd);
+	ASSERT(mEntityToRemove && mEntityToAdd);
 }
 
 
@@ -21,8 +21,9 @@ void EffectReplaceEntity::doEffect() const
 	if (mEntityToAdd != mEntityToRemove)
 	{
 		Entity* lParent = mEntityToRemove->getParent();
-		assert(lParent);
+		ASSERT(lParent);
 		mEntityToRemove->setParent(nullptr);
-		mEntityToAdd->setParent(lParent);
+		bool lSuccess = mEntityToAdd->setParent(lParent);
+		ASSERT(lSuccess);
 	}
 }

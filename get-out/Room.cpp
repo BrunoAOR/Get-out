@@ -1,6 +1,6 @@
 #include "Room.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "EntityType.h"
 #include "Direction.h"
 #include "Exit.h"
@@ -124,7 +124,7 @@ void Room::addChild(Entity* aChild)
 		Exit* lNewExit = static_cast<Exit*>(aChild);
 		for (Exit* lExit : mExits)
 		{
-			assert(lExit->getDirection() != lNewExit->getDirection());
+			ASSERT(lExit->getDirection() != lNewExit->getDirection());
 		}
 		mExits.push_back(static_cast<Exit*>(aChild));
 	}

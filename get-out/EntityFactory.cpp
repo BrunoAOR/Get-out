@@ -1,6 +1,6 @@
 #include "EntityFactory.h"
 
-#include <assert.h>
+#include "globals.h"
 #include "Entity.h"
 #include "EntityInfo.h"
 #include "EntityType.h"
@@ -34,14 +34,14 @@ void EntityFactory::close()
 
 Entity* EntityFactory::createEntity(EntityInfo aInfo)
 {
-	assert(mEntitiesById.count(aInfo.mId) == 0);
+	ASSERT(mEntitiesById.count(aInfo.mId) == 0);
 	Entity* lEntity = nullptr;
 	switch (aInfo.mType)
 	{
 	case EntityType::PLAYER:
 	{
 		Entity* lStartingRoom = getEntity(aInfo.mPlayer.mStartingRoomId);
-		assert(lStartingRoom && lStartingRoom->getType() == EntityType::ROOM);
+		ASSERT(lStartingRoom && lStartingRoom->getType() == EntityType::ROOM);
 		lEntity = new Player(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mPlayer.mMaxItems, static_cast<Room*>(lStartingRoom));
 		break;
 	}
@@ -57,7 +57,7 @@ Entity* EntityFactory::createEntity(EntityInfo aInfo)
 	case EntityType::EXIT:
 	{
 		Entity* lTargetRoom = getEntity(aInfo.mExit.mTargetRoomId);
-		assert(lTargetRoom && lTargetRoom->getType() == EntityType::ROOM);
+		ASSERT(lTargetRoom && lTargetRoom->getType() == EntityType::ROOM);
 		lEntity = new Exit(aInfo.mId, aInfo.mName, aInfo.mDescription, aInfo.mExit.mDirection, aInfo.mExit.mIsLocked, aInfo.mAditionalDescription, static_cast<Room*>(lTargetRoom));
 		break;
 	}
@@ -68,9 +68,9 @@ Entity* EntityFactory::createEntity(EntityInfo aInfo)
 		if (aInfo.mParentId >= 0)
 		{
 			Entity* lParent = getEntity(aInfo.mParentId);
-			assert(lParent);
+			ASSERT(lParent);
 			bool lSuccess = lEntity->setParent(lParent);
-			assert(lSuccess);
+			ASSERT(lSuccess);
 		}
 		mEntitiesById[aInfo.mId] = lEntity;
 	}

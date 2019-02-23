@@ -1,6 +1,5 @@
 #include "EffectAddEntitiesToRoom.h"
 
-#include <assert.h>
 #include "Room.h"
 #include "globals.h"
 
@@ -8,7 +7,7 @@
 EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& aEffectDescription, const std::vector<Entity*>& aEntitiesToAdd, Room* aTargetRoom)
 	: ActionEffect(aEffectDescription), mEntitiesToAdd(aEntitiesToAdd), mTargetRoom(aTargetRoom)
 {
-	assert(mTargetRoom);
+	ASSERT(mTargetRoom);
 }
 
 
@@ -26,7 +25,6 @@ void EffectAddEntitiesToRoom::doEffect() const
 	}
 	if (!lSuccess)
 	{
-		OutputLog("ERROR: Effect of type EffectAddEntitiesToRoom couldn't be properly applied!");
-		assert(false);
+		ASSERT_MSG(false, "ERROR: Effect of type EffectAddEntitiesToRoom couldn't be properly applied!");
 	}
 }
