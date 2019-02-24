@@ -15,8 +15,8 @@ public:
 	Instruction parse(const std::string& aUserInput) const;
 
 private:
-	std::vector<std::string> parseToVector(const std::string& aUserInput) const;
-	Instruction parseToInstruction(const std::vector<std::string>& aInput) const;
+	std::vector< std::string > parseToVector(const std::string& aUserInput) const;
+	Instruction parseToInstruction(const std::vector< std::string >& aInput) const;
 };
 
 

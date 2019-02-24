@@ -10,7 +10,7 @@
 #include "Room.h"
 
 
-Action::Action(ActionFactory* aActionFactory, ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, Entity * aFirstEntity, Entity * aSecondEntity)
+Action::Action(ActionFactory* aActionFactory, ActionType aType, const std::string& aDescription, const std::vector< ActionEffect* >& aEffects, bool aShouldDestroy, Entity * aFirstEntity, Entity * aSecondEntity)
 	: mActionFactory(aActionFactory), mType(aType), mDescription(aDescription), mEffects(aEffects), mShouldDestroy(aShouldDestroy), mFirstEntity(aFirstEntity), mSecondEntity(aSecondEntity)
 {
 	ASSERT(mActionFactory);

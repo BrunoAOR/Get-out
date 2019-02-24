@@ -34,7 +34,7 @@ void ActionFactory::close()
 }
 
 
-Action* ActionFactory::createAction(ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId)
+Action* ActionFactory::createAction(ActionType aType, const std::string& aDescription, const std::vector< ActionEffect* >& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId)
 {
 	Entity* lFirstEntity = nullptr;
 	if (aFirstEntityId >= 0)

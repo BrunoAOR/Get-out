@@ -21,7 +21,7 @@ public:
 
 	void close();
 
-	Action* createAction(ActionType aType, const std::string& aDescription, const std::vector<ActionEffect*>& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId = -1);
+	Action* createAction(ActionType aType, const std::string& aDescription, const std::vector< ActionEffect* >& aEffects, bool aShouldDestroy, int aFirstEntityId, int aSecondEntityId = -1);
 	
 	Action* getAction(ActionType aActionType, const Entity* aFirstEntity, const Entity* aSecondEntity = nullptr) const;
 

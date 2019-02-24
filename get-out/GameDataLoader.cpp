@@ -135,7 +135,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& aJson)
 
 	if (aJson.count("entityInfos"))
 	{
-		std::vector<EntityInfo> lEntityInfos;
+		std::vector< EntityInfo > lEntityInfos;
 		const Json& lJsonEntityInfos = aJson["entityInfos"];
 		
 		bool lSuccess = loadEntitiesByKey(lJsonEntityInfos, lEntityInfos, "rooms", &GameDataLoader::loadRoomInfos)
@@ -183,7 +183,7 @@ Player* GameDataLoader::loadAndCreateEntities(const Json& aJson)
 	return lPlayer;
 }
 
-bool GameDataLoader::loadEntitiesByKey(const Json& aJsonEntityInfos, std::vector<EntityInfo>& aInOutEntityInfos, const std::string& aKey, entityLoaderFunc aLoaderFunc)
+bool GameDataLoader::loadEntitiesByKey(const Json& aJsonEntityInfos, std::vector< EntityInfo >& aInOutEntityInfos, const std::string& aKey, entityLoaderFunc aLoaderFunc)
 {
 	bool lSuccess = true;
 
@@ -206,7 +206,7 @@ bool GameDataLoader::loadEntitiesByKey(const Json& aJsonEntityInfos, std::vector
 }
 
 
-bool GameDataLoader::loadRoomInfos(const Json& aJsonRooms, std::vector<EntityInfo>& aInOutEntityInfos)
+bool GameDataLoader::loadRoomInfos(const Json& aJsonRooms, std::vector< EntityInfo >& aInOutEntityInfos)
 {
 	bool lSuccess = true;
 
@@ -229,7 +229,7 @@ bool GameDataLoader::loadRoomInfos(const Json& aJsonRooms, std::vector<EntityInf
 }
 
 
-bool GameDataLoader::loadExitInfos(const Json& aJsonExits, std::vector<EntityInfo>& aInOutEntityInfos)
+bool GameDataLoader::loadExitInfos(const Json& aJsonExits, std::vector< EntityInfo >& aInOutEntityInfos)
 {
 	bool lSuccess = true;
 
@@ -259,7 +259,7 @@ bool GameDataLoader::loadExitInfos(const Json& aJsonExits, std::vector<EntityInf
 }
 
 
-bool GameDataLoader::loadInteractableInfos(const Json& aJsonInteractables, std::vector<EntityInfo>& aInOutEntityInfos)
+bool GameDataLoader::loadInteractableInfos(const Json& aJsonInteractables, std::vector< EntityInfo >& aInOutEntityInfos)
 {
 	bool lSuccess = true;
 
@@ -282,7 +282,7 @@ bool GameDataLoader::loadInteractableInfos(const Json& aJsonInteractables, std::
 }
 
 
-bool GameDataLoader::loadItemInfos(const Json& aJsonItems, std::vector<EntityInfo>& aInOutEntityInfos)
+bool GameDataLoader::loadItemInfos(const Json& aJsonItems, std::vector< EntityInfo >& aInOutEntityInfos)
 {
 	bool lSuccess = true;
 
@@ -345,7 +345,7 @@ bool GameDataLoader::loadAction(const Json& aJsonAction, int aActionIndex)
 	if (lActionType != ActionType::_UNDEFINED)
 	{
 		// Load ActionEffects
-		std::vector<ActionEffect*> lActionEffects;
+		std::vector< ActionEffect* > lActionEffects;
 		lSuccess = loadActionEffects(aJsonAction["effects"], lActionEffects, aActionIndex);
 		if (lSuccess)
 		{
@@ -361,7 +361,7 @@ bool GameDataLoader::loadAction(const Json& aJsonAction, int aActionIndex)
 }
 
 
-bool GameDataLoader::loadActionEffects(const Json& aJsonEffects, std::vector<ActionEffect*>& aInOutActionEffects, int aActionIndex)
+bool GameDataLoader::loadActionEffects(const Json& aJsonEffects, std::vector< ActionEffect* >& aInOutActionEffects, int aActionIndex)
 {
 	bool lSuccess = true;
 
@@ -428,7 +428,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			bool lSuccess = true;
 
 			const Json& lEntitiesToAddIds = aJsonEffect["entitiesToAddIds"];
-			std::vector<Entity*> lEntitiesToAdd;
+			std::vector< Entity* > lEntitiesToAdd;
 			for (int i = 0, lEntitiesCount = lEntitiesToAddIds.size(); i < lEntitiesCount; ++i)
 			{
 				Entity* lEntity = mEntityFactory->getEntity(lEntitiesToAddIds[i]);
@@ -527,7 +527,7 @@ ActionEffect* GameDataLoader::loadActionEffect(const Json& aJsonEffect, ActionEf
 			bool lSuccess = true;
 
 			const Json& lEntitiesToRemoveIds = aJsonEffect["entitiesToRemoveIds"];
-			std::vector<Entity*> lEntitiesToRemove;
+			std::vector< Entity* > lEntitiesToRemove;
 			for (unsigned int i = 0, lEntitiesCount = lEntitiesToRemoveIds.size(); i < lEntitiesCount; ++i)
 			{
 				Entity* lEntity = mEntityFactory->getEntity(lEntitiesToRemoveIds[i]);

@@ -4,7 +4,7 @@
 #include "globals.h"
 
 
-EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& aEffectDescription, const std::vector<Entity*>& aEntitiesToAdd, Room* aTargetRoom)
+EffectAddEntitiesToRoom::EffectAddEntitiesToRoom(const std::string& aEffectDescription, const std::vector< Entity* >& aEntitiesToAdd, Room* aTargetRoom)
 	: ActionEffect(aEffectDescription), mEntitiesToAdd(aEntitiesToAdd), mTargetRoom(aTargetRoom)
 {
 	ASSERT(mTargetRoom);

@@ -17,14 +17,14 @@ InputParser::~InputParser()
 
 Instruction InputParser::parse(const std::string& aUserInput) const
 {
-	std::vector<std::string> lInputVector = parseToVector(aUserInput);
+	std::vector< std::string > lInputVector = parseToVector(aUserInput);
 	return parseToInstruction(lInputVector);
 }
 
 
-std::vector<std::string> InputParser::parseToVector(const std::string& aUserInput) const
+std::vector< std::string > InputParser::parseToVector(const std::string& aUserInput) const
 {
-	std::vector<std::string> lInputVector;
+	std::vector< std::string > lInputVector;
 	bool lInWord = false;
 	unsigned int lStart = 0;
 	unsigned int lInputLength = aUserInput.length();
@@ -52,7 +52,7 @@ std::vector<std::string> InputParser::parseToVector(const std::string& aUserInpu
 }
 
 
-Instruction InputParser::parseToInstruction(const std::vector<std::string>& aInput) const
+Instruction InputParser::parseToInstruction(const std::vector< std::string >& aInput) const
 {
 	Instruction lInstruction;
 	// We'll assume an error unless proven otherwise (this is the default value of InstructionType anyway)

@@ -31,7 +31,7 @@ public:
 
 private:
 	bool mIsDark;
-	std::vector<Exit*> mExits;
+	std::vector< Exit* > mExits;
 
 	// Entity overrides
 	virtual bool canAddChild(const Entity* aChild) const override;

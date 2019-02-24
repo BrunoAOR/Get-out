@@ -37,7 +37,7 @@ protected:
 	std::string mDescription;
 	bool mIsVisibleInDark;
 	Entity* mParent = nullptr;
-	std::vector<Entity*> mChildren;
+	std::vector< Entity* > mChildren;
 
 	virtual bool canAddChild(const Entity* aChild) const;
 	virtual void addChild(Entity* aChild);
