@@ -144,6 +144,9 @@
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionEffectInfoIO.h" />
+    <ClInclude Include="AddEntitiesInfoIO.h" />
+    <ClInclude Include="ActionEffectInfo.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
     <ClInclude Include="ActionEffectType.h" />
