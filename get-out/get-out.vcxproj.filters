@@ -109,6 +109,9 @@
       <Filter>GameDataLoading</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameData.cpp">
+      <Filter>GameDataLoading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -212,6 +215,12 @@
     </ClInclude>
     <ClInclude Include="AddEntitiesInfoIO.h">
       <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>GameDataLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionInfo.h">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
