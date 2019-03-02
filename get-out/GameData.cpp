@@ -392,7 +392,15 @@ namespace
 			lActionInfo.mSecondEntity = aJsonAction["secondEntityId"].get< int >();
 
 			// Load ActionEffectInfos
-			lSuccess = loadActionEffects(aJsonAction["effects"], aActionIndex, lActionInfo.mEffectInfos);
+			std::vector< ActionEffectInfo > lActionEffectInfos;
+			lSuccess = loadActionEffects(aJsonAction["effects"], aActionIndex, lActionEffectInfos);
+			if (lSuccess)
+			{
+				for (const ActionEffectInfo& lInfo : lActionEffectInfos)
+				{
+					lActionInfo.addActionEffectInfo(lInfo);
+				}
+			}
 		}
 		else
 		{
