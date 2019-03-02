@@ -434,36 +434,50 @@ namespace
 }//	anonymous
 
 
-void GameData::LoadFromJson(const char* aPath)
+GameData GameData::LoadFromJson(const char* aPath)
 {
+	bool lSuccess = true;
+
+	GameData lGameData;
 	Json lJson = loadJson(aPath);
 	if (!lJson.is_null())
 	{
-		if (loadMessages(lJson, mWelcomeMessage, mExitMessage))
+		if (loadMessages(lJson, lGameData.mWelcomeMessage, lGameData.mExitMessage))
 		{
-			if (loadEntities(lJson, mPlayerInfo, mEntityInfos))
+			if (loadEntities(lJson, lGameData.mPlayerInfo, lGameData.mEntityInfos))
 			{
-				if (loadActions(lJson, mActionInfos))
+				if (loadActions(lJson, lGameData.mActionInfos))
 				{
 					OUTPUT_LOG("INFO: Successfully loaded the game configuration data from %s", aPath);
 				}
 				else
 				{
 					OUTPUT_LOG("ERROR: Failed to load actions from the game configuration file!");
+					lSuccess = false;
 				}
 			}
 			else
 			{
 				OUTPUT_LOG("ERROR: Failed to load entities from the game configuration file!");
+				lSuccess = false;
 			}
 		}
 		else
 		{
 			OUTPUT_LOG("ERROR: Failed to load messages from the game configuration file!");
+			lSuccess = false;
 		}
 	}
 	else
 	{
 		OUTPUT_LOG("ERROR: Failed to open the json file from %s", aPath);
+		lSuccess = false;
 	}
+
+	if (!lSuccess)
+	{
+		lGameData = GameData();
+	}
+
+	return lGameData;
 }

@@ -12,7 +12,7 @@ public:
 	using entity_iterator = std::vector< EntityInfo >::const_iterator;
 	using action_iterator = std::vector< ActionInfo >::const_iterator;
 
-	void LoadFromJson(const char* aPath);
+	static GameData LoadFromJson(const char* aPath);
 
 	const std::string& getWelcomeMessage() const { return mWelcomeMessage; }
 	const std::string& getExitMessage() const { return mExitMessage; }
@@ -22,6 +22,11 @@ public:
 	entity_iterator entitiesEnd() const { return mEntityInfos.end(); }
 	action_iterator actionsBegin() const { return mActionInfos.begin(); }
 	action_iterator actionsEnd() const { return mActionInfos.end(); }
+
+	bool isValid() const { return mPlayerInfo.isValid(); }
+
+private:
+	GameData() { ; }
 
 private:
 	EntityInfo mPlayerInfo;

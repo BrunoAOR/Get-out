@@ -1,4 +1,19 @@
 #include "EntityInfo.h"
+#include "EntityType.h"
+
+
+EntityInfo::EntityInfo() : mId(-1), mType(EntityType::_UNDEFINED), mParentId(-1) { ; }
+
+
+EntityInfo::EntityInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription)
+	: mId(aId), mType(aType), mParentId(aParentId), mName(aName), mDescription(aDescription)
+{ ; }
+
+
+bool EntityInfo::isValid() const
+{
+	return mType != EntityType::_UNDEFINED;
+}
 
 
 EntityInfo EntityInfo::createPlayerInfo(int aId, EntityType aType, int aParentId, const std::string& aName, const std::string& aDescription, int aMaxItems, int aStartingRoomId)
