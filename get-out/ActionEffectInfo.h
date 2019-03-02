@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-enum class ActionEffectType;
+#include "ActionEffectType.h"
 
 
 struct ActionEffectInfo
@@ -12,9 +12,12 @@ public:
 	friend class ActionEffectInfoIO;
 	using const_iterator = std::vector< int >::const_iterator;
 	
+	ActionEffectInfo() : mType(ActionEffectType::_UNDEFINED) { ; }
+
+	bool isValid() const;
+
 private:
-	ActionEffectInfo(ActionEffectType aType, const std::string& aDescription)
-		: mType(aType), mDescription(aDescription) { ; }
+	ActionEffectInfo(ActionEffectType aType, const std::string& aDescription) : mType(aType), mDescription(aDescription) { ; }
 
 	void addId(int aId);
 	template< typename input_iterator >
@@ -26,10 +29,18 @@ private:
 	std::vector< int > mEntityIds;
 };
 
+
+inline bool ActionEffectInfo::isValid() const
+{
+	return mType != ActionEffectType::_UNDEFINED;
+}
+
+
 inline void ActionEffectInfo::addId(int aId)
 {
 	mEntityIds.push_back(aId);
 }
+
 
 template<typename input_iterator>
 inline void ActionEffectInfo::addIds(input_iterator aBeginIt, input_iterator aEndIt)

@@ -21,7 +21,6 @@
 #include "Item.h"
 #include "Player.h"
 #include "Room.h"
-#include "globals.h"
 #include "json.hpp"
 
 

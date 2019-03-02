@@ -25,7 +25,7 @@ template<typename input_iterator>
 inline const ActionEffectInfo RemoveEntitiesInfoIO::createInfo(const std::string& aDescription, input_iterator aEntitiesToRemoveBeginIt, input_iterator aEntitiesToRemoveEndIt)
 {
 	ActionEffectInfo lInfo = ActionEffectInfoIO::createInfo(ActionEffectType::REMOVE_ENTITIES, aDescription);
-	addIds(lInfo, aEntitiesToRemoveBeginIt, aaEntitiesToRemoveEndItEndIt);
+	addIds(lInfo, aEntitiesToRemoveBeginIt, aEntitiesToRemoveEndIt);
 	return lInfo;
 }
 

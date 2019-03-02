@@ -3,8 +3,8 @@
 
 #include "globals.h"
 #include <vector>
+#include "EntityInfo.h"
 struct ActionInfo;
-struct EntityInfo;
 
 struct GameData
 {
@@ -14,14 +14,21 @@ public:
 
 	void LoadFromJson(const char* aPath);
 
-	entity_iterator EntitiesBegin() { return mEntityInfos.begin(); }
-	entity_iterator EntitiesEnd() { return mEntityInfos.end(); }
-	action_iterator ActionsBegin() { return mActionInfos.begin(); }
-	action_iterator ActionsEnd() { return mActionInfos.end(); }
+	const std::string& getWelcomeMessage() const { return mWelcomeMessage; }
+	const std::string& getExitMessage() const { return mExitMessage; }
+	
+	const EntityInfo& getPlayerInfo() const { return mPlayerInfo; }
+	entity_iterator entitiesBegin() const { return mEntityInfos.begin(); }
+	entity_iterator entitiesEnd() const { return mEntityInfos.end(); }
+	action_iterator actionsBegin() const { return mActionInfos.begin(); }
+	action_iterator actionsEnd() const { return mActionInfos.end(); }
 
 private:
+	EntityInfo mPlayerInfo;
 	std::vector< EntityInfo > mEntityInfos;
 	std::vector< ActionInfo > mActionInfos;
+	std::string mWelcomeMessage;
+	std::string mExitMessage;
 };
 
 
