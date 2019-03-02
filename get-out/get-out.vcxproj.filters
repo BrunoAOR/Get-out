@@ -222,6 +222,24 @@
     <ClInclude Include="ActionInfo.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="RemoveEntitiesInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplaceEntityInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="UnlockExitInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="LockExitInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceItemInItemInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEndInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="gameConfig.json" />

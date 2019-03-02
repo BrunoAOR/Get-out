@@ -8,12 +8,13 @@
 class ActionEffectInfoIO
 {
 public:
-	ActionEffectInfoIO(const ActionEffectInfo& aInfo) : mEffectInfo(aInfo) { ; }
-
 	ActionEffectInfoIO& operator= (const ActionEffectInfoIO& aSource) = delete;
 
 	ActionEffectType getType() const;
 	const std::string& getDescription() const;
+
+protected:
+	ActionEffectInfoIO(const ActionEffectInfo& aInfo) : mEffectInfo(aInfo) { ; }
 
 protected:
 	const std::vector< int >& getEntityIds() const;

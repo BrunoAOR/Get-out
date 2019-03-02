@@ -1,6 +1,7 @@
 #ifndef H_ADD_ENTITIES_INFO_IO
 #define H_ADD_ENTITIES_INFO_IO
 
+#include "globals.h"
 #include "ActionEffectInfoIO.h"
 
 
@@ -8,7 +9,10 @@ class AddEntitiesInfoIO :
 	public ActionEffectInfoIO
 {
 public:
-	AddEntitiesInfoIO(const ActionEffectInfo& aInfo) : ActionEffectInfoIO(aInfo) { ; }
+	AddEntitiesInfoIO(const ActionEffectInfo& aInfo) : ActionEffectInfoIO(aInfo)
+	{
+		ASSERT(getType() == ActionEffectType::ADD_ENTITIES);
+	}
 
 	template< typename input_iterator >
 	static const ActionEffectInfo createInfo(const std::string& aDescription, int aTargetRoomId, input_iterator aBeginIt, input_iterator aEndIt);
@@ -19,11 +23,11 @@ public:
 };
 
 template<typename input_iterator>
-inline const ActionEffectInfo AddEntitiesInfoIO::createInfo(const std::string & aDescription, int aTargetRoomId, input_iterator aBeginIt, input_iterator aEndIt)
+inline const ActionEffectInfo AddEntitiesInfoIO::createInfo(const std::string& aDescription, int aTargetRoomId, input_iterator aEntitiesToAddBeginIt, input_iterator aEntitiesToAddEndIt)
 {
 	ActionEffectInfo lInfo = ActionEffectInfoIO::createInfo(ActionEffectType::ADD_ENTITIES, aDescription);
 	addId(lInfo, aTargetRoomId);
-	addIds(lInfo, aBeginIt, aEndIt);
+	addIds(lInfo, aEntitiesToAddBeginIt, aEntitiesToAddEndIt);
 	return lInfo;
 }
 

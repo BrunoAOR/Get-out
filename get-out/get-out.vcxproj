@@ -145,6 +145,12 @@
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEndInfoIO.h" />
+    <ClInclude Include="LockExitInfoIO.h" />
+    <ClInclude Include="PlaceItemInItemInfoIO.h" />
+    <ClInclude Include="RemoveEntitiesInfoIO.h" />
+    <ClInclude Include="ReplaceEntityInfoIO.h" />
+    <ClInclude Include="UnlockExitInfoIO.h" />
     <ClInclude Include="ActionEffectInfoIO.h" />
     <ClInclude Include="ActionInfo.h" />
     <ClInclude Include="AddEntitiesInfoIO.h" />

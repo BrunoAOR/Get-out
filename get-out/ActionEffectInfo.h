@@ -1,9 +1,9 @@
 #ifndef H_ACTION_EFFECT_INFO
 #define H_ACTION_EFFECT_INFO
 
-#include "globals.h"
 #include <string>
 #include <vector>
+enum class ActionEffectType;
 
 
 struct ActionEffectInfo
