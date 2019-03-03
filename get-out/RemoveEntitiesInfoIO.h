@@ -17,8 +17,8 @@ public:
 	template< typename input_iterator >
 	static const ActionEffectInfo createInfo(const std::string& aDescription, input_iterator aEntitiesToRemoveBeginIt, input_iterator aEntitiesToRemoveEndIt);
 
-	ActionEffectInfo::const_iterator entitiesToRemoveBegin() const;
-	ActionEffectInfo::const_iterator entitiesToRemoveEnd() const;
+	ActionEffectInfo::entities_iterator entitiesToRemoveBegin() const;
+	ActionEffectInfo::entities_iterator entitiesToRemoveEnd() const;
 };
 
 template<typename input_iterator>
@@ -30,13 +30,13 @@ inline const ActionEffectInfo RemoveEntitiesInfoIO::createInfo(const std::string
 }
 
 
-inline ActionEffectInfo::const_iterator RemoveEntitiesInfoIO::entitiesToRemoveBegin() const
+inline ActionEffectInfo::entities_iterator RemoveEntitiesInfoIO::entitiesToRemoveBegin() const
 {
-	return ++getEntityIds().begin();
+	return getEntityIds().begin();
 }
 
 
-inline ActionEffectInfo::const_iterator RemoveEntitiesInfoIO::entitiesToRemoveEnd() const
+inline ActionEffectInfo::entities_iterator RemoveEntitiesInfoIO::entitiesToRemoveEnd() const
 {
 	return getEntityIds().end();
 }

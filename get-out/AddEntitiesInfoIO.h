@@ -17,8 +17,8 @@ public:
 	template< typename input_iterator >
 	static const ActionEffectInfo createInfo(const std::string& aDescription, int aTargetRoomId, input_iterator aBeginIt, input_iterator aEndIt);
 
-	ActionEffectInfo::const_iterator entitiesToAddBegin() const;
-	ActionEffectInfo::const_iterator entitiesToAddEnd() const;
+	ActionEffectInfo::entities_iterator entitiesToAddBegin() const;
+	ActionEffectInfo::entities_iterator entitiesToAddEnd() const;
 	int getTargetRoomId() const;
 };
 
@@ -32,13 +32,13 @@ inline const ActionEffectInfo AddEntitiesInfoIO::createInfo(const std::string& a
 }
 
 
-inline ActionEffectInfo::const_iterator AddEntitiesInfoIO::entitiesToAddBegin() const
+inline ActionEffectInfo::entities_iterator AddEntitiesInfoIO::entitiesToAddBegin() const
 {
 	return ++getEntityIds().begin();
 }
 
 
-inline ActionEffectInfo::const_iterator AddEntitiesInfoIO::entitiesToAddEnd() const
+inline ActionEffectInfo::entities_iterator AddEntitiesInfoIO::entitiesToAddEnd() const
 {
 	return getEntityIds().end();
 }

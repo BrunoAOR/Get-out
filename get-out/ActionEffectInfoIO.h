@@ -10,6 +10,8 @@ class ActionEffectInfoIO
 public:
 	ActionEffectInfoIO& operator= (const ActionEffectInfoIO& aSource) = delete;
 
+	static ActionEffectType getType(const ActionEffectInfo& aInfo) { return aInfo.mType; }
+
 	ActionEffectType getType() const;
 	const std::string& getDescription() const;
 

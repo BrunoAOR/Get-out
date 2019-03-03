@@ -10,7 +10,7 @@ struct ActionEffectInfo
 {
 public:
 	friend class ActionEffectInfoIO;
-	using const_iterator = std::vector< int >::const_iterator;
+	using entities_iterator = std::vector< int >::const_iterator;
 	
 	ActionEffectInfo() : mType(ActionEffectType::_UNDEFINED) { ; }
 

@@ -4,17 +4,17 @@
 
 #include <string>
 #include <vector>
-struct ActionEffectInfo;
+#include "ActionEffectInfo.h"
 enum class ActionType;
 
 
 struct ActionInfo
 {
 public:
-	using const_iterator = std::vector< ActionEffectInfo >::const_iterator;
+	using actionEffects_iterator = std::vector< ActionEffectInfo >::const_iterator;
 
-	const_iterator actionEffectInfosBegin() const { return mEffectInfos.begin(); }
-	const_iterator actionEffectInfosEnd() const { return mEffectInfos.end(); }
+	actionEffects_iterator actionEffectInfosBegin() const { return mEffectInfos.begin(); }
+	actionEffects_iterator actionEffectInfosEnd() const { return mEffectInfos.end(); }
 
 	void addActionEffectInfo(ActionEffectInfo aInfo) { mEffectInfos.push_back(aInfo); }
 
