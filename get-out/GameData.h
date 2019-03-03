@@ -3,8 +3,8 @@
 
 #include "globals.h"
 #include <vector>
+#include "ActionInfo.h"
 #include "EntityInfo.h"
-struct ActionInfo;
 
 struct GameData
 {

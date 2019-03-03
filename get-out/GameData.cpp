@@ -400,6 +400,7 @@ namespace
 				{
 					lActionInfo.addActionEffectInfo(lInfo);
 				}
+				aOutActionInfos.push_back(lActionInfo);
 			}
 		}
 		else
