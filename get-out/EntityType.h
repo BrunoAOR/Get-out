@@ -4,6 +4,7 @@
 
 enum class EntityType
 {
+	_UNDEFINED,
 	PLAYER,
 	ITEM,
 	INTERACTABLE,

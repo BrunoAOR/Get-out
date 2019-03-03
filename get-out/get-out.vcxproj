@@ -126,6 +126,7 @@
     <ClCompile Include="EffectUnlockExit.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="EntityInfo.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameDataLoader.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InstructionType.cpp" />
@@ -144,6 +145,16 @@
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEndInfoIO.h" />
+    <ClInclude Include="LockExitInfoIO.h" />
+    <ClInclude Include="PlaceItemInItemInfoIO.h" />
+    <ClInclude Include="RemoveEntitiesInfoIO.h" />
+    <ClInclude Include="ReplaceEntityInfoIO.h" />
+    <ClInclude Include="UnlockExitInfoIO.h" />
+    <ClInclude Include="ActionEffectInfoIO.h" />
+    <ClInclude Include="ActionInfo.h" />
+    <ClInclude Include="AddEntitiesInfoIO.h" />
+    <ClInclude Include="ActionEffectInfo.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionEffect.h" />
     <ClInclude Include="ActionEffectType.h" />
@@ -156,6 +167,7 @@
     <ClInclude Include="EffectUnlockExit.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="EntityInfo.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameDataLoader.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="InstructionType.h" />

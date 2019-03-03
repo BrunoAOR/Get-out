@@ -22,6 +22,9 @@
     <Filter Include="GameDataLoading">
       <UniqueIdentifier>{3ad4e92d-cb4d-4fad-8e6c-dbe3752a61bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionEffectInfos">
+      <UniqueIdentifier>{b0682af7-35e7-4657-b107-2fdef16079d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputReader.cpp">
@@ -106,6 +109,9 @@
       <Filter>GameDataLoading</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameData.cpp">
+      <Filter>GameDataLoading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputReader.h">
@@ -200,6 +206,39 @@
     </ClInclude>
     <ClInclude Include="GameDataLoader.h">
       <Filter>GameDataLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEffectInfo.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEffectInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="AddEntitiesInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>GameDataLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionInfo.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveEntitiesInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplaceEntityInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="UnlockExitInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="LockExitInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceItemInItemInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEndInfoIO.h">
+      <Filter>ActionEffectInfos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
