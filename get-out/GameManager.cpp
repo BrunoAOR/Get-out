@@ -2,6 +2,7 @@
 
 #include "ActionFactory.h"
 #include "EntityFactory.h"
+#include "GameData.h"
 #include "GameDataLoader.h"
 #include "InputParser.h"
 #include "InputReader.h"
@@ -37,7 +38,7 @@ GameManager::~GameManager()
 
 LoopStatus GameManager::init()
 {
-	mPlayer = mGameDataLoader->loadGameData(CONFIG_FILE_PATH);
+	mPlayer = mGameDataLoader->loadGameData(GameData::LoadFromJson(CONFIG_FILE_PATH));
 	if (mPlayer)
 	{
 		mPlayer->setActionFactory(mActionFactory);
